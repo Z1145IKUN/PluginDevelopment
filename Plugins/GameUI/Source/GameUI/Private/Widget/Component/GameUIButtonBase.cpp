@@ -4,6 +4,7 @@
 #include "Widget/Component/GameUIButtonBase.h"
 
 #include "CommonTextBlock.h"
+#include "Subsystem/GameUISubsystem.h"
 
 void UGameUIButtonBase::NativePreConstruct()
 {
@@ -20,6 +21,23 @@ void UGameUIButtonBase::NativeOnCurrentTextStyleChanged()
 	{
 		CommonTextBlock_ButtonText->SetStyle(GetCurrentTextStyleClass());
 	}
+}
+
+void UGameUIButtonBase::NativeOnHovered()
+{
+	Super::NativeOnHovered();
+
+	if (!ButtonDescriptionText.IsEmpty())
+	{
+		UGameUISubsystem::Get(this)->OnDescriptionTextUpdate.Broadcast(this, ButtonDescriptionText);
+	}
+}
+
+void UGameUIButtonBase::NativeOnUnhovered()
+{
+	Super::NativeOnUnhovered();
+
+	UGameUISubsystem::Get(this)->OnDescriptionTextUpdate.Broadcast(this, FText::GetEmpty());
 }
 
 void UGameUIButtonBase::SetButtonText(FText InButtonText)

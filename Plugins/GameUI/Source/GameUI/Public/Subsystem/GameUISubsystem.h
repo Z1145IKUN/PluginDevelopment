@@ -7,9 +7,14 @@
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "GameUISubsystem.generated.h"
 
-
 class UWidget_PrimaryLayout;
 class UWidget_ActivatableBase;
+class UGameUIButtonBase;
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(
+	FOnButtonDescriptionTextUpdateDelegate,
+	UGameUIButtonBase*, UpdatedButton,
+	FText, ButtonDescriptionText);
 
 enum class EAsyncPushWidgetState : uint8
 {
@@ -38,6 +43,9 @@ public:
 		const FGameplayTag& InStackTag,
 		TSoftClassPtr<UWidget_ActivatableBase> InSoftWidgetClass,
 		TFunction<void(EAsyncPushWidgetState, UWidget_ActivatableBase*)> AsyncPushStateCallBack);
+	
+	UPROPERTY(BlueprintAssignable,Category="GameUI|GameUISubsystem")
+	FOnButtonDescriptionTextUpdateDelegate OnDescriptionTextUpdate;
 
 private:
 	UPROPERTY(Transient)
