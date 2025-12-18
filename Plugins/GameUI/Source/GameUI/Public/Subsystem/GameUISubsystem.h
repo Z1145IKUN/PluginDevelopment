@@ -3,11 +3,19 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "GameUISubsystem.generated.h"
 
 
 class UWidget_PrimaryLayout;
+class UWidget_ActivatableBase;
+
+enum class EAsyncPushWidgetState : uint8
+{
+	OnCreatedBeforePush,
+	AfterPush
+};
 /**
  * 
  */
@@ -25,6 +33,11 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="GameUI|GameUISubsystem")
 	void RegisterPrimaryLayout(UWidget_PrimaryLayout* InPrimaryLayout);
+
+	void PushSoftWidgetToStack(
+		const FGameplayTag& InStackTag,
+		TSoftClassPtr<UWidget_ActivatableBase> InSoftWidgetClass,
+		TFunction<void(EAsyncPushWidgetState, UWidget_ActivatableBase*)> AsyncPushStateCallBack);
 
 private:
 	UPROPERTY(Transient)
