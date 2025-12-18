@@ -26,7 +26,9 @@ public class GameUI : ModuleRules
 			new string[]
 			{
 				"Core",
-				"GameplayTags"
+				"GameplayTags", 
+				"CommonUI",
+				"UMG"
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);
