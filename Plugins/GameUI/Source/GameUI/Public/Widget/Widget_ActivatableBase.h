@@ -16,6 +16,10 @@ class GAMEUI_API UWidget_ActivatableBase : public UCommonActivatableWidget
 	GENERATED_BODY()
 	
 public:
+	//~ Begin UUserWidget interface
+	virtual bool Initialize() override;
+	//~ End UUserWidget interface
+	
 	UFUNCTION(BlueprintPure,Category="GameUI|ActivatableBase")
 	AGameUIPlayerController* GetGameUIPlayerController();
 	
