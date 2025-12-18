@@ -6,6 +6,7 @@
 #include "CommonActivatableWidget.h"
 #include "Widget_ActivatableBase.generated.h"
 
+class AGameUIPlayerController;
 /**
  * 
  */
@@ -14,4 +15,10 @@ class GAMEUI_API UWidget_ActivatableBase : public UCommonActivatableWidget
 {
 	GENERATED_BODY()
 	
+public:
+	UFUNCTION(BlueprintPure,Category="GameUI|ActivatableBase")
+	AGameUIPlayerController* GetGameUIPlayerController();
+	
+private:
+	TWeakObjectPtr<AGameUIPlayerController> CachedGameUIPlayerController;
 };
