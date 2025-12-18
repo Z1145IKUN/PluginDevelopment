@@ -12,6 +12,16 @@ void UGameUIButtonBase::NativePreConstruct()
 	SetButtonText(ButtonDisplayText);
 }
 
+void UGameUIButtonBase::NativeOnCurrentTextStyleChanged()
+{
+	Super::NativeOnCurrentTextStyleChanged();
+
+	if (CommonTextBlock_ButtonText && GetCurrentTextStyleClass())
+	{
+		CommonTextBlock_ButtonText->SetStyle(GetCurrentTextStyleClass());
+	}
+}
+
 void UGameUIButtonBase::SetButtonText(FText InButtonText)
 {
 	if (CommonTextBlock_ButtonText && !InButtonText.IsEmpty())

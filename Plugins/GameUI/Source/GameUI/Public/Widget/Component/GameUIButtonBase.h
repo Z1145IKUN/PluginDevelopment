@@ -20,6 +20,10 @@ public:
 	virtual void NativePreConstruct() override;
 	//~ End UUserWidget Interface
 	
+	//~ Begin UCommonButtonBase Interface
+	virtual void NativeOnCurrentTextStyleChanged() override;
+	//~ End UCommonButtonBase Interface
+	
 	UFUNCTION(BlueprintCallable)
 	void SetButtonText(FText InButtonText);
 
