@@ -13,5 +13,13 @@ UCLASS()
 class GAMEUI_API AGameUIPlayerController : public APlayerController
 {
 	GENERATED_BODY()
-	
+
+protected:
+	// ~ begin APlayerController Interface
+	virtual void OnPossess(APawn* InPawn) override;
+	// ~ End APlayerController interface
+
+private:
+	UPROPERTY(EditAnywhere, Category="GameUI|Camera",meta=(AllowPrivateAccess="true"))
+	FName CameraTag;
 };
