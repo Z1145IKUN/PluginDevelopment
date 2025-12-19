@@ -9,9 +9,11 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(Abstract, BlueprintType, meta=(DisableNativeTick))
 class GAMEUI_API UWidget_OptionScreen : public UWidget_ActivatableBase
 {
 	GENERATED_BODY()
+	
+	
 	
 };
