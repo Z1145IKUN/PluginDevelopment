@@ -18,12 +18,13 @@ class GAMEUI_API UWidget_TabListWidgetBase : public UCommonTabListWidgetBase
 public:
 	UWidget_TabListWidgetBase();
 
+	void RequestRegisterTab(const FName& InTabID, const FText& InTabDisplayName);
+
 private:
-	
 #if WITH_EDITOR
 	virtual void ValidateCompiledDefaults(class IWidgetCompilerLog& CompileLog) const override;
 #endif
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="GameUI|TabListWidget", meta=(AllowPrivateAccess = "true"))
 	int32 DebugEditorPreviewTabCount;
 

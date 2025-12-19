@@ -6,12 +6,22 @@
 #include "Editor/WidgetCompilerLog.h"
 #include "Widget/Component/GameUIButtonBase.h"
 
-#if WITH_EDITOR
 UWidget_TabListWidgetBase::UWidget_TabListWidgetBase()
 {
 	DebugEditorPreviewTabCount = 4;
 }
 
+void UWidget_TabListWidgetBase::RequestRegisterTab(const FName& InTabID, const FText& InTabDisplayName)
+{
+	RegisterTab(InTabID, TabButtonEntryWidgetClass, nullptr);
+
+	if (UGameUIButtonBase* FoundButton = Cast<UGameUIButtonBase>(GetTabButtonBaseByID(InTabID)))
+	{
+		FoundButton->SetButtonText(InTabDisplayName);
+	}
+}
+
+#if WITH_EDITOR
 void UWidget_TabListWidgetBase::ValidateCompiledDefaults(class IWidgetCompilerLog& CompileLog) const
 {
 	Super::ValidateCompiledDefaults(CompileLog);
@@ -28,4 +38,3 @@ void UWidget_TabListWidgetBase::ValidateCompiledDefaults(class IWidgetCompilerLo
 	}
 }
 #endif
-
