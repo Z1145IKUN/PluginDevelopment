@@ -92,6 +92,7 @@ void UWidget_ConfirmScreen::InitConfirmScreen(UConfirmScreenInfoObject* InScreen
 		switch (ButtonInfo.ConfirmScreenButtonType)
 		{
 		case EConfirmScreenButtonType::Confirmed:
+			InputActionRowHandle = ICommonInputModule::GetSettings().GetDefaultClickAction();
 			break;
 		case EConfirmScreenButtonType::Canceled:
 			InputActionRowHandle = ICommonInputModule::GetSettings().GetDefaultBackAction();

@@ -2,9 +2,13 @@
 
 
 #include "Subsystem/GameUISubsystem.h"
+
+#include "GameUIGameplayTags.h"
 #include "Widget/Widget_ActivatableBase.h"
 #include "Widget/Widget_PrimaryLayout.h"
 #include "Engine/AssetManager.h"
+#include "FunctionLibrary/GameUIFunctionLibrary.h"
+#include "Widget/Widget_ConfirmScreen.h"
 #include "Widgets/CommonActivatableWidgetContainer.h"
 
 UGameUISubsystem* UGameUISubsystem::Get(const UObject* WorldContextObject)
@@ -68,5 +72,44 @@ void UGameUISubsystem::PushSoftWidgetToStack(
 				AsyncPushStateCallBack(EAsyncPushWidgetState::AfterPush, CreatedWidget);
 			}
 		)
+	);
+}
+
+void UGameUISubsystem::PushConfirmScreenToModalStackAsync(EConfirmScreenType InScreenType, const FText& InScreenTitle,
+                                                          const FText& InScreenMessage,
+                                                          TFunction<void(EConfirmScreenButtonType)>
+                                                          ScreenButtonCallBack)
+{
+	UConfirmScreenInfoObject* CreatedConfirmScreenInfoObject = nullptr;
+	switch (InScreenType)
+	{
+	case EConfirmScreenType::OK:
+		CreatedConfirmScreenInfoObject = UConfirmScreenInfoObject::CreateOkScreen(InScreenTitle, InScreenMessage);
+		break;
+	case EConfirmScreenType::YesNo:
+		CreatedConfirmScreenInfoObject = UConfirmScreenInfoObject::CreateYesNoScreen(InScreenTitle, InScreenMessage);
+		break;
+	case EConfirmScreenType::OkCancel:
+		CreatedConfirmScreenInfoObject = UConfirmScreenInfoObject::CreateOkCancelScreen(InScreenTitle, InScreenMessage);
+	case EConfirmScreenType::UnKnown:
+		break;
+	default:
+		break;
+	}
+
+	check(CreatedConfirmScreenInfoObject);
+
+	PushSoftWidgetToStack(
+		GameUIGameplayTags::GameUI_WidgetStack_Modal,
+		UGameUIFunctionLibrary::GetSoftWidgetClassByTag(GameUIGameplayTags::GameUI_Widget_ConfirmScreen),
+		[CreatedConfirmScreenInfoObject,ScreenButtonCallBack]
+	(EAsyncPushWidgetState InAsyncPushState, UWidget_ActivatableBase* PushedWidget)
+		{
+			if (InAsyncPushState == EAsyncPushWidgetState::OnCreatedBeforePush)
+			{
+				UWidget_ConfirmScreen* CreatedConfirmScreen = CastChecked<UWidget_ConfirmScreen>(PushedWidget);
+				CreatedConfirmScreen->InitConfirmScreen(CreatedConfirmScreenInfoObject, ScreenButtonCallBack);
+			}
+		}
 	);
 }

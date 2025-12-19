@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameplayTagContainer.h"
 #include "Subsystems/GameInstanceSubsystem.h"
+#include "GameUITypes/GameUIEnums.h"
 #include "GameUISubsystem.generated.h"
 
 class UWidget_PrimaryLayout;
@@ -46,6 +47,12 @@ public:
 	
 	UPROPERTY(BlueprintAssignable,Category="GameUI|GameUISubsystem")
 	FOnButtonDescriptionTextUpdateDelegate OnDescriptionTextUpdate;
+	
+	void PushConfirmScreenToModalStackAsync(
+		EConfirmScreenType InScreenType,
+		const FText& InScreenTitle,
+		const FText& InScreenMessage,
+		TFunction<void(EConfirmScreenButtonType)> ScreenButtonCallBack);
 
 private:
 	UPROPERTY(Transient)
