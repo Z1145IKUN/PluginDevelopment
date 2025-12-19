@@ -16,4 +16,7 @@ namespace GameUIGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(GameUI_Widget_MainMenu,"GameUI.Widget.MainMenu")
 	UE_DEFINE_GAMEPLAY_TAG(GameUI_Widget_ConfirmScreen,"GameUI.Widget.ConfirmScreen")
 	UE_DEFINE_GAMEPLAY_TAG(GameUI_Widget_OptionsScreen,"GameUI.Widget.OptionsScreen")
+	UE_DEFINE_GAMEPLAY_TAG(GameUI_Widget_StartGame,"GameUI.Widget.StartGame")
+	UE_DEFINE_GAMEPLAY_TAG(GameUI_Widget_Multiplayer,"GameUI.Widget.Multiplayer")
+	UE_DEFINE_GAMEPLAY_TAG(GameUI_Widget_Credit,"GameUI.Widget.Credit")
 }
