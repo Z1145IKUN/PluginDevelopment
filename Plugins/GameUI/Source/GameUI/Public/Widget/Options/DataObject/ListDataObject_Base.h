@@ -37,6 +37,15 @@ public:
 	 * @return 
 	 */
 	virtual bool HasChildListData() const;
+	
+	void InitDataObject();
+	
+protected:
+	/**
+	 * is empty in the base class
+	 * child class should override it to initialize itself
+	 */
+	virtual void OnDataListObjectInitialized();
 
 private:
 	FName DataID;

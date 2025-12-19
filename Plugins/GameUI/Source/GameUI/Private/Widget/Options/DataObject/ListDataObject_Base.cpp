@@ -12,3 +12,12 @@ bool UListDataObject_Base::HasChildListData() const
 {
 	return false;
 }
+
+void UListDataObject_Base::InitDataObject()
+{
+	OnDataListObjectInitialized();
+}
+
+void UListDataObject_Base::OnDataListObjectInitialized()
+{
+}
