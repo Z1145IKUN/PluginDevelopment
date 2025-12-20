@@ -37,6 +37,8 @@ void UWidget_OptionScreen::NativeOnInitialized()
 			)
 		)
 	);
+
+	TabListWidget_OptionsTab->OnTabSelected.AddUniqueDynamic(this, &ThisClass::OnOptionsTabSelected);
 }
 
 void UWidget_OptionScreen::NativeOnActivated()
@@ -68,6 +70,10 @@ void UWidget_OptionScreen::OnResetActionTriggered()
 void UWidget_OptionScreen::OnBackActionTriggered()
 {
 	DeactivateWidget();
+}
+
+void UWidget_OptionScreen::OnOptionsTabSelected(FName TabID)
+{
 }
 
 UOptionDataRegistry* UWidget_OptionScreen::GetOrCreateOptionDataRegistry()

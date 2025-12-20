@@ -29,6 +29,9 @@ private:
 	void OnResetActionTriggered();
 	void OnBackActionTriggered();
 
+	UFUNCTION()
+	void OnOptionsTabSelected(FName TabID);
+
 	UOptionDataRegistry* GetOrCreateOptionDataRegistry();
 
 	//***** Bound Widget *****//
