@@ -5,6 +5,7 @@
 
 #include "ICommonInputModule.h"
 #include "Input/CommonUIInputTypes.h"
+#include "Widget/Component/GameUIListView.h"
 #include "Widget/Options/OptionDataRegistry.h"
 #include "Widget/Options/Widget_TabListWidgetBase.h"
 #include "Widget/Options/DataObject/ListDataObject_Collection.h"
@@ -74,6 +75,17 @@ void UWidget_OptionScreen::OnBackActionTriggered()
 
 void UWidget_OptionScreen::OnOptionsTabSelected(FName TabID)
 {
+	TArray<UListDataObject_Base*> FoundListSourceItem = GetOrCreateOptionDataRegistry()->
+		GetListSourceItemByTabId(TabID);
+
+	ListView_OptionsList->SetListItems<UListDataObject_Base*>(FoundListSourceItem);
+	ListView_OptionsList->RequestRefresh();
+
+	if (ListView_OptionsList->GetNumItems() != 0)
+	{
+		ListView_OptionsList->NavigateToIndex(0);
+		ListView_OptionsList->SetSelectedIndex(0);
+	}
 }
 
 UOptionDataRegistry* UWidget_OptionScreen::GetOrCreateOptionDataRegistry()
