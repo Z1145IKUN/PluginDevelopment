@@ -2,7 +2,7 @@
 
 
 #include "Widget/Options/OptionDataRegistry.h"
-
+#include "Widget/Options/DataObject/ListDataObject_String.h"
 #include "Widget/Options/DataObject/ListDataObject_Collection.h"
 
 void UOptionDataRegistry::InitOptionDataRegistry(ULocalPlayer* InOwningLocalPlayer)
@@ -24,6 +24,24 @@ void UOptionDataRegistry::InitGamePlayCollectionTab()
 
 	GameplayTabCollection->SetDataID(FName("GameplayTabCollection"));
 	GameplayTabCollection->SetDataDisplayName(FText::FromString("Gameplay"));
+
+	//GameDifficult
+	{
+		UListDataObject_String* GameDifficult = NewObject<UListDataObject_String>();
+		GameDifficult->SetDataID(FName("GameDifficult"));
+		GameDifficult->SetDataDisplayName(FText::FromString("Difficult"));
+
+		GameplayTabCollection->AddChildListData(GameDifficult);
+	}
+
+	//Test Item
+	{
+		UListDataObject_String* TestItem = NewObject<UListDataObject_String>();
+		TestItem->SetDataID(FName("TestItem"));
+		TestItem->SetDataDisplayName(FText::FromString("TestItem"));
+
+		GameplayTabCollection->AddChildListData(TestItem);
+	}
 
 	RegisteredOptionsTabCollections.Add(GameplayTabCollection);
 }
