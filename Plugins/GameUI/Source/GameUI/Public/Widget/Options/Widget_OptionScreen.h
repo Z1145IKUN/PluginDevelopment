@@ -8,6 +8,7 @@
 
 class UOptionDataRegistry;
 class UWidget_TabListWidgetBase;
+class UGameUIListView;
 /**
  * 
  */
@@ -37,6 +38,10 @@ private:
 	//***** Bound Widget *****//
 	UPROPERTY(meta=(BindWidget))
 	TObjectPtr<UWidget_TabListWidgetBase> TabListWidget_OptionsTab;
+
+	UPROPERTY(meta=(BindWidget))
+	TObjectPtr<UGameUIListView> ListView_OptionsList;
+	//***** Bound Widget *****//
 
 
 	// reset action data table handle
