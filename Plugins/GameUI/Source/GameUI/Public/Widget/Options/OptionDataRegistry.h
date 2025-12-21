@@ -7,6 +7,7 @@
 #include "OptionDataRegistry.generated.h"
 
 class UListDataObject_Collection;
+class UListDataObject_Base;
 /**
  * 
  */
@@ -23,7 +24,9 @@ public:
 	 */
 	void InitOptionDataRegistry(ULocalPlayer* InOwningLocalPlayer);
 
-	TArray<UListDataObject_Collection*> GetRegisteredOptionTabCollections() const;
+	const TArray<UListDataObject_Collection*>& GetRegisteredOptionTabCollections() const;
+
+	TArray<UListDataObject_Base*> GetListSourceItemByTabId(const FName& InTabId) const;
 
 private:
 	void InitGamePlayCollectionTab();

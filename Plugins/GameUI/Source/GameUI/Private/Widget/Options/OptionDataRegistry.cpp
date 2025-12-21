@@ -13,9 +13,25 @@ void UOptionDataRegistry::InitOptionDataRegistry(ULocalPlayer* InOwningLocalPlay
 	InitControlCollectionTab();
 }
 
-TArray<UListDataObject_Collection*> UOptionDataRegistry::GetRegisteredOptionTabCollections() const
+const TArray<UListDataObject_Collection*>& UOptionDataRegistry::GetRegisteredOptionTabCollections() const
 {
 	return RegisteredOptionsTabCollections;
+}
+
+TArray<UListDataObject_Base*> UOptionDataRegistry::GetListSourceItemByTabId(const FName& InTabId) const
+{
+	UListDataObject_Collection* const* FoundTabCollectionPtr = RegisteredOptionsTabCollections.FindByPredicate(
+		[InTabId](const UListDataObject_Collection* TabCollection)-> bool
+		{
+			return TabCollection->GetDataID() == InTabId;
+		}
+	);
+
+	check(FoundTabCollectionPtr);
+
+	const UListDataObject_Collection* FoundTabCollection = *FoundTabCollectionPtr;
+
+	return FoundTabCollection->GetAllChildListData();
 }
 
 void UOptionDataRegistry::InitGamePlayCollectionTab()
