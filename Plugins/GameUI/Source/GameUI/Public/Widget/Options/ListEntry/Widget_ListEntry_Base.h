@@ -23,7 +23,7 @@ protected:
 	//~ Begin IUserObjectListEntry Interface
 
 	/**
-	 * super call is not need,the child class should override it to handle the initialization needed
+	 * the child class should override it to handle the initialization needed
 	 * @param InListDataObject 
 	 */
 	virtual void OnListDataObjectSet(UListDataObject_Base* InListDataObject);
