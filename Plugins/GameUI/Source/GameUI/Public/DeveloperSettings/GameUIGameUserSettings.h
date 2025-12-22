@@ -13,4 +13,11 @@ UCLASS()
 class GAMEUI_API UGameUIGameUserSettings : public UGameUserSettings
 {
 	GENERATED_BODY()
+
+public:
+	static UGameUIGameUserSettings* Get();
+
+private:
+	UPROPERTY(Config)
+	FString CurrentGameDifficulty;
 };
