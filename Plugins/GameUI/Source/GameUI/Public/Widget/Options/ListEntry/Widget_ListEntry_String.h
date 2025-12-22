@@ -8,6 +8,7 @@
 
 class UGameUIButtonBase;
 class UGameUIRotator;
+class UListDataObject_String;
 /**
  * 
  */
@@ -15,6 +16,11 @@ UCLASS(Abstract, BlueprintType, meta=(DisableNativeTick))
 class GAMEUI_API UWidget_ListEntry_String : public UWidget_ListEntry_Base
 {
 	GENERATED_BODY()
+
+protected:
+	//~ Begin UWidget_ListEntry_Base interface
+	virtual void OnListDataObjectSet(UListDataObject_Base* InListDataObject) override;
+	//~ Begin UWidget_ListEntry_Base interface
 
 private:
 	//***** Bound Widget *****//
@@ -27,4 +33,7 @@ private:
 	UPROPERTY(BlueprintReadOnly, meta=(BindWidget, AllowPrivateAccess = "true"))
 	TObjectPtr<UGameUIButtonBase> CommonButton_Next;
 	//***** Bound Widget *****//
+
+	UPROPERTY(Transient)
+	TObjectPtr<UListDataObject_String> StringListDataObject;
 };
