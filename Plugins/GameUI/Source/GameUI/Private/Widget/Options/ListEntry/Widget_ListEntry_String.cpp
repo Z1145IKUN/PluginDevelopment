@@ -13,4 +13,5 @@ void UWidget_ListEntry_String::OnListDataObjectSet(UListDataObject_Base* InListD
 	StringListDataObject = CastChecked<UListDataObject_String>(InListDataObject);
 
 	CommonRotator_Options->PopulateTextLabels(StringListDataObject->GetAvailableOptionsTextArray());
+	CommonRotator_Options->SetSelectedOptionByText(StringListDataObject->GetCurrentDisplayText());
 }
