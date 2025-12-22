@@ -18,6 +18,12 @@ public:
 	void AddDynamicOptions(const FString& InStringValue, const FText& InDisplayText);
 
 protected:
+	//~ Begin UListDataObject_Base interface
+	virtual void OnDataListObjectInitialized() override;
+	//~ End UListDataObject_Base interface
+
+	bool SetDisplayTextFromCurrentStringValue(const FString& InCurrentStringValue);
+
 	FString CurrentStringValue;
 	FText CurrentDisplayText;
 	TArray<FString> AvailableOptionsStringArray;
