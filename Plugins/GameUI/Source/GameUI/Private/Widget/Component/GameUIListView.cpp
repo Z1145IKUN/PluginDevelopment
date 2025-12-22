@@ -2,8 +2,27 @@
 
 
 #include "Widget/Component/GameUIListView.h"
-
 #include "Editor/WidgetCompilerLog.h"
+#include "DataAsset/DataAsset_DataListEntryMapping.h"
+#include "Widget/Options/ListEntry/Widget_ListEntry_Base.h"
+#include "Widget/Options/DataObject/ListDataObject_Base.h"
+
+
+UUserWidget& UGameUIListView::OnGenerateEntryWidgetInternal(
+	UObject* Item,
+	TSubclassOf<UUserWidget> DesiredEntryClass,
+	const TSharedRef<STableViewBase>& OwnerTable)
+{
+	if (IsDesignTime())
+	{
+		return Super::OnGenerateEntryWidgetInternal(Item, DesiredEntryClass, OwnerTable);
+	}
+
+	TSubclassOf<UWidget_ListEntry_Base> FoundWidgetClass = DataAsset_DataListEntryMapping->
+		GetListEntryByListData(CastChecked<UListDataObject_Base>(Item));
+
+	return GenerateTypedEntry<UWidget_ListEntry_Base>(FoundWidgetClass, OwnerTable);
+}
 
 #if WITH_EDITOR
 void UGameUIListView::ValidateCompiledDefaults(class IWidgetCompilerLog& CompileLog) const

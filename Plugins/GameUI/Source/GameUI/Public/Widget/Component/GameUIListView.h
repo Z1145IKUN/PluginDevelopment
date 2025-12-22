@@ -15,6 +15,15 @@ class GAMEUI_API UGameUIListView : public UCommonListView
 {
 	GENERATED_BODY()
 
+protected:
+	//~ Begin UCommonListView interface
+	virtual UUserWidget& OnGenerateEntryWidgetInternal(
+		UObject* Item,
+		TSubclassOf<UUserWidget> DesiredEntryClass,
+		const TSharedRef<STableViewBase>& OwnerTable
+	) override;
+	//~ End UCommonListView interface
+
 private:
 #if WITH_EDITOR
 	virtual void ValidateCompiledDefaults(class IWidgetCompilerLog& CompileLog) const override;
