@@ -28,7 +28,7 @@ void UListDataObject_String::OnDataListObjectInitialized()
 
 	//TODO: Reade from current string and use it to set the CurrentStringValue
 
-	if (SetDisplayTextFromCurrentStringValue(CurrentStringValue))
+	if (!SetDisplayTextFromCurrentStringValue(CurrentStringValue))
 	{
 		CurrentDisplayText = FText::FromString(TEXT("Invalid Option"));
 	}
