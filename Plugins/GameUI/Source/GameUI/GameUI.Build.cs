@@ -32,7 +32,6 @@ public class GameUI : ModuleRules
 				"CommonUI",
 				"UMG",
 				"DeveloperSettings",
-				"CommonInput",
 				"PropertyPath"
 				// ... add other public dependencies that you statically link with here ...
 			}
@@ -46,6 +45,8 @@ public class GameUI : ModuleRules
 				"Engine",
 				"Slate",
 				"SlateCore",
+				"InputCore",
+				"CommonInput",
 				// ... add private dependencies that you statically link with here ...	
 			}
 		);
