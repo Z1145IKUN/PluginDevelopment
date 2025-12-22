@@ -17,6 +17,8 @@ class GAMEUI_API UListDataObject_String : public UListDataObject_Value
 public:
 	void AddDynamicOptions(const FString& InStringValue, const FText& InDisplayText);
 
+	const TArray<FText>& GetAvailableOptionsTextArray() const;
+
 protected:
 	//~ Begin UListDataObject_Base interface
 	virtual void OnDataListObjectInitialized() override;

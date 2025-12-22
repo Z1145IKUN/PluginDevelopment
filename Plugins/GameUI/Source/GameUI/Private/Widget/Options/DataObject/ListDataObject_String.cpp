@@ -9,6 +9,11 @@ void UListDataObject_String::AddDynamicOptions(const FString& InStringValue, con
 	AvailableOptionsTextArray.Add(InDisplayText);
 }
 
+const TArray<FText>& UListDataObject_String::GetAvailableOptionsTextArray() const
+{
+	return AvailableOptionsTextArray;
+}
+
 void UListDataObject_String::OnDataListObjectInitialized()
 {
 	if (!AvailableOptionsStringArray.IsEmpty())
