@@ -9,7 +9,7 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(Abstract, BlueprintType, meta=(DisableNativeTick))
 class GAMEUI_API UGameUIRotator : public UCommonRotator
 {
 	GENERATED_BODY()
