@@ -43,15 +43,15 @@ void UOptionDataRegistry::InitGamePlayCollectionTab()
 
 	//GameDifficult
 	{
-		UListDataObject_String* GameDifficult = NewObject<UListDataObject_String>();
-		GameDifficult->SetDataID(FName("GameDifficult"));
-		GameDifficult->SetDataDisplayName(FText::FromString("Difficult"));
-		GameDifficult->AddDynamicOptions(TEXT("Nightmare"), FText::FromString(TEXT("Nightmare")));
-		GameDifficult->AddDynamicOptions(TEXT("Hard"), FText::FromString(TEXT("Hard")));
-		GameDifficult->AddDynamicOptions(TEXT("Normal"), FText::FromString(TEXT("Normal")));
-		GameDifficult->AddDynamicOptions(TEXT("Easy"), FText::FromString(TEXT("Easy")));
+		UListDataObject_String* GameDifficulty = NewObject<UListDataObject_String>();
+		GameDifficulty->SetDataID(FName("GameDifficult"));
+		GameDifficulty->SetDataDisplayName(FText::FromString("Difficult"));
+		GameDifficulty->AddDynamicOptions(TEXT("Easy"), FText::FromString(TEXT("Easy")));
+		GameDifficulty->AddDynamicOptions(TEXT("Normal"), FText::FromString(TEXT("Normal")));
+		GameDifficulty->AddDynamicOptions(TEXT("Hard"), FText::FromString(TEXT("Hard")));
+		GameDifficulty->AddDynamicOptions(TEXT("Nightmare"), FText::FromString(TEXT("Nightmare")));
 
-		GameplayTabCollection->AddChildListData(GameDifficult);
+		GameplayTabCollection->AddChildListData(GameDifficulty);
 	}
 
 	//Test Item
