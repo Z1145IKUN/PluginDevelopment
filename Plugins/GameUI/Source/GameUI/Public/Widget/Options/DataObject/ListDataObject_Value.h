@@ -9,7 +9,7 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(Abstract)
 class GAMEUI_API UListDataObject_Value : public UListDataObject_Base
 {
 	GENERATED_BODY()
