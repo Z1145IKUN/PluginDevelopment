@@ -19,6 +19,8 @@ public:
 
 	const TArray<FText>& GetAvailableOptionsTextArray() const;
 
+	const FText& GetCurrentDisplayText() const;
+
 protected:
 	//~ Begin UListDataObject_Base interface
 	virtual void OnDataListObjectInitialized() override;

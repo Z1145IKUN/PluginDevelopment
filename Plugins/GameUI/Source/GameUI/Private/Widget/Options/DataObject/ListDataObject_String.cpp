@@ -14,6 +14,11 @@ const TArray<FText>& UListDataObject_String::GetAvailableOptionsTextArray() cons
 	return AvailableOptionsTextArray;
 }
 
+const FText& UListDataObject_String::GetCurrentDisplayText() const
+{
+	return CurrentDisplayText;
+}
+
 void UListDataObject_String::OnDataListObjectInitialized()
 {
 	if (!AvailableOptionsStringArray.IsEmpty())
