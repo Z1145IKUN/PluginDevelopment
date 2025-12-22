@@ -2,3 +2,24 @@
 
 
 #include "Widget/Component/GameUIRotator.h"
+
+#include "CommonTextBlock.h"
+
+void UGameUIRotator::SetSelectedOptionByText(const FText& InOptionText)
+{
+	const int32 FoundIndex = TextLabels.IndexOfByPredicate(
+		[InOptionText](const FText& LabText)-> bool
+		{
+			return LabText.EqualTo(InOptionText);
+		}
+	);
+
+	if (FoundIndex != INDEX_NONE)
+	{
+		SetSelectedItem(FoundIndex);
+	}
+	else
+	{
+		MyText->SetText(InOptionText);
+	}
+}

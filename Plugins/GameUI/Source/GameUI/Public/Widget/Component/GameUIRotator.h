@@ -13,4 +13,7 @@ UCLASS(Abstract, BlueprintType, meta=(DisableNativeTick))
 class GAMEUI_API UGameUIRotator : public UCommonRotator
 {
 	GENERATED_BODY()
+
+public:
+	void SetSelectedOptionByText(const FText& InOptionText);
 };
