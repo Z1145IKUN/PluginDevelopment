@@ -3,7 +3,20 @@
 
 #include "Widget/Options/ListEntry/Widget_ListEntry_Base.h"
 
+#include "CommonTextBlock.h"
+#include "Widget/Options/DataObject/ListDataObject_Base.h"
+
 void UWidget_ListEntry_Base::NativeOnListItemObjectSet(UObject* ListItemObject)
 {
 	IUserObjectListEntry::NativeOnListItemObjectSet(ListItemObject);
+
+	OnListDataObjectSet(CastChecked<UListDataObject_Base>(ListItemObject));
+}
+
+void UWidget_ListEntry_Base::OnListDataObjectSet(UListDataObject_Base* InListDataObject)
+{
+	if (CommonTextBlock_SettingDisplayName)
+	{
+		CommonTextBlock_SettingDisplayName->SetText(InListDataObject->GetDataDisplayName());
+	}
 }
