@@ -22,6 +22,8 @@ protected:
 	//~ Begin IUserObjectListEntry Interface
 
 private:
+	//***** Bound Widget *****//
 	UPROPERTY(BlueprintReadOnly, meta=(BindWidgetOptional, AllowPrivateAccess = "true"))
 	TObjectPtr<UCommonTextBlock> CommonTextBlock_SettingDisplayName;
+	//***** Bound Widget *****//
 };
