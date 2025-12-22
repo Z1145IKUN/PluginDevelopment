@@ -5,7 +5,7 @@
 
 TArray<UListDataObject_Base*> UListDataObject_Base::GetAllChildListData() const
 {
-	return  TArray<UListDataObject_Base*>();
+	return TArray<UListDataObject_Base*>();
 }
 
 bool UListDataObject_Base::HasChildListData() const
@@ -20,4 +20,10 @@ void UListDataObject_Base::InitDataObject()
 
 void UListDataObject_Base::OnDataListObjectInitialized()
 {
+}
+
+void UListDataObject_Base::NotifyListDataModified(UListDataObject_Base* ModifiedListData,
+                                                  EOptionsListDataModifyReason ModifyReason)
+{
+	OnListDataModified.Broadcast(ModifiedListData, ModifyReason);
 }

@@ -19,6 +19,48 @@ const FText& UListDataObject_String::GetCurrentDisplayText() const
 	return CurrentDisplayText;
 }
 
+void UListDataObject_String::AdvanceToPreviousOption()
+{
+	if (AvailableOptionsStringArray.IsEmpty() || AvailableOptionsTextArray.IsEmpty())
+	{
+		return;
+	}
+	const int32 CurrentStringValueIndex = AvailableOptionsStringArray.IndexOfByKey(CurrentStringValue);
+	const int32 PreviousStringValueIndex = CurrentStringValueIndex - 1;
+
+	if (bool bIsPreviousIndexValid = AvailableOptionsStringArray.IsValidIndex(PreviousStringValueIndex))
+	{
+		CurrentStringValue = AvailableOptionsStringArray[PreviousStringValueIndex];
+	}
+	else
+	{
+		CurrentStringValue = AvailableOptionsStringArray.Last();
+	}
+	SetDisplayTextFromCurrentStringValue(CurrentStringValue);
+	NotifyListDataModified(this);
+}
+
+void UListDataObject_String::AdvanceToNextOption()
+{
+	if (AvailableOptionsStringArray.IsEmpty() || AvailableOptionsTextArray.IsEmpty())
+	{
+		return;
+	}
+	const int32 CurrentStringValueIndex = AvailableOptionsStringArray.IndexOfByKey(CurrentStringValue);
+	const int32 NextStringValueIndex = CurrentStringValueIndex + 1;
+
+	if (bool bIsNextIndexValid = AvailableOptionsStringArray.IsValidIndex(NextStringValueIndex))
+	{
+		CurrentStringValue = AvailableOptionsStringArray[NextStringValueIndex];
+	}
+	else
+	{
+		CurrentStringValue = AvailableOptionsStringArray[0];
+	}
+	SetDisplayTextFromCurrentStringValue(CurrentStringValue);
+	NotifyListDataModified(this);
+}
+
 void UListDataObject_String::OnDataListObjectInitialized()
 {
 	if (!AvailableOptionsStringArray.IsEmpty())

@@ -20,7 +20,13 @@ class GAMEUI_API UWidget_ListEntry_String : public UWidget_ListEntry_Base
 protected:
 	//~ Begin UWidget_ListEntry_Base interface
 	virtual void OnListDataObjectSet(UListDataObject_Base* InListDataObject) override;
+	virtual void OnListDataObjectModified(UListDataObject_Base* ModifiedData,
+	                                      EOptionsListDataModifyReason ModifyReason) override;
 	//~ Begin UWidget_ListEntry_Base interface
+
+	//~ Begin UUserWidget interface
+	virtual void NativeOnInitialized() override;
+	//~ End UUserWidget interface
 
 private:
 	//***** Bound Widget *****//
@@ -36,4 +42,7 @@ private:
 
 	UPROPERTY(Transient)
 	TObjectPtr<UListDataObject_String> StringListDataObject;
+
+	void OnPreviousButtonClicked();
+	void OnNextButtonClicked();
 };

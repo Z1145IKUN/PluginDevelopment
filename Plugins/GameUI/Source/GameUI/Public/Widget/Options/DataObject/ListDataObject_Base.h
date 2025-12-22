@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
+#include "GameUITypes/GameUIEnums.h"
 #include "ListDataObject_Base.generated.h"
 
 #define LIST_DATA_ACCESSOR(DataType,PropertyName) \
@@ -16,14 +17,20 @@ UCLASS()
 class GAMEUI_API UListDataObject_Base : public UObject
 {
 	GENERATED_BODY()
-	
+
 public:
-	LIST_DATA_ACCESSOR(FName,DataID)
-	LIST_DATA_ACCESSOR(FText,DataDisplayName)
-	LIST_DATA_ACCESSOR(FText,DescriptionRichText)
-	LIST_DATA_ACCESSOR(FText,DisableRichText)
-	LIST_DATA_ACCESSOR(TSoftObjectPtr<UTexture2D>,SoftDescriptionImage)
-	LIST_DATA_ACCESSOR(UListDataObject_Base*,ParentData)
+	DECLARE_MULTICAST_DELEGATE_TwoParams(FOnListDataModifiedDelegate,
+	                                     UListDataObject_Base*,
+	                                     EOptionsListDataModifyReason)
+
+	FOnListDataModifiedDelegate OnListDataModified;
+
+	LIST_DATA_ACCESSOR(FName, DataID)
+	LIST_DATA_ACCESSOR(FText, DataDisplayName)
+	LIST_DATA_ACCESSOR(FText, DescriptionRichText)
+	LIST_DATA_ACCESSOR(FText, DisableRichText)
+	LIST_DATA_ACCESSOR(TSoftObjectPtr<UTexture2D>, SoftDescriptionImage)
+	LIST_DATA_ACCESSOR(UListDataObject_Base*, ParentData)
 
 	/**
 	 * the parent is empty ,the child class should override it ,
@@ -37,9 +44,9 @@ public:
 	 * @return 
 	 */
 	virtual bool HasChildListData() const;
-	
+
 	void InitDataObject();
-	
+
 protected:
 	/**
 	 * is empty in the base class
@@ -47,13 +54,17 @@ protected:
 	 */
 	virtual void OnDataListObjectInitialized();
 
+	virtual void NotifyListDataModified(
+		UListDataObject_Base* ModifiedListData,
+		EOptionsListDataModifyReason ModifyReason = EOptionsListDataModifyReason::DirectlyModify);
+
 private:
 	FName DataID;
 	FText DataDisplayName;
 	FText DescriptionRichText;
 	FText DisableRichText;
 	TSoftObjectPtr<UTexture2D> SoftDescriptionImage;
-	
+
 	UPROPERTY(Transient)
 	TObjectPtr<UListDataObject_Base> ParentData;
 };

@@ -18,8 +18,10 @@ public:
 	void AddDynamicOptions(const FString& InStringValue, const FText& InDisplayText);
 
 	const TArray<FText>& GetAvailableOptionsTextArray() const;
-
 	const FText& GetCurrentDisplayText() const;
+
+	void AdvanceToPreviousOption();
+	void AdvanceToNextOption();
 
 protected:
 	//~ Begin UListDataObject_Base interface

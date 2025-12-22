@@ -19,4 +19,14 @@ void UWidget_ListEntry_Base::OnListDataObjectSet(UListDataObject_Base* InListDat
 	{
 		CommonTextBlock_SettingDisplayName->SetText(InListDataObject->GetDataDisplayName());
 	}
+
+	if (!InListDataObject->OnListDataModified.IsBoundToObject(this))
+	{
+		InListDataObject->OnListDataModified.AddUObject(this, &ThisClass::OnListDataObjectModified);
+	}
+}
+
+void UWidget_ListEntry_Base::OnListDataObjectModified(UListDataObject_Base* ModifiedData,
+                                                      EOptionsListDataModifyReason ModifyReason)
+{
 }

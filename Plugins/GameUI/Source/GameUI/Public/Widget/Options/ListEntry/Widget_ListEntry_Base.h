@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "CommonUserWidget.h"
 #include "Blueprint/IUserObjectListEntry.h"
+#include "GameUITypes/GameUIEnums.h"
 #include "Widget_ListEntry_Base.generated.h"
 
 class UCommonTextBlock;
@@ -27,6 +28,15 @@ protected:
 	 * @param InListDataObject 
 	 */
 	virtual void OnListDataObjectSet(UListDataObject_Base* InListDataObject);
+
+	/**
+	 * the child class should override this function to update UI values after the data object has been modified
+	 * the super call is not needed
+	 * @param ModifiedData 
+	 * @param ModifyReason 
+	 */
+	virtual void OnListDataObjectModified(UListDataObject_Base* ModifiedData,
+	                                      EOptionsListDataModifyReason ModifyReason);
 
 private:
 	//***** Bound Widget *****//
