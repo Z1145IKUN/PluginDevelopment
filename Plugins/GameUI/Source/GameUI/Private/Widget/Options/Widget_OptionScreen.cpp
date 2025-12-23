@@ -4,6 +4,7 @@
 #include "Widget/Options/Widget_OptionScreen.h"
 
 #include "ICommonInputModule.h"
+#include "DeveloperSettings/GameUIGameUserSettings.h"
 #include "Input/CommonUIInputTypes.h"
 #include "Widget/Component/GameUIListView.h"
 #include "Widget/Options/OptionDataRegistry.h"
@@ -62,6 +63,13 @@ void UWidget_OptionScreen::NativeOnActivated()
 
 		TabListWidget_OptionsTab->RequestRegisterTab(TabID, TabCollection->GetDataDisplayName());
 	}
+}
+
+void UWidget_OptionScreen::NativeOnDeactivated()
+{
+	Super::NativeOnDeactivated();
+
+	UGameUIGameUserSettings::Get()->ApplySettings(true);
 }
 
 void UWidget_OptionScreen::OnResetActionTriggered()
