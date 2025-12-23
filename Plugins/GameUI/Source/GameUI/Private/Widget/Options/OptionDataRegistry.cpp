@@ -60,7 +60,17 @@ void UOptionDataRegistry::InitGamePlayCollectionTab()
 		GameDifficulty->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(GetCurrentDifficulty));
 		GameDifficulty->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(SetCurrentDifficulty));
 		GameDifficulty->SetShouldApplySettingsImmediately(true);
-
+		GameDifficulty->SetDescriptionRichText(
+			FText::FromString(
+				TEXT(
+					"The game allows you to adjust the difficulty at any time. \n\n"
+					"<Bold>Easy</> \n\n"
+					"<Bold>Normal</>\n\n"
+					"<Bold>Hard</>\n\n"
+					"<Bold>Nightmare</>"
+				)
+			)
+		);
 		GameplayTabCollection->AddChildListData(GameDifficulty);
 	}
 
