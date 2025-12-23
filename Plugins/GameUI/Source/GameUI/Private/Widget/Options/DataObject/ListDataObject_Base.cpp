@@ -3,6 +3,8 @@
 
 #include "Widget/Options/DataObject/ListDataObject_Base.h"
 
+#include "DeveloperSettings/GameUIGameUserSettings.h"
+
 TArray<UListDataObject_Base*> UListDataObject_Base::GetAllChildListData() const
 {
 	return TArray<UListDataObject_Base*>();
@@ -18,6 +20,11 @@ void UListDataObject_Base::InitDataObject()
 	OnDataListObjectInitialized();
 }
 
+void UListDataObject_Base::SetShouldApplySettingsImmediately(bool InShouldApplySettingsImmediately)
+{
+	bShouldApplyChangesImmediately = InShouldApplySettingsImmediately;
+}
+
 void UListDataObject_Base::OnDataListObjectInitialized()
 {
 }
@@ -26,4 +33,9 @@ void UListDataObject_Base::NotifyListDataModified(UListDataObject_Base* Modified
                                                   EOptionsListDataModifyReason ModifyReason)
 {
 	OnListDataModified.Broadcast(ModifiedListData, ModifyReason);
+
+	if (bShouldApplyChangesImmediately)
+	{
+		UGameUIGameUserSettings::Get()->ApplySettings(true);
+	}
 }

@@ -47,6 +47,8 @@ public:
 
 	void InitDataObject();
 
+	void SetShouldApplySettingsImmediately(bool InShouldApplySettingsImmediately);
+
 protected:
 	/**
 	 * is empty in the base class
@@ -67,4 +69,6 @@ private:
 
 	UPROPERTY(Transient)
 	TObjectPtr<UListDataObject_Base> ParentData;
+
+	bool bShouldApplyChangesImmediately = false;
 };
