@@ -18,6 +18,12 @@ class GAMEUI_API UWidget_ListEntry_Base : public UCommonUserWidget, public IUser
 {
 	GENERATED_BODY()
 
+public:
+	UFUNCTION(BlueprintImplementableEvent, meta=(DisplayName="On List Entry Widget Hovered"))
+	void BP_OnListEntryWidgetHovered(bool bWasHovered, bool bIsEntryWidgetStillSelected);
+
+	void NativeOnListEntryWidgetHovered(bool bWasHovered);
+
 protected:
 	//~ Begin IUserObjectListEntry Interface
 	virtual void NativeOnListItemObjectSet(UObject* ListItemObject) override;

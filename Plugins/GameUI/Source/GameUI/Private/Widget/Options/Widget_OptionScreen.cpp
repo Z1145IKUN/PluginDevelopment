@@ -10,6 +10,7 @@
 #include "Widget/Options/OptionDataRegistry.h"
 #include "Widget/Options/Widget_TabListWidgetBase.h"
 #include "Widget/Options/DataObject/ListDataObject_Collection.h"
+#include "Widget/Options/ListEntry/Widget_ListEntry_Base.h"
 
 void UWidget_OptionScreen::NativeOnInitialized()
 {
@@ -89,6 +90,12 @@ void UWidget_OptionScreen::OnListViewItemHoveredChanged(UObject* InHoveredItem, 
 	{
 		return;
 	}
+
+	UWidget_ListEntry_Base* HoverEntryWidget = ListView_OptionsList->GetEntryWidgetFromItem
+		<UWidget_ListEntry_Base>(InHoveredItem);
+	check(HoverEntryWidget)
+
+	HoverEntryWidget->NativeOnListEntryWidgetHovered(bWasHovered);
 }
 
 void UWidget_OptionScreen::OnListViewItemSelectedChanged(UObject* InSelectedItem)
