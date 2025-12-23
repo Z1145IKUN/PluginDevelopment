@@ -124,6 +124,7 @@ void UWidget_OptionScreen::OnListViewItemSelectedChanged(UObject* InSelectedItem
 
 void UWidget_OptionScreen::OnOptionsTabSelected(FName TabID)
 {
+	DetailsView_ListEntry->ClearOptionDetailsView();
 	TArray<UListDataObject_Base*> FoundListSourceItem = GetOrCreateOptionDataRegistry()->
 		GetListSourceItemByTabId(TabID);
 
