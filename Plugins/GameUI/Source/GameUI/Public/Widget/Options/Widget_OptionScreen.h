@@ -31,6 +31,9 @@ private:
 	void OnResetActionTriggered();
 	void OnBackActionTriggered();
 
+	void OnListViewItemHoveredChanged(UObject* InHoveredItem, bool bWasHovered);
+	void OnListViewItemSelectedChanged(UObject* InSelectedItem);
+
 	UFUNCTION()
 	void OnOptionsTabSelected(FName TabID);
 

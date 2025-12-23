@@ -41,6 +41,8 @@ void UWidget_OptionScreen::NativeOnInitialized()
 	);
 
 	TabListWidget_OptionsTab->OnTabSelected.AddUniqueDynamic(this, &ThisClass::OnOptionsTabSelected);
+	ListView_OptionsList->OnItemIsHoveredChanged().AddUObject(this, &ThisClass::OnListViewItemHoveredChanged);
+	ListView_OptionsList->OnItemSelectionChanged().AddUObject(this, &ThisClass::OnListViewItemSelectedChanged);
 }
 
 void UWidget_OptionScreen::NativeOnActivated()
@@ -79,6 +81,22 @@ void UWidget_OptionScreen::OnResetActionTriggered()
 void UWidget_OptionScreen::OnBackActionTriggered()
 {
 	DeactivateWidget();
+}
+
+void UWidget_OptionScreen::OnListViewItemHoveredChanged(UObject* InHoveredItem, bool bWasHovered)
+{
+	if (!InHoveredItem)
+	{
+		return;
+	}
+}
+
+void UWidget_OptionScreen::OnListViewItemSelectedChanged(UObject* InSelectedItem)
+{
+	if (!InSelectedItem)
+	{
+		return;
+	}
 }
 
 void UWidget_OptionScreen::OnOptionsTabSelected(FName TabID)
