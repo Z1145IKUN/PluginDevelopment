@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Widget_OptionDetailsView.generated.h"
 
+class UListDataObject_Base;
 class UCommonTextBlock;
 class UCommonLazyImage;
 class UCommonRichTextBlock;
@@ -16,6 +17,15 @@ UCLASS(Abstract, BlueprintType, meta=(DisableNativeTick))
 class GAMEUI_API UWidget_OptionDetailsView : public UUserWidget
 {
 	GENERATED_BODY()
+
+public:
+	void UpdateOptionDetailsView(UListDataObject_Base* InListDataObject);
+	void ClearOptionDetailsView() const;
+
+protected:
+	//~ Begin UUserWidget Interface
+	virtual void NativeOnInitialized() override;
+	//~ End UUserWidget Interface
 
 private:
 	//***** Bound Widget *****//
