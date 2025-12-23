@@ -44,6 +44,8 @@ protected:
 	virtual void OnListDataObjectModified(UListDataObject_Base* ModifiedData,
 	                                      EOptionsListDataModifyReason ModifyReason);
 
+	void SelectedThisEntryWidget();
+
 private:
 	//***** Bound Widget *****//
 	UPROPERTY(BlueprintReadOnly, meta=(BindWidgetOptional, AllowPrivateAccess = "true"))

@@ -4,6 +4,7 @@
 #include "Widget/Options/ListEntry/Widget_ListEntry_Base.h"
 
 #include "CommonTextBlock.h"
+#include "Widget/Component/GameUIListView.h"
 #include "Widget/Options/DataObject/ListDataObject_Base.h"
 
 void UWidget_ListEntry_Base::NativeOnListEntryWidgetHovered(bool bWasHovered)
@@ -36,4 +37,9 @@ void UWidget_ListEntry_Base::OnListDataObjectSet(UListDataObject_Base* InListDat
 void UWidget_ListEntry_Base::OnListDataObjectModified(UListDataObject_Base* ModifiedData,
                                                       EOptionsListDataModifyReason ModifyReason)
 {
+}
+
+void UWidget_ListEntry_Base::SelectedThisEntryWidget()
+{
+	CastChecked<UGameUIListView>(GetOwningListView())->SetSelectedItem(GetListItem());
 }

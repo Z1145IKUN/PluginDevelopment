@@ -15,6 +15,12 @@ void UWidget_ListEntry_String::OnListDataObjectSet(UListDataObject_Base* InListD
 
 	CommonRotator_Options->PopulateTextLabels(StringListDataObject->GetAvailableOptionsTextArray());
 	CommonRotator_Options->SetSelectedOptionByText(StringListDataObject->GetCurrentDisplayText());
+	CommonRotator_Options->OnClicked().AddLambda(
+		[this]()
+		{
+			SelectedThisEntryWidget();
+		}
+	);
 }
 
 void UWidget_ListEntry_String::OnListDataObjectModified(UListDataObject_Base* ModifiedData,
@@ -40,6 +46,7 @@ void UWidget_ListEntry_String::OnPreviousButtonClicked()
 	{
 		StringListDataObject->AdvanceToPreviousOption();
 	}
+	SelectedThisEntryWidget();
 }
 
 void UWidget_ListEntry_String::OnNextButtonClicked()
@@ -48,4 +55,5 @@ void UWidget_ListEntry_String::OnNextButtonClicked()
 	{
 		StringListDataObject->AdvanceToNextOption();
 	}
+	SelectedThisEntryWidget();
 }
