@@ -17,6 +17,13 @@ class GAMEUI_API UGameUIGameUserSettings : public UGameUserSettings
 public:
 	static UGameUIGameUserSettings* Get();
 
+	//***** Gameplay Collection Tab *****//
+	UFUNCTION()
+	FString GetCurrentDifficulty() const;
+	UFUNCTION()
+	void SetCurrentDifficulty(const FString& InNewDifficulty);
+	//***** Gameplay Collection Tab *****//
+
 private:
 	UPROPERTY(Config)
 	FString CurrentGameDifficulty;

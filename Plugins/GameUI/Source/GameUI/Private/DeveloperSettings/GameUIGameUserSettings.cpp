@@ -11,3 +11,13 @@ UGameUIGameUserSettings* UGameUIGameUserSettings::Get()
 	}
 	return nullptr;
 }
+
+FString UGameUIGameUserSettings::GetCurrentDifficulty() const
+{
+	return CurrentGameDifficulty;
+}
+
+void UGameUIGameUserSettings::SetCurrentDifficulty(const FString& InNewDifficulty)
+{
+	CurrentGameDifficulty = InNewDifficulty;
+}
