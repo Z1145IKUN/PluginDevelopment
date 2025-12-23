@@ -59,6 +59,7 @@ void UOptionDataRegistry::InitGamePlayCollectionTab()
 		GameDifficulty->AddDynamicOptions(TEXT("Nightmare"), FText::FromString(TEXT("Nightmare")));
 		GameDifficulty->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(GetCurrentDifficulty));
 		GameDifficulty->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(SetCurrentDifficulty));
+		GameDifficulty->SetShouldApplySettingsImmediately(true);
 
 		GameplayTabCollection->AddChildListData(GameDifficulty);
 	}
