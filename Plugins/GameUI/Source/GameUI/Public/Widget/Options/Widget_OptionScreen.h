@@ -9,6 +9,7 @@
 class UOptionDataRegistry;
 class UWidget_TabListWidgetBase;
 class UGameUIListView;
+class UWidget_OptionDetailsView;
 /**
  * 
  */
@@ -45,6 +46,9 @@ private:
 
 	UPROPERTY(meta=(BindWidget))
 	TObjectPtr<UGameUIListView> ListView_OptionsList;
+
+	UPROPERTY(meta=(BindWidget))
+	TObjectPtr<UWidget_OptionDetailsView> DetailsView_ListEntry;
 	//***** Bound Widget *****//
 
 

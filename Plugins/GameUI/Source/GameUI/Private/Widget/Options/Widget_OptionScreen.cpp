@@ -8,6 +8,7 @@
 #include "Input/CommonUIInputTypes.h"
 #include "Widget/Component/GameUIListView.h"
 #include "Widget/Options/OptionDataRegistry.h"
+#include "Widget/Options/Widget_OptionDetailsView.h"
 #include "Widget/Options/Widget_TabListWidgetBase.h"
 #include "Widget/Options/DataObject/ListDataObject_Collection.h"
 #include "Widget/Options/ListEntry/Widget_ListEntry_Base.h"
@@ -96,6 +97,18 @@ void UWidget_OptionScreen::OnListViewItemHoveredChanged(UObject* InHoveredItem, 
 	check(HoverEntryWidget)
 
 	HoverEntryWidget->NativeOnListEntryWidgetHovered(bWasHovered);
+
+	if (bWasHovered)
+	{
+		DetailsView_ListEntry->UpdateOptionDetailsView(
+			CastChecked<UListDataObject_Base>(InHoveredItem)
+		);
+	}
+	else
+	{
+		UListDataObject_Base* SelectedListItem = ListView_OptionsList->GetSelectedItem<UListDataObject_Base>();
+		DetailsView_ListEntry->UpdateOptionDetailsView(SelectedListItem);
+	}
 }
 
 void UWidget_OptionScreen::OnListViewItemSelectedChanged(UObject* InSelectedItem)
@@ -104,6 +117,9 @@ void UWidget_OptionScreen::OnListViewItemSelectedChanged(UObject* InSelectedItem
 	{
 		return;
 	}
+
+	UListDataObject_Base* SelectedListItem = CastChecked<UListDataObject_Base>(InSelectedItem);
+	DetailsView_ListEntry->UpdateOptionDetailsView(SelectedListItem);
 }
 
 void UWidget_OptionScreen::OnOptionsTabSelected(FName TabID)
