@@ -10,24 +10,27 @@ class UCommonTextBlock;
 /**
  * 
  */
-UCLASS(Abstract,BlueprintType,meta=(DisableNativeTick))
+UCLASS(Abstract, BlueprintType, meta=(DisableNativeTick))
 class GAMEUI_API UGameUIButtonBase : public UCommonButtonBase
 {
 	GENERATED_BODY()
-	
+
 public:
 	//~ Begin UUserWidget Interface
 	virtual void NativePreConstruct() override;
 	//~ End UUserWidget Interface
-	
+
 	//~ Begin UCommonButtonBase Interface
 	virtual void NativeOnCurrentTextStyleChanged() override;
 	virtual void NativeOnHovered() override;
 	virtual void NativeOnUnhovered() override;
 	//~ End UCommonButtonBase Interface
-	
+
 	UFUNCTION(BlueprintCallable)
 	void SetButtonText(FText InButtonText);
+
+	UFUNCTION(BlueprintCallable)
+	FText GetButtonDisplayText() const;
 
 private:
 	//***** Bind widget *****//

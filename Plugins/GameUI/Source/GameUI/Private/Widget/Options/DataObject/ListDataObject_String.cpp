@@ -5,6 +5,32 @@
 
 #include "Widget/Options/OptionsDataInteractionHelper.h"
 
+void UListDataObject_String::OnDataListObjectInitialized()
+{
+	if (!AvailableOptionsStringArray.IsEmpty())
+	{
+		CurrentStringValue = AvailableOptionsStringArray[0];
+	}
+
+	if (HasDefaultValue())
+	{
+		CurrentStringValue = GetDefaultValueAsString();
+	}
+
+	if (DataDynamicGetter)
+	{
+		if (!DataDynamicGetter->GetValueAsString().IsEmpty())
+		{
+			CurrentStringValue = DataDynamicGetter->GetValueAsString();
+		}
+	}
+
+	if (!SetDisplayTextFromCurrentStringValue(CurrentStringValue))
+	{
+		CurrentDisplayText = FText::FromString(TEXT("Invalid Option"));
+	}
+}
+
 void UListDataObject_String::AddDynamicOptions(const FString& InStringValue, const FText& InDisplayText)
 {
 	AvailableOptionsStringArray.Add(InStringValue);
@@ -67,27 +93,6 @@ void UListDataObject_String::AdvanceToNextOption()
 	}
 	SetDisplayTextFromCurrentStringValue(CurrentStringValue);
 	NotifyListDataModified(this);
-}
-
-void UListDataObject_String::OnDataListObjectInitialized()
-{
-	if (!AvailableOptionsStringArray.IsEmpty())
-	{
-		CurrentStringValue = AvailableOptionsStringArray[0];
-	}
-
-	if (DataDynamicGetter)
-	{
-		if (!DataDynamicGetter->GetValueAsString().IsEmpty())
-		{
-			CurrentStringValue = DataDynamicGetter->GetValueAsString();
-		}
-	}
-
-	if (!SetDisplayTextFromCurrentStringValue(CurrentStringValue))
-	{
-		CurrentDisplayText = FText::FromString(TEXT("Invalid Option"));
-	}
 }
 
 bool UListDataObject_String::CanResetBackToDefaultValue() const

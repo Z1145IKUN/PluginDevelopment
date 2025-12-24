@@ -6,6 +6,8 @@
 #include "ICommonInputModule.h"
 #include "DeveloperSettings/GameUIGameUserSettings.h"
 #include "Input/CommonUIInputTypes.h"
+#include "Subsystem/GameUISubsystem.h"
+#include "Widget/Component/GameUIButtonBase.h"
 #include "Widget/Component/GameUIListView.h"
 #include "Widget/Options/OptionDataRegistry.h"
 #include "Widget/Options/Widget_OptionDetailsView.h"
@@ -78,6 +80,24 @@ void UWidget_OptionScreen::NativeOnDeactivated()
 
 void UWidget_OptionScreen::OnResetActionTriggered()
 {
+	if (ResettableListDataArray.IsEmpty()) return;
+
+	UCommonButtonBase* SelectedTabButton = TabListWidget_OptionsTab->GetTabButtonBaseByID
+		(TabListWidget_OptionsTab->GetActiveTab());
+
+	UGameUIButtonBase* ConvertedSelectedTabButton = CastChecked<UGameUIButtonBase>(SelectedTabButton);
+
+	const FString SelectedTabButtonName = ConvertedSelectedTabButton->GetButtonDisplayText().ToString();
+
+	UGameUISubsystem::Get(this)->PushConfirmScreenToModalStackAsync(
+		EConfirmScreenType::YesNo,
+		FText::FromString(TEXT("Reset")),
+		FText::FromString(
+			TEXT("Do you want to reset all the settings under the ") + SelectedTabButtonName + TEXT(" Tab")),
+		[](EConfirmScreenButtonType ClickedButonType)
+		{
+		}
+	);
 }
 
 void UWidget_OptionScreen::OnBackActionTriggered()

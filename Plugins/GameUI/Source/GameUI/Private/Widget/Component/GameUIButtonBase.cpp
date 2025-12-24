@@ -47,3 +47,13 @@ void UGameUIButtonBase::SetButtonText(FText InButtonText)
 		CommonTextBlock_ButtonText->SetText(bUseUpperCaseForButtonText ? InButtonText.ToUpper() : InButtonText);
 	}
 }
+
+FText UGameUIButtonBase::GetButtonDisplayText() const
+{
+	if (CommonTextBlock_ButtonText)
+	{
+		return CommonTextBlock_ButtonText->GetText();
+	}
+
+	return FText();
+}
