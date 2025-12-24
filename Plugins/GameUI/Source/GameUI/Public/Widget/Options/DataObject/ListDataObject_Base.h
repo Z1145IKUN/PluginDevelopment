@@ -49,6 +49,13 @@ public:
 
 	void SetShouldApplySettingsImmediately(bool InShouldApplySettingsImmediately);
 
+	/**
+	 * the child class should override them to provide implementations for reset data
+	 */
+	virtual bool HasDefaultValue() const;
+	virtual bool CanResetBackToDefaultValue() const;
+	virtual bool TryResetBackToDefaultValue() const;
+
 protected:
 	/**
 	 * is empty in the base class

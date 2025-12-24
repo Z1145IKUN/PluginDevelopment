@@ -25,6 +25,21 @@ void UListDataObject_Base::SetShouldApplySettingsImmediately(bool InShouldApplyS
 	bShouldApplyChangesImmediately = InShouldApplySettingsImmediately;
 }
 
+bool UListDataObject_Base::HasDefaultValue() const
+{
+	return false;
+}
+
+bool UListDataObject_Base::CanResetBackToDefaultValue() const
+{
+	return false;
+}
+
+bool UListDataObject_Base::TryResetBackToDefaultValue() const
+{
+	return false;
+}
+
 void UListDataObject_Base::OnDataListObjectInitialized()
 {
 }
