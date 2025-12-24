@@ -54,7 +54,7 @@ public:
 	 */
 	virtual bool HasDefaultValue() const;
 	virtual bool CanResetBackToDefaultValue() const;
-	virtual bool TryResetBackToDefaultValue() const;
+	virtual bool TryResetBackToDefaultValue();
 
 protected:
 	/**

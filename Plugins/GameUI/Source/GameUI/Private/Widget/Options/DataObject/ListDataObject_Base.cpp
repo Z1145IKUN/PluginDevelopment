@@ -35,7 +35,7 @@ bool UListDataObject_Base::CanResetBackToDefaultValue() const
 	return false;
 }
 
-bool UListDataObject_Base::TryResetBackToDefaultValue() const
+bool UListDataObject_Base::TryResetBackToDefaultValue()
 {
 	return false;
 }

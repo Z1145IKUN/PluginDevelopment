@@ -20,6 +20,7 @@ public:
 	void SetDataDynamicSetter(const TSharedPtr<FOptionsDataInteractionHelper>& InDynamicSetter);
 
 	void SetDefaultValueFromString(const FString& InDefaultValue);
+	FString GetDefaultValueAsString() const;
 
 	//~ Begin UListDataObject_Base interface
 	virtual bool HasDefaultValue() const override;
@@ -28,8 +29,6 @@ public:
 protected:
 	TSharedPtr<FOptionsDataInteractionHelper> DataDynamicGetter;
 	TSharedPtr<FOptionsDataInteractionHelper> DataDynamicSetter;
-
-	FString GetDefaultValueAsString() const;
 
 private:
 	TOptional<FString> DefaultStringValue;

@@ -30,7 +30,7 @@ void UListDataObject_String::AdvanceToPreviousOption()
 	const int32 CurrentStringValueIndex = AvailableOptionsStringArray.IndexOfByKey(CurrentStringValue);
 	const int32 PreviousStringValueIndex = CurrentStringValueIndex - 1;
 
-	if (bool bIsPreviousIndexValid = AvailableOptionsStringArray.IsValidIndex(PreviousStringValueIndex))
+	if (AvailableOptionsStringArray.IsValidIndex(PreviousStringValueIndex))
 	{
 		CurrentStringValue = AvailableOptionsStringArray[PreviousStringValueIndex];
 	}
@@ -57,7 +57,7 @@ void UListDataObject_String::AdvanceToNextOption()
 	const int32 CurrentStringValueIndex = AvailableOptionsStringArray.IndexOfByKey(CurrentStringValue);
 	const int32 NextStringValueIndex = CurrentStringValueIndex + 1;
 
-	if (bool bIsNextIndexValid = AvailableOptionsStringArray.IsValidIndex(NextStringValueIndex))
+	if (AvailableOptionsStringArray.IsValidIndex(NextStringValueIndex))
 	{
 		CurrentStringValue = AvailableOptionsStringArray[NextStringValueIndex];
 	}
@@ -88,6 +88,29 @@ void UListDataObject_String::OnDataListObjectInitialized()
 	{
 		CurrentDisplayText = FText::FromString(TEXT("Invalid Option"));
 	}
+}
+
+bool UListDataObject_String::CanResetBackToDefaultValue() const
+{
+	return HasDefaultValue() && CurrentStringValue != GetDefaultValueAsString();
+}
+
+bool UListDataObject_String::TryResetBackToDefaultValue()
+{
+	if (CanResetBackToDefaultValue())
+	{
+		CurrentStringValue = GetDefaultValueAsString();
+
+		SetDisplayTextFromCurrentStringValue(CurrentStringValue);
+		if (DataDynamicSetter)
+		{
+			DataDynamicSetter->SetValueFromString(CurrentStringValue);
+			NotifyListDataModified(this, EOptionsListDataModifyReason::ResetToDefault);
+
+			return true;
+		}
+	}
+	return false;
 }
 
 bool UListDataObject_String::SetDisplayTextFromCurrentStringValue(const FString& InCurrentStringValue)

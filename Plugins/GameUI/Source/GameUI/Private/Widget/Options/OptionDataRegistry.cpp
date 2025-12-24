@@ -57,6 +57,7 @@ void UOptionDataRegistry::InitGamePlayCollectionTab()
 		GameDifficulty->AddDynamicOptions(TEXT("Normal"), FText::FromString(TEXT("Normal")));
 		GameDifficulty->AddDynamicOptions(TEXT("Hard"), FText::FromString(TEXT("Hard")));
 		GameDifficulty->AddDynamicOptions(TEXT("Nightmare"), FText::FromString(TEXT("Nightmare")));
+		GameDifficulty->SetDefaultValueFromString(TEXT("Easy"));
 		GameDifficulty->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(GetCurrentDifficulty));
 		GameDifficulty->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(SetCurrentDifficulty));
 		GameDifficulty->SetShouldApplySettingsImmediately(true);
