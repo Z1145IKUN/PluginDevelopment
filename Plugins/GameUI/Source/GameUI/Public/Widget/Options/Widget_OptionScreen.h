@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameUITypes/GameUIEnums.h"
 #include "Widget/Widget_ActivatableBase.h"
 #include "Widget_OptionScreen.generated.h"
 
@@ -68,4 +69,7 @@ private:
 
 	UPROPERTY(Transient)
 	TArray<UListDataObject_Base*> ResettableListDataArray;
+
+	//It is called every time when List data modified
+	void OnListViewListDataModified(UListDataObject_Base* ModifiedData, EOptionsListDataModifyReason ModifiedReason);
 };

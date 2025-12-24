@@ -145,6 +145,11 @@ void UWidget_OptionScreen::OnOptionsTabSelected(FName TabID)
 			continue;
 		}
 
+		if (!FoundListDataItem->OnListDataModified.IsBoundToObject(this))
+		{
+			FoundListDataItem->OnListDataModified.AddUObject(this, &ThisClass::OnListViewListDataModified);
+		}
+
 		if (FoundListDataItem->CanResetBackToDefaultValue())
 		{
 			ResettableListDataArray.AddUnique(FoundListDataItem);
@@ -175,4 +180,32 @@ UOptionDataRegistry* UWidget_OptionScreen::GetOrCreateOptionDataRegistry()
 	check(OwningOptionDataRegistry);
 
 	return OwningOptionDataRegistry;
+}
+
+void UWidget_OptionScreen::OnListViewListDataModified(UListDataObject_Base* ModifiedData,
+                                                      EOptionsListDataModifyReason ModifiedReason)
+{
+	if (!ModifiedData) return;
+
+	if (ModifiedData->CanResetBackToDefaultValue())
+	{
+		ResettableListDataArray.AddUnique(ModifiedData);
+
+		if (!GetActionBindings().Contains(ResetAction_Handle))
+		{
+			AddActionBinding(ResetAction_Handle);
+		}
+	}
+	else
+	{
+		if (GetActionBindings().Contains(ResetAction_Handle))
+		{
+			RemoveActionBinding(ResetAction_Handle);
+		}
+	}
+
+	if (ResettableListDataArray.IsEmpty())
+	{
+		RemoveActionBinding(ResetAction_Handle);
+	}
 }
