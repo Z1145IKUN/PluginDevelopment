@@ -125,16 +125,42 @@ void UWidget_OptionScreen::OnListViewItemSelectedChanged(UObject* InSelectedItem
 void UWidget_OptionScreen::OnOptionsTabSelected(FName TabID)
 {
 	DetailsView_ListEntry->ClearOptionDetailsView();
-	TArray<UListDataObject_Base*> FoundListSourceItem = GetOrCreateOptionDataRegistry()->
+	TArray<UListDataObject_Base*> FoundListDataItemArray = GetOrCreateOptionDataRegistry()->
 		GetListSourceItemByTabId(TabID);
 
-	ListView_OptionsList->SetListItems<UListDataObject_Base*>(FoundListSourceItem);
+	ListView_OptionsList->SetListItems<UListDataObject_Base*>(FoundListDataItemArray);
 	ListView_OptionsList->RequestRefresh();
 
 	if (ListView_OptionsList->GetNumItems() != 0)
 	{
 		ListView_OptionsList->NavigateToIndex(0);
 		ListView_OptionsList->SetSelectedIndex(0);
+	}
+
+	ResettableListDataArray.Empty();
+	for (UListDataObject_Base* FoundListDataItem : FoundListDataItemArray)
+	{
+		if (!FoundListDataItem)
+		{
+			continue;
+		}
+
+		if (FoundListDataItem->CanResetBackToDefaultValue())
+		{
+			ResettableListDataArray.AddUnique(FoundListDataItem);
+		}
+	}
+
+	if (ResettableListDataArray.IsEmpty())
+	{
+		RemoveActionBinding(ResetAction_Handle);
+	}
+	else
+	{
+		if (!GetActionBindings().Contains(ResetAction_Handle))
+		{
+			AddActionBinding(ResetAction_Handle);
+		}
 	}
 }
 

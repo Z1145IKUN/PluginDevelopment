@@ -10,6 +10,7 @@ class UOptionDataRegistry;
 class UWidget_TabListWidgetBase;
 class UGameUIListView;
 class UWidget_OptionDetailsView;
+class UListDataObject_Base;
 /**
  * 
  */
@@ -64,4 +65,7 @@ private:
 	//Handle the creation operation of data in the option Screen. Direct access to this variable is forbidden.
 	UPROPERTY(Transient)
 	TObjectPtr<UOptionDataRegistry> OwningOptionDataRegistry;
+
+	UPROPERTY(Transient)
+	TArray<UListDataObject_Base*> ResettableListDataArray;
 };
