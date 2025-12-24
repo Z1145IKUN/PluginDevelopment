@@ -12,3 +12,18 @@ void UListDataObject_Value::SetDataDynamicSetter(const TSharedPtr<FOptionsDataIn
 {
 	DataDynamicSetter = InDynamicSetter;
 }
+
+void UListDataObject_Value::SetDefaultValueFromString(const FString& InDefaultValue)
+{
+	DefaultStringValue = InDefaultValue;
+}
+
+bool UListDataObject_Value::HasDefaultValue() const
+{
+	return DefaultStringValue.IsSet();
+}
+
+FString UListDataObject_Value::GetDefaultValueAsString() const
+{
+	return DefaultStringValue.GetValue();
+}
