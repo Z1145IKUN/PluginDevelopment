@@ -22,6 +22,13 @@ void UWidget_ListEntry_Base::NativeOnListItemObjectSet(UObject* ListItemObject)
 	SetVisibility(ESlateVisibility::Visible);
 }
 
+void UWidget_ListEntry_Base::NativeOnEntryReleased()
+{
+	IUserObjectListEntry::NativeOnEntryReleased();
+
+	NativeOnListEntryWidgetHovered(false);
+}
+
 void UWidget_ListEntry_Base::OnListDataObjectSet(UListDataObject_Base* InListDataObject)
 {
 	if (CommonTextBlock_SettingDisplayName)
