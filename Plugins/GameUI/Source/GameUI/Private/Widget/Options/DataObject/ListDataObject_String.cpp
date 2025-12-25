@@ -95,6 +95,29 @@ void UListDataObject_String::AdvanceToNextOption()
 	NotifyListDataModified(this);
 }
 
+void UListDataObject_String::OnRotatorInitiatedValueChanged(const FText& InNewSelectedText)
+{
+	const int32 NewIndex = AvailableOptionsTextArray.IndexOfByPredicate(
+		[InNewSelectedText](const FText& AvailableText)-> bool
+		{
+			return AvailableText.EqualTo(InNewSelectedText);
+		}
+	);
+
+	if (NewIndex != INDEX_NONE && AvailableOptionsStringArray.IsValidIndex(NewIndex))
+	{
+		CurrentDisplayText = InNewSelectedText;
+		CurrentStringValue = AvailableOptionsStringArray[NewIndex];
+
+		if (DataDynamicSetter)
+		{
+			DataDynamicSetter->SetValueFromString(CurrentStringValue);
+
+			NotifyListDataModified(this);
+		}
+	}
+}
+
 bool UListDataObject_String::CanResetBackToDefaultValue() const
 {
 	return HasDefaultValue() && CurrentStringValue != GetDefaultValueAsString();

@@ -23,6 +23,8 @@ public:
 	void AdvanceToPreviousOption();
 	void AdvanceToNextOption();
 
+	void OnRotatorInitiatedValueChanged(const FText& InNewSelectedText);
+
 protected:
 	//~ Begin UListDataObject_Base interface
 	virtual void OnDataListObjectInitialized() override;
