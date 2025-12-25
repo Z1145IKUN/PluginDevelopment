@@ -3,6 +3,7 @@
 
 #include "Widget/Options/ListEntry/Widget_ListEntry_Base.h"
 
+#include "CommonInputSubsystem.h"
 #include "CommonTextBlock.h"
 #include "Widget/Component/GameUIListView.h"
 #include "Widget/Options/DataObject/ListDataObject_Base.h"
@@ -42,4 +43,21 @@ void UWidget_ListEntry_Base::OnListDataObjectModified(UListDataObject_Base* Modi
 void UWidget_ListEntry_Base::SelectedThisEntryWidget()
 {
 	CastChecked<UGameUIListView>(GetOwningListView())->SetSelectedItem(GetListItem());
+}
+
+FReply UWidget_ListEntry_Base::NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent)
+{
+	UCommonInputSubsystem* CommonInputSubsystem = GetInputSubsystem();
+
+	if (CommonInputSubsystem && CommonInputSubsystem->GetCurrentInputType() == ECommonInputType::Gamepad)
+	{
+		if (UWidget* WidgetToFocus = BP_GetWidgetToFocusForGamepad())
+		{
+			if (TSharedPtr<SWidget> SlateWidgetForFocus = WidgetToFocus->GetCachedWidget())
+			{
+				return FReply::Handled().SetUserFocus(SlateWidgetForFocus.ToSharedRef());
+			}
+		}
+	}
+	return Super::NativeOnFocusReceived(InGeometry, InFocusEvent);
 }

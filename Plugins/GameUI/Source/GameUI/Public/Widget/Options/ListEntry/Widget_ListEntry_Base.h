@@ -46,6 +46,13 @@ protected:
 
 	void SelectedThisEntryWidget();
 
+	//~ Begin UUserWidget Interface
+	virtual FReply NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent) override;
+	//~ Begin UUserWidget Interface
+
+	UFUNCTION(BlueprintImplementableEvent, meta=( DisplayName="Get Widget To Focus For Gamepad" ))
+	UWidget* BP_GetWidgetToFocusForGamepad() const;
+
 private:
 	//***** Bound Widget *****//
 	UPROPERTY(BlueprintReadOnly, meta=(BindWidgetOptional, AllowPrivateAccess = "true"))
