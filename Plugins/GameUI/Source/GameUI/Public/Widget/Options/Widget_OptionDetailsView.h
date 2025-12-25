@@ -19,7 +19,7 @@ class GAMEUI_API UWidget_OptionDetailsView : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	void UpdateOptionDetailsView(UListDataObject_Base* InListDataObject);
+	void UpdateOptionDetailsView(const UListDataObject_Base* InListDataObject) const;
 	void ClearOptionDetailsView() const;
 
 protected:

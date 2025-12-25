@@ -6,9 +6,18 @@
 
 TSoftClassPtr<UWidget_ActivatableBase> UGameUIFunctionLibrary::GetSoftWidgetClassByTag(FGameplayTag InWidgetTag)
 {
-	const UGameUIDeveloperSettings* FrontEndDeveloperSettings = GetDefault<UGameUIDeveloperSettings>();
+	const UGameUIDeveloperSettings* GameUIDeveloperSettings = GetDefault<UGameUIDeveloperSettings>();
 
-	check(FrontEndDeveloperSettings->GameUIWidgetMap.Contains(InWidgetTag))
+	check(GameUIDeveloperSettings->GameUIWidgetMap.Contains(InWidgetTag))
 
-	return FrontEndDeveloperSettings->GameUIWidgetMap.FindRef(InWidgetTag);
+	return GameUIDeveloperSettings->GameUIWidgetMap.FindRef(InWidgetTag);
+}
+
+TSoftObjectPtr<UTexture2D> UGameUIFunctionLibrary::GetSoftImageByTag(FGameplayTag InImageTag)
+{
+	const UGameUIDeveloperSettings* GameUIDeveloperSettings = GetDefault<UGameUIDeveloperSettings>();
+
+	check(GameUIDeveloperSettings->GameUIImageMap.Contains(InImageTag))
+
+	return GameUIDeveloperSettings->GameUIImageMap.FindRef(InImageTag);
 }

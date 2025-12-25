@@ -15,7 +15,7 @@ void UWidget_OptionDetailsView::NativeOnInitialized()
 	ClearOptionDetailsView();
 }
 
-void UWidget_OptionDetailsView::UpdateOptionDetailsView(UListDataObject_Base* InListDataObject)
+void UWidget_OptionDetailsView::UpdateOptionDetailsView(const UListDataObject_Base* InListDataObject) const
 {
 	if (!InListDataObject)
 	{
@@ -28,6 +28,10 @@ void UWidget_OptionDetailsView::UpdateOptionDetailsView(UListDataObject_Base* In
 	{
 		CommonLazyImage_DescriptionImage->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
 		CommonLazyImage_DescriptionImage->SetBrushFromLazyTexture(InListDataObject->GetSoftDescriptionImage());
+	}
+	else
+	{
+		CommonLazyImage_DescriptionImage->SetVisibility(ESlateVisibility::Collapsed);
 	}
 	CommonRichTextBlock_Description->SetText(InListDataObject->GetDescriptionRichText());
 	CommonRichTextBlock_DynamicDetails->SetText(FText::GetEmpty());

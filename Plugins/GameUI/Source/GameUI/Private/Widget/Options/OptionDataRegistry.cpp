@@ -3,7 +3,9 @@
 
 #include "Widget/Options/OptionDataRegistry.h"
 
+#include "GameUIGameplayTags.h"
 #include "DeveloperSettings/GameUIGameUserSettings.h"
+#include "FunctionLibrary/GameUIFunctionLibrary.h"
 #include "Widget/Options/OptionsDataInteractionHelper.h"
 #include "Widget/Options/DataObject/ListDataObject_String.h"
 #include "Widget/Options/DataObject/ListDataObject_Collection.h"
@@ -57,7 +59,7 @@ void UOptionDataRegistry::InitGamePlayCollectionTab()
 		GameDifficulty->AddDynamicOptions(TEXT("Normal"), FText::FromString(TEXT("Normal")));
 		GameDifficulty->AddDynamicOptions(TEXT("Hard"), FText::FromString(TEXT("Hard")));
 		GameDifficulty->AddDynamicOptions(TEXT("Nightmare"), FText::FromString(TEXT("Nightmare")));
-		GameDifficulty->SetDefaultValueFromString(TEXT("Easy"));
+		GameDifficulty->SetDefaultValueFromString(TEXT("Normal"));
 		GameDifficulty->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(GetCurrentDifficulty));
 		GameDifficulty->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(SetCurrentDifficulty));
 		GameDifficulty->SetShouldApplySettingsImmediately(true);
@@ -80,6 +82,8 @@ void UOptionDataRegistry::InitGamePlayCollectionTab()
 		UListDataObject_String* TestItem = NewObject<UListDataObject_String>();
 		TestItem->SetDataID(FName("TestItem"));
 		TestItem->SetDataDisplayName(FText::FromString("TestItem"));
+		TestItem->SetSoftDescriptionImage(
+			UGameUIFunctionLibrary::GetSoftImageByTag(GameUIGameplayTags::GameUI_Image_TestImage));
 
 		GameplayTabCollection->AddChildListData(TestItem);
 	}
