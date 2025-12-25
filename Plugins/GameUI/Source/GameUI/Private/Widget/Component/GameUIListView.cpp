@@ -6,6 +6,7 @@
 #include "DataAsset/DataAsset_DataListEntryMapping.h"
 #include "Widget/Options/ListEntry/Widget_ListEntry_Base.h"
 #include "Widget/Options/DataObject/ListDataObject_Base.h"
+#include "Widget/Options/DataObject/ListDataObject_Collection.h"
 
 
 UUserWidget& UGameUIListView::OnGenerateEntryWidgetInternal(
@@ -29,6 +30,11 @@ UUserWidget& UGameUIListView::OnGenerateEntryWidgetInternal(
 	{
 		return Super::OnGenerateEntryWidgetInternal(Item, DesiredEntryClass, OwnerTable);
 	}
+}
+
+bool UGameUIListView::OnIsSelectableOrNavigableInternal(UObject* FirstSelectedItem)
+{
+	return !FirstSelectedItem->IsA<UListDataObject_Collection>();
 }
 
 #if WITH_EDITOR
