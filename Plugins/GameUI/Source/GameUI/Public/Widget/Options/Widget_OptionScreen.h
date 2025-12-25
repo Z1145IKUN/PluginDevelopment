@@ -72,4 +72,6 @@ private:
 
 	//It is called every time when List data modified
 	void OnListViewListDataModified(UListDataObject_Base* ModifiedData, EOptionsListDataModifyReason ModifiedReason);
+
+	bool bIsResettingData = false;
 };

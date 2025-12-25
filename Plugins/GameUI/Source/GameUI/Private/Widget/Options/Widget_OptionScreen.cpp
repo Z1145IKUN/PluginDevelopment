@@ -94,8 +94,35 @@ void UWidget_OptionScreen::OnResetActionTriggered()
 		FText::FromString(TEXT("Reset")),
 		FText::FromString(
 			TEXT("Do you want to reset all the settings under the ") + SelectedTabButtonName + TEXT(" Tab")),
-		[](EConfirmScreenButtonType ClickedButonType)
+		[this](EConfirmScreenButtonType ClickedButonType)
 		{
+			if (ClickedButonType != EConfirmScreenButtonType::Confirmed)
+			{
+				return;
+			}
+
+			bIsResettingData = true;
+			bool bHasDataFailedToReset = false;
+
+			for (UListDataObject_Base* DataToReset : ResettableListDataArray)
+			{
+				if (!DataToReset) return;
+
+				if (DataToReset->TryResetBackToDefaultValue())
+				{
+				}
+				else
+				{
+					bHasDataFailedToReset = true;
+				}
+			}
+
+			if (!bHasDataFailedToReset)
+			{
+				ResettableListDataArray.Empty();
+				RemoveActionBinding(ResetAction_Handle);
+			}
+			bIsResettingData = false;
 		}
 	);
 }
@@ -205,7 +232,7 @@ UOptionDataRegistry* UWidget_OptionScreen::GetOrCreateOptionDataRegistry()
 void UWidget_OptionScreen::OnListViewListDataModified(UListDataObject_Base* ModifiedData,
                                                       EOptionsListDataModifyReason ModifiedReason)
 {
-	if (!ModifiedData) return;
+	if (!ModifiedData || bIsResettingData) return;
 
 	if (ModifiedData->CanResetBackToDefaultValue())
 	{
