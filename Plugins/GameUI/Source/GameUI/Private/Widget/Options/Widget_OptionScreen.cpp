@@ -78,6 +78,19 @@ void UWidget_OptionScreen::NativeOnDeactivated()
 	UGameUIGameUserSettings::Get()->ApplySettings(true);
 }
 
+UWidget* UWidget_OptionScreen::NativeGetDesiredFocusTarget() const
+{
+	if (UObject* SelectedListDataObject = ListView_OptionsList->GetSelectedItem())
+	{
+		if (UWidget* SelectedListWidget = ListView_OptionsList->GetEntryWidgetFromItem(SelectedListDataObject))
+		{
+			return SelectedListWidget;
+		}
+	}
+
+	return Super::NativeGetDesiredFocusTarget();
+}
+
 void UWidget_OptionScreen::OnResetActionTriggered()
 {
 	if (ResettableListDataArray.IsEmpty()) return;
