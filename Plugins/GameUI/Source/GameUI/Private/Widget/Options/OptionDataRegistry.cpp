@@ -40,7 +40,21 @@ TArray<UListDataObject_Base*> UOptionDataRegistry::GetListSourceItemByTabId(cons
 
 	const UListDataObject_Collection* FoundTabCollection = *FoundTabCollectionPtr;
 
-	return FoundTabCollection->GetAllChildListData();
+	TArray<UListDataObject_Base*> AllChildListItems;
+
+	for (UListDataObject_Base* ChildListData : FoundTabCollection->GetAllChildListData())
+	{
+		if (!ChildListData) continue;
+
+		AllChildListItems.Add(ChildListData);
+
+		if (ChildListData->HasChildListData())
+		{
+			FindChildListDataRecursively(ChildListData, AllChildListItems);
+		}
+	}
+
+	return AllChildListItems;
 }
 
 void UOptionDataRegistry::InitGamePlayCollectionTab()
@@ -98,6 +112,24 @@ void UOptionDataRegistry::InitAudioCollectionTab()
 	AudioTabCollection->SetDataID(FName("AudioTabCollection"));
 	AudioTabCollection->SetDataDisplayName(FText::FromString("Audio"));
 
+	//Volume Category
+	{
+		UListDataObject_Collection* VolumeCategoryCollection = NewObject<UListDataObject_Collection>();
+		VolumeCategoryCollection->SetDataID(FName("VolumeCategoryCollection"));
+		VolumeCategoryCollection->SetDataDisplayName(FText::FromString("Volume"));
+
+		//Test Item
+		{
+			UListDataObject_String* TestItem = NewObject<UListDataObject_String>();
+			TestItem->SetDataID(FName("TestItem"));
+			TestItem->SetDataDisplayName(FText::FromString("TestItem"));
+
+			VolumeCategoryCollection->AddChildListData(TestItem);
+		}
+
+		AudioTabCollection->AddChildListData(VolumeCategoryCollection);
+	}
+
 	RegisteredOptionsTabCollections.Add(AudioTabCollection);
 }
 
@@ -119,4 +151,25 @@ void UOptionDataRegistry::InitControlCollectionTab()
 	ControlTabCollection->SetDataDisplayName(FText::FromString("Control"));
 
 	RegisteredOptionsTabCollections.Add(ControlTabCollection);
+}
+
+void UOptionDataRegistry::FindChildListDataRecursively(const UListDataObject_Base* InParentListData,
+                                                       TArray<UListDataObject_Base*>& OutFoundChildListDataArray) const
+{
+	if (!InParentListData || !InParentListData->HasChildListData())
+	{
+		return;
+	}
+
+	for (UListDataObject_Base* ChildListData : InParentListData->GetAllChildListData())
+	{
+		if (!ChildListData) continue;
+
+		OutFoundChildListDataArray.Add(ChildListData);
+
+		if (ChildListData->HasChildListData())
+		{
+			FindChildListDataRecursively(ChildListData, OutFoundChildListDataArray);
+		}
+	}
 }

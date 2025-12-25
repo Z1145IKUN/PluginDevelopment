@@ -36,4 +36,8 @@ private:
 
 	UPROPERTY(Transient)
 	TArray<UListDataObject_Collection*> RegisteredOptionsTabCollections;
+
+	void FindChildListDataRecursively(
+		const UListDataObject_Base* InParentListData,
+		TArray<UListDataObject_Base*>& OutFoundChildListDataArray) const;
 };
