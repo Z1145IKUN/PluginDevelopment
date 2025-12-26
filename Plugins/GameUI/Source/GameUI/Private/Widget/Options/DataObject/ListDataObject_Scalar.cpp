@@ -47,7 +47,31 @@ void UListDataObject_Scalar::SetCurrentValueFromSlider(const float InNewValue)
 	}
 }
 
-float UListDataObject_Scalar::StringToFloat(const FString& InString)
+bool UListDataObject_Scalar::CanResetBackToDefaultValue() const
+{
+	if (HasDefaultValue() && DataDynamicGetter)
+	{
+		const float DefaultValue = StringToFloat(GetDefaultValueAsString());
+		const float CurrentValue = StringToFloat(DataDynamicGetter->GetValueAsString());
+
+		return !FMath::IsNearlyEqual(DefaultValue, CurrentValue, 0.01f);
+	}
+	return false;
+}
+
+bool UListDataObject_Scalar::TryResetBackToDefaultValue()
+{
+	if (DataDynamicSetter && CanResetBackToDefaultValue())
+	{
+		DataDynamicSetter->SetValueFromString(GetDefaultValueAsString());
+
+		NotifyListDataModified(this, EOptionsListDataModifyReason::ResetToDefault);
+		return true;
+	}
+	return false;
+}
+
+float UListDataObject_Scalar::StringToFloat(const FString& InString) const
 {
 	float OutConvertedValue = 0.f;
 	LexFromString(OutConvertedValue, *InString);

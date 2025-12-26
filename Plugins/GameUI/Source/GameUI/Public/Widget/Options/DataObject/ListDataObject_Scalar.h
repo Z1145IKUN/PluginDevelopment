@@ -29,6 +29,12 @@ public:
 
 	void SetCurrentValueFromSlider(const float InNewValue);
 
+protected:
+	//~ Begin UListDataObject_Base interface
+	virtual bool CanResetBackToDefaultValue() const override;
+	virtual bool TryResetBackToDefaultValue() override;
+	//~ End UListDataObject_Base interface
+
 private:
 	TRange<float> DisplayValueRange = TRange<float>(0.f, 1.f);
 	TRange<float> OutputValueRange = TRange<float>(0.f, 1.f);
@@ -36,5 +42,5 @@ private:
 	ECommonNumericType DisplayNumericType = ECommonNumericType::Number;
 	FCommonNumberFormattingOptions NumberFormattingOptions;
 
-	float StringToFloat(const FString& InString);
+	float StringToFloat(const FString& InString) const;
 };
