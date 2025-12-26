@@ -1,0 +1,62 @@
+// Fill out your copyright notice in the Description page of Project Settings.
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "CommonUserWidget.h"
+#include "Blueprint/IUserObjectListEntry.h"
+#include "GameUITypes/GameUIEnums.h"
+#include "Widget_ListEntry_Base.generated.h"
+
+class UCommonTextBlock;
+class UListDataObject_Base;
+/**
+ * 
+ */
+UCLASS(Abstract, BlueprintType, meta=(DisableNativeTick))
+class GAMEUI_API UWidget_ListEntry_Base : public UCommonUserWidget, public IUserObjectListEntry
+{
+	GENERATED_BODY()
+
+public:
+	UFUNCTION(BlueprintImplementableEvent, meta=(DisplayName="On List Entry Widget Hovered"))
+	void BP_OnListEntryWidgetHovered(bool bWasHovered, bool bIsEntryWidgetStillSelected);
+
+	void NativeOnListEntryWidgetHovered(bool bWasHovered);
+
+protected:
+	//~ Begin IUserObjectListEntry Interface
+	virtual void NativeOnListItemObjectSet(UObject* ListItemObject) override;
+	virtual void NativeOnEntryReleased() override;
+	//~ Begin IUserObjectListEntry Interface
+
+	/**
+	 * the child class should override it to handle the initialization needed
+	 * @param InListDataObject 
+	 */
+	virtual void OnListDataObjectSet(UListDataObject_Base* InListDataObject);
+
+	/**
+	 * the child class should override this function to update UI values after the data object has been modified
+	 * the super call is not needed
+	 * @param ModifiedData 
+	 * @param ModifyReason 
+	 */
+	virtual void OnListDataObjectModified(UListDataObject_Base* ModifiedData,
+	                                      EOptionsListDataModifyReason ModifyReason);
+
+	void SelectedThisEntryWidget();
+
+	//~ Begin UUserWidget Interface
+	virtual FReply NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent) override;
+	//~ Begin UUserWidget Interface
+
+	UFUNCTION(BlueprintImplementableEvent, meta=( DisplayName="Get Widget To Focus For Gamepad" ))
+	UWidget* BP_GetWidgetToFocusForGamepad() const;
+
+private:
+	//***** Bound Widget *****//
+	UPROPERTY(BlueprintReadOnly, meta=(BindWidgetOptional, AllowPrivateAccess = "true"))
+	TObjectPtr<UCommonTextBlock> CommonTextBlock_SettingDisplayName;
+	//***** Bound Widget *****//
+};
