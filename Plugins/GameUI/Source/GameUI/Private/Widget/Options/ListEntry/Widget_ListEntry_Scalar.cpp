@@ -11,6 +11,7 @@ void UWidget_ListEntry_Scalar::NativeOnInitialized()
 	Super::NativeOnInitialized();
 
 	AnalogSlider_SettingSlider->OnValueChanged.AddUniqueDynamic(this, &ThisClass::OnSliderValueChanged);
+	AnalogSlider_SettingSlider->OnMouseCaptureBegin.AddUniqueDynamic(this, &ThisClass::OnSliderMouseCaptureBegin);
 }
 
 void UWidget_ListEntry_Scalar::OnListDataObjectSet(UListDataObject_Base* InListDataObject)
@@ -45,4 +46,9 @@ void UWidget_ListEntry_Scalar::OnSliderValueChanged(float InNewValue)
 	{
 		ScalarDataObject->SetCurrentValueFromSlider(InNewValue);
 	}
+}
+
+void UWidget_ListEntry_Scalar::OnSliderMouseCaptureBegin()
+{
+	SelectedThisEntryWidget();
 }

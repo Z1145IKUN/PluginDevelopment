@@ -43,4 +43,7 @@ private:
 
 	UFUNCTION()
 	void OnSliderValueChanged(float InNewValue);
+
+	UFUNCTION()
+	void OnSliderMouseCaptureBegin();
 };
