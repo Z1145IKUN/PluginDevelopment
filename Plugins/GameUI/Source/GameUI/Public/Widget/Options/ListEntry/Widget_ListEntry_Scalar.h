@@ -40,4 +40,7 @@ private:
 
 	UPROPERTY(Transient)
 	TObjectPtr<UListDataObject_Scalar> ScalarDataObject;
+
+	UFUNCTION()
+	void OnSliderValueChanged(float InNewValue);
 };

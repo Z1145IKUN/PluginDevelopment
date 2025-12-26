@@ -3,6 +3,11 @@
 
 #include "DeveloperSettings/GameUIGameUserSettings.h"
 
+UGameUIGameUserSettings::UGameUIGameUserSettings()
+{
+	OverallVolume = 1.f;
+}
+
 UGameUIGameUserSettings* UGameUIGameUserSettings::Get()
 {
 	if (GEngine)
@@ -20,4 +25,14 @@ FString UGameUIGameUserSettings::GetCurrentDifficulty() const
 void UGameUIGameUserSettings::SetCurrentDifficulty(const FString& InNewDifficulty)
 {
 	CurrentGameDifficulty = InNewDifficulty;
+}
+
+float UGameUIGameUserSettings::GetOverallVolume() const
+{
+	return OverallVolume;
+}
+
+void UGameUIGameUserSettings::SetOverallVolume(const float InOverallVolume)
+{
+	OverallVolume = InOverallVolume;
 }

@@ -27,6 +27,8 @@ public:
 
 	float GetCurrentValue();
 
+	void SetCurrentValueFromSlider(const float InNewValue);
+
 private:
 	TRange<float> DisplayValueRange = TRange<float>(0.f, 1.f);
 	TRange<float> OutputValueRange = TRange<float>(0.f, 1.f);

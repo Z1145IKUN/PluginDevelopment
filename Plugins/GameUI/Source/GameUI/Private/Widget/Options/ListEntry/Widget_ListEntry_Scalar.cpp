@@ -9,6 +9,8 @@
 void UWidget_ListEntry_Scalar::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
+
+	AnalogSlider_SettingSlider->OnValueChanged.AddUniqueDynamic(this, &ThisClass::OnSliderValueChanged);
 }
 
 void UWidget_ListEntry_Scalar::OnListDataObjectSet(UListDataObject_Base* InListDataObject)
@@ -34,5 +36,13 @@ void UWidget_ListEntry_Scalar::OnListDataObjectModified(UListDataObject_Base* Mo
 	{
 		CommonNumericTextBlock_SettingValue->SetCurrentValue(ScalarDataObject->GetCurrentValue());
 		AnalogSlider_SettingSlider->SetValue(ScalarDataObject->GetCurrentValue());
+	}
+}
+
+void UWidget_ListEntry_Scalar::OnSliderValueChanged(float InNewValue)
+{
+	if (ScalarDataObject)
+	{
+		ScalarDataObject->SetCurrentValueFromSlider(InNewValue);
 	}
 }

@@ -15,6 +15,8 @@ class GAMEUI_API UGameUIGameUserSettings : public UGameUserSettings
 	GENERATED_BODY()
 
 public:
+	UGameUIGameUserSettings();
+
 	static UGameUIGameUserSettings* Get();
 
 	//***** Gameplay Collection Tab *****//
@@ -24,7 +26,22 @@ public:
 	void SetCurrentDifficulty(const FString& InNewDifficulty);
 	//***** Gameplay Collection Tab *****//
 
+	//***** Audio Collection Tab *****//
+	UFUNCTION()
+	float GetOverallVolume() const;
+
+	UFUNCTION()
+	void SetOverallVolume(const float InOverallVolume);
+	//***** Audio Collection Tab *****//
+
 private:
+	//***** Gameplay Collection Tab *****//
 	UPROPERTY(Config)
 	FString CurrentGameDifficulty;
+	//***** Gameplay Collection Tab *****//
+
+	//***** Audio Collection Tab *****//
+	UPROPERTY(Config)
+	float OverallVolume;
+	//***** Audio Collection Tab *****//
 };
