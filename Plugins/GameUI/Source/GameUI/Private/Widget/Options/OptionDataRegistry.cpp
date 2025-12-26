@@ -130,7 +130,7 @@ void UOptionDataRegistry::InitAudioCollectionTab()
 			OverallVolume->SetSliderStepSize(0.01f);
 			OverallVolume->SetDefaultValueFromString(LexToString(1.f));
 			OverallVolume->SetDisplayNumericType(ECommonNumericType::Percentage);
-			OverallVolume->SetNUmberFormattingOptions(UListDataObject_Scalar::NoDecimal());
+			OverallVolume->SetNumberFormattingOptions(UListDataObject_Scalar::NoDecimal());
 			//TODO: Set data dynamic getter and setter
 
 			VolumeCategoryCollection->AddChildListData(OverallVolume);

@@ -3,6 +3,8 @@
 
 #include "Widget/Options/DataObject/ListDataObject_Scalar.h"
 
+#include "Widget/Options/OptionsDataInteractionHelper.h"
+
 FCommonNumberFormattingOptions UListDataObject_Scalar::NoDecimal()
 {
 	FCommonNumberFormattingOptions Options;
@@ -15,4 +17,24 @@ FCommonNumberFormattingOptions UListDataObject_Scalar::WithDecimal(int32 NumFrac
 	FCommonNumberFormattingOptions Options;
 	Options.MaximumFractionalDigits = NumFracDigit;
 	return Options;
+}
+
+float UListDataObject_Scalar::GetCurrentValue()
+{
+	if (DataDynamicGetter)
+	{
+		return FMath::GetMappedRangeValueClamped(
+			OutputValueRange,
+			DisplayValueRange,
+			StringToFloat(DataDynamicGetter->GetValueAsString())
+		);
+	}
+	return 0.f;
+}
+
+float UListDataObject_Scalar::StringToFloat(const FString& InString)
+{
+	float OutConvertedValue = 0.f;
+	LexFromString(OutConvertedValue, *InString);
+	return OutConvertedValue;
 }

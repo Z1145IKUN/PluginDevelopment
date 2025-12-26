@@ -9,6 +9,7 @@
 
 class UCommonNumericTextBlock;
 class UAnalogSlider;
+class UListDataObject_Scalar;
 /**
  * 
  */
@@ -36,4 +37,7 @@ private:
 	UPROPERTY(BlueprintReadOnly, meta=(AllowPrivateAccess="true", BindWidget))
 	TObjectPtr<UAnalogSlider> AnalogSlider_SettingSlider;
 	//***** Bound Widget *****//
+
+	UPROPERTY(Transient)
+	TObjectPtr<UListDataObject_Scalar> ScalarDataObject;
 };
