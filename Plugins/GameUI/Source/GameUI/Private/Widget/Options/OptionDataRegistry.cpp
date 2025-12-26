@@ -138,6 +138,25 @@ void UOptionDataRegistry::InitAudioCollectionTab()
 			VolumeCategoryCollection->AddChildListData(OverallVolume);
 		}
 
+		//Music volume
+		{
+			UListDataObject_Scalar* MusicVolume = NewObject<UListDataObject_Scalar>();
+			MusicVolume->SetDataID(FName("MusicVolume"));
+			MusicVolume->SetDataDisplayName(FText::FromString(TEXT("Music Volume")));
+			MusicVolume->SetDescriptionRichText(FText::FromString(TEXT("This is description for Music volume")));
+			MusicVolume->SetDisplayValueRange(TRange<float>(0.0f, 1.0f));
+			MusicVolume->SetOutputValueRange(TRange<float>(0.0f, 2.0f));
+			MusicVolume->SetSliderStepSize(0.01f);
+			MusicVolume->SetDefaultValueFromString(LexToString(1.f));
+			MusicVolume->SetDisplayNumericType(ECommonNumericType::Percentage);
+			MusicVolume->SetNumberFormattingOptions(UListDataObject_Scalar::NoDecimal());
+			MusicVolume->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(GetMusicVolume));
+			MusicVolume->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(SetMusicVolume));
+			MusicVolume->SetShouldApplySettingsImmediately(true);
+
+			VolumeCategoryCollection->AddChildListData(MusicVolume);
+		}
+
 		AudioTabCollection->AddChildListData(VolumeCategoryCollection);
 	}
 
