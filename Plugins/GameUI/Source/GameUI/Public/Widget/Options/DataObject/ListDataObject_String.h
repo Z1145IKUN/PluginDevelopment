@@ -40,3 +40,28 @@ protected:
 	TArray<FString> AvailableOptionsStringArray;
 	TArray<FText> AvailableOptionsTextArray;
 };
+
+
+UCLASS()
+class GAMEUI_API UListDataObject_StringBool : public UListDataObject_String
+{
+	GENERATED_BODY()
+
+public:
+	void OverrideTrueDisplayText(const FText& InTrueText);
+	void OverrideFalseDisplayText(const FText& InFalseText);
+
+	void SetTrueAsDefaultString();
+	void SetFalseAsDefaultString();
+
+protected:
+	//~ Begin UListDataObject_Base interface
+	virtual void OnDataListObjectInitialized() override;
+	//~ End UListDataObject_Base interface
+
+private:
+	void TryInitBoolValues();
+
+	const FString TrueString = TEXT("true");
+	const FString FalseString = TEXT("false");
+};

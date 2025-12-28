@@ -153,3 +153,51 @@ bool UListDataObject_String::SetDisplayTextFromCurrentStringValue(const FString&
 
 	return false;
 }
+
+//**************** UListDataObject_StringBool **********************//
+
+void UListDataObject_StringBool::OverrideTrueDisplayText(const FText& InTrueText)
+{
+	if (!AvailableOptionsStringArray.Contains(TrueString))
+	{
+		AddDynamicOptions(TrueString, InTrueText);
+	}
+}
+
+void UListDataObject_StringBool::OverrideFalseDisplayText(const FText& InFalseText)
+{
+	if (!AvailableOptionsStringArray.Contains(FalseString))
+	{
+		AddDynamicOptions(FalseString, InFalseText);
+	}
+}
+
+void UListDataObject_StringBool::SetTrueAsDefaultString()
+{
+	SetDefaultValueFromString(TrueString);
+}
+
+void UListDataObject_StringBool::SetFalseAsDefaultString()
+{
+	SetDefaultValueFromString(FalseString);
+}
+
+void UListDataObject_StringBool::OnDataListObjectInitialized()
+{
+	TryInitBoolValues();
+
+	Super::OnDataListObjectInitialized();
+}
+
+void UListDataObject_StringBool::TryInitBoolValues()
+{
+	if (!AvailableOptionsStringArray.Contains(TrueString))
+	{
+		AddDynamicOptions(TrueString, FText::FromString(TEXT("ON")));
+	}
+
+	if (!AvailableOptionsStringArray.Contains(FalseString))
+	{
+		AddDynamicOptions(FalseString, FText::FromString(TEXT("OFF")));
+	}
+}
