@@ -3,9 +3,9 @@
 
 #include "Widget/Options/OptionDataRegistry.h"
 
-#include "GameUIGameplayTags.h"
+// #include "GameUIGameplayTags.h"
 #include "DeveloperSettings/GameUIGameUserSettings.h"
-#include "FunctionLibrary/GameUIFunctionLibrary.h"
+// #include "FunctionLibrary/GameUIFunctionLibrary.h"
 #include "Widget/Options/OptionsDataInteractionHelper.h"
 #include "Widget/Options/DataObject/ListDataObject_String.h"
 #include "Widget/Options/DataObject/ListDataObject_Collection.h"
@@ -232,6 +232,32 @@ void UOptionDataRegistry::InitVideoCollectionTab()
 
 	VideoTabCollection->SetDataID(FName("VideoTabCollection"));
 	VideoTabCollection->SetDataDisplayName(FText::FromString("Video"));
+
+	// Display Category Collection 
+	{
+		UListDataObject_Collection* DisplayCategoryCollection = NewObject<UListDataObject_Collection>();
+		DisplayCategoryCollection->SetDataID(FName("DisplayCategoryCollection"));
+		DisplayCategoryCollection->SetDataDisplayName(FText::FromString(TEXT("Display")));
+
+		//Window mode
+		{
+			UListDataObject_StringEnum* WindowMode = NewObject<UListDataObject_StringEnum>();
+			WindowMode->SetDataID(FName("WindowMode"));
+			WindowMode->SetDataDisplayName(FText::FromString(TEXT("Window Mode")));
+			WindowMode->SetDescriptionRichText(FText::FromString(TEXT("Adjust the window mode")));
+			WindowMode->AddEnumOption(EWindowMode::Fullscreen, FText::FromString(TEXT("Fullscreen")));
+			WindowMode->AddEnumOption(EWindowMode::WindowedFullscreen, FText::FromString(TEXT("Borderless Window")));
+			WindowMode->AddEnumOption(EWindowMode::Windowed, FText::FromString(TEXT("Windowed")));
+			WindowMode->SetDefaultValueFromEnumOption(EWindowMode::WindowedFullscreen);
+			WindowMode->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(GetFullscreenMode));
+			WindowMode->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(SetFullscreenMode));
+			WindowMode->SetShouldApplySettingsImmediately(true);
+
+			DisplayCategoryCollection->AddChildListData(WindowMode);
+		}
+
+		VideoTabCollection->AddChildListData(DisplayCategoryCollection);
+	}
 
 	RegisteredOptionsTabCollections.Add(VideoTabCollection);
 }

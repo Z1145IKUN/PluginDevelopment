@@ -53,6 +53,9 @@ public:
 	void SetUseHDRAudio(bool InUseHDRAudio);
 	//***** Audio Collection Tab *****//
 
+	//***** Video Collection Tab *****//
+	//***** Video Collection Tab *****//
+
 private:
 	//***** Gameplay Collection Tab *****//
 	UPROPERTY(Config)
@@ -75,4 +78,7 @@ private:
 	UPROPERTY(Config)
 	bool UseHDRAudio;
 	//***** Audio Collection Tab *****//
+
+	//***** Video Collection Tab *****//
+	//***** Video Collection Tab *****//
 };
