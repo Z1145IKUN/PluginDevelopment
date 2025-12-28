@@ -60,6 +60,7 @@ protected:
 	/**
 	 * is empty in the base class
 	 * child class should override it to initialize itself
+	 * It will be called only when it is added to parent data.
 	 */
 	virtual void OnDataListObjectInitialized();
 

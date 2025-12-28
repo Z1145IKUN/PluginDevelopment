@@ -8,6 +8,7 @@ UGameUIGameUserSettings::UGameUIGameUserSettings()
 	OverallVolume = 1.f;
 	MusicVolume = 1.f;
 	SoundFXVolume = 1.f;
+	AllowBackgroundAudio = true;
 }
 
 UGameUIGameUserSettings* UGameUIGameUserSettings::Get()
@@ -57,4 +58,14 @@ float UGameUIGameUserSettings::GetSoundFXVolume() const
 void UGameUIGameUserSettings::SetSoundFXVolume(const float InMusicVolume)
 {
 	SoundFXVolume = InMusicVolume;
+}
+
+bool UGameUIGameUserSettings::GetAllowBackgroundAudio() const
+{
+	return AllowBackgroundAudio;
+}
+
+void UGameUIGameUserSettings::SetAllowBackgroundAudio(bool InAllowBackgroundAudio)
+{
+	AllowBackgroundAudio = InAllowBackgroundAudio;
 }

@@ -92,16 +92,16 @@ void UOptionDataRegistry::InitGamePlayCollectionTab()
 		GameplayTabCollection->AddChildListData(GameDifficulty);
 	}
 
-	//Test Item
-	{
-		UListDataObject_String* TestItem = NewObject<UListDataObject_String>();
-		TestItem->SetDataID(FName("TestItem"));
-		TestItem->SetDataDisplayName(FText::FromString("TestItem"));
-		TestItem->SetSoftDescriptionImage(
-			UGameUIFunctionLibrary::GetSoftImageByTag(GameUIGameplayTags::GameUI_Image_TestImage));
-
-		GameplayTabCollection->AddChildListData(TestItem);
-	}
+	// //Test Item
+	// {
+	// 	UListDataObject_String* TestItem = NewObject<UListDataObject_String>();
+	// 	TestItem->SetDataID(FName("TestItem"));
+	// 	TestItem->SetDataDisplayName(FText::FromString("TestItem"));
+	// 	TestItem->SetSoftDescriptionImage(
+	// 		UGameUIFunctionLibrary::GetSoftImageByTag(GameUIGameplayTags::GameUI_Image_TestImage));
+	//
+	// 	GameplayTabCollection->AddChildListData(TestItem);
+	// }
 
 	RegisteredOptionsTabCollections.Add(GameplayTabCollection);
 }
@@ -178,6 +178,32 @@ void UOptionDataRegistry::InitAudioCollectionTab()
 		}
 
 		AudioTabCollection->AddChildListData(VolumeCategoryCollection);
+	}
+
+	//Sound Category
+	{
+		UListDataObject_Collection* SoundCategory = NewObject<UListDataObject_Collection>();
+		SoundCategory->SetDataID(FName("SoundCategory"));
+		SoundCategory->SetDataDisplayName(FText::FromString(TEXT("Sound")));
+
+		//Allow Background Audio
+		{
+			UListDataObject_StringBool* AllowBackgroundAudio = NewObject<UListDataObject_StringBool>();
+			AllowBackgroundAudio->SetDataID(FName("AllowBackgroundAudio"));
+			AllowBackgroundAudio->SetDataDisplayName(FText::FromString(TEXT("Allow Background Audio")));
+			AllowBackgroundAudio->
+				SetDescriptionRichText(FText::FromString(TEXT("Turn on or off the background Audio")));
+			AllowBackgroundAudio->OverrideTrueDisplayText(FText::FromString(TEXT("Enable")));
+			AllowBackgroundAudio->OverrideFalseDisplayText(FText::FromString(TEXT("Disable")));
+			AllowBackgroundAudio->SetTrueAsDefaultString();
+			AllowBackgroundAudio->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(GetAllowBackgroundAudio));
+			AllowBackgroundAudio->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(GetAllowBackgroundAudio));
+			AllowBackgroundAudio->SetShouldApplySettingsImmediately(true);
+
+			SoundCategory->AddChildListData(AllowBackgroundAudio);
+		}
+
+		AudioTabCollection->AddChildListData(SoundCategory);
 	}
 
 	RegisteredOptionsTabCollections.Add(AudioTabCollection);
