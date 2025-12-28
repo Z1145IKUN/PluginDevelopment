@@ -157,6 +157,26 @@ void UOptionDataRegistry::InitAudioCollectionTab()
 			VolumeCategoryCollection->AddChildListData(MusicVolume);
 		}
 
+		//Sound FX volume
+		{
+			UListDataObject_Scalar* SoundFXVolume = NewObject<UListDataObject_Scalar>();
+			SoundFXVolume->SetDataID(FName("SoundFXVolume"));
+			SoundFXVolume->SetDataDisplayName(FText::FromString(TEXT("Sound Effects Volume")));
+			SoundFXVolume->SetDescriptionRichText(
+				FText::FromString(TEXT("This is description for Sound Effects volume")));
+			SoundFXVolume->SetDisplayValueRange(TRange<float>(0.0f, 1.0f));
+			SoundFXVolume->SetOutputValueRange(TRange<float>(0.0f, 2.0f));
+			SoundFXVolume->SetSliderStepSize(0.01f);
+			SoundFXVolume->SetDefaultValueFromString(LexToString(1.f));
+			SoundFXVolume->SetDisplayNumericType(ECommonNumericType::Percentage);
+			SoundFXVolume->SetNumberFormattingOptions(UListDataObject_Scalar::NoDecimal());
+			SoundFXVolume->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(GetSoundFXVolume));
+			SoundFXVolume->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(SetSoundFXVolume));
+			SoundFXVolume->SetShouldApplySettingsImmediately(true);
+
+			VolumeCategoryCollection->AddChildListData(SoundFXVolume);
+		}
+
 		AudioTabCollection->AddChildListData(VolumeCategoryCollection);
 	}
 

@@ -7,6 +7,7 @@ UGameUIGameUserSettings::UGameUIGameUserSettings()
 {
 	OverallVolume = 1.f;
 	MusicVolume = 1.f;
+	SoundFXVolume = 1.f;
 }
 
 UGameUIGameUserSettings* UGameUIGameUserSettings::Get()
@@ -46,4 +47,14 @@ float UGameUIGameUserSettings::GetMusicVolume() const
 void UGameUIGameUserSettings::SetMusicVolume(const float InMusicVolume)
 {
 	MusicVolume = InMusicVolume;
+}
+
+float UGameUIGameUserSettings::GetSoundFXVolume() const
+{
+	return SoundFXVolume;
+}
+
+void UGameUIGameUserSettings::SetSoundFXVolume(const float InMusicVolume)
+{
+	SoundFXVolume = InMusicVolume;
 }
