@@ -9,6 +9,7 @@ UGameUIGameUserSettings::UGameUIGameUserSettings()
 	MusicVolume = 1.f;
 	SoundFXVolume = 1.f;
 	AllowBackgroundAudio = true;
+	UseHDRAudio = true;
 }
 
 UGameUIGameUserSettings* UGameUIGameUserSettings::Get()
@@ -68,4 +69,14 @@ bool UGameUIGameUserSettings::GetAllowBackgroundAudio() const
 void UGameUIGameUserSettings::SetAllowBackgroundAudio(bool InAllowBackgroundAudio)
 {
 	AllowBackgroundAudio = InAllowBackgroundAudio;
+}
+
+bool UGameUIGameUserSettings::GetUseHDRAudio() const
+{
+	return UseHDRAudio;
+}
+
+void UGameUIGameUserSettings::SetUseHDRAudio(bool InUseHDRAudio)
+{
+	UseHDRAudio = InUseHDRAudio;
 }

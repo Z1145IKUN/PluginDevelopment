@@ -197,10 +197,27 @@ void UOptionDataRegistry::InitAudioCollectionTab()
 			AllowBackgroundAudio->OverrideFalseDisplayText(FText::FromString(TEXT("Disable")));
 			AllowBackgroundAudio->SetTrueAsDefaultString();
 			AllowBackgroundAudio->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(GetAllowBackgroundAudio));
-			AllowBackgroundAudio->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(GetAllowBackgroundAudio));
+			AllowBackgroundAudio->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(SetAllowBackgroundAudio));
 			AllowBackgroundAudio->SetShouldApplySettingsImmediately(true);
 
 			SoundCategory->AddChildListData(AllowBackgroundAudio);
+		}
+
+		//Use HDR Audio
+		{
+			UListDataObject_StringBool* UseHDRAudio = NewObject<UListDataObject_StringBool>();
+			UseHDRAudio->SetDataID(FName("UseHDRAudio"));
+			UseHDRAudio->SetDataDisplayName(FText::FromString(TEXT("Use HDR Audio")));
+			UseHDRAudio->
+				SetDescriptionRichText(FText::FromString(TEXT("Turn on or off the HDR Audio")));
+			UseHDRAudio->OverrideTrueDisplayText(FText::FromString(TEXT("Enable")));
+			UseHDRAudio->OverrideFalseDisplayText(FText::FromString(TEXT("Disable")));
+			UseHDRAudio->SetTrueAsDefaultString();
+			UseHDRAudio->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(GetUseHDRAudio));
+			UseHDRAudio->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(SetUseHDRAudio));
+			UseHDRAudio->SetShouldApplySettingsImmediately(true);
+
+			SoundCategory->AddChildListData(UseHDRAudio);
 		}
 
 		AudioTabCollection->AddChildListData(SoundCategory);
