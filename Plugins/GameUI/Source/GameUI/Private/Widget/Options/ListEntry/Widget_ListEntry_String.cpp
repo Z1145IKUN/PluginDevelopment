@@ -8,6 +8,14 @@
 #include "Widget/Options/DataObject/ListDataObject_String.h"
 #include "Widget/Component/GameUIButtonBase.h"
 
+void UWidget_ListEntry_String::NativeOnInitialized()
+{
+	Super::NativeOnInitialized();
+
+	CommonButton_Previous->OnClicked().AddUObject(this, &ThisClass::OnPreviousButtonClicked);
+	CommonButton_Next->OnClicked().AddUObject(this, &ThisClass::OnNextButtonClicked);
+}
+
 void UWidget_ListEntry_String::OnListDataObjectSet(UListDataObject_Base* InListDataObject)
 {
 	Super::OnListDataObjectSet(InListDataObject);
@@ -32,14 +40,6 @@ void UWidget_ListEntry_String::OnListDataObjectModified(UListDataObject_Base* Mo
 	{
 		CommonRotator_Options->SetSelectedOptionByText(StringListDataObject->GetCurrentDisplayText());
 	}
-}
-
-void UWidget_ListEntry_String::NativeOnInitialized()
-{
-	Super::NativeOnInitialized();
-
-	CommonButton_Previous->OnClicked().AddUObject(this, &ThisClass::OnPreviousButtonClicked);
-	CommonButton_Next->OnClicked().AddUObject(this, &ThisClass::OnNextButtonClicked);
 }
 
 void UWidget_ListEntry_String::OnPreviousButtonClicked()

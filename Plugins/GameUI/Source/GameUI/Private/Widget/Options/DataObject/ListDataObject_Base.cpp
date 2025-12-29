@@ -2,7 +2,6 @@
 
 
 #include "Widget/Options/DataObject/ListDataObject_Base.h"
-
 #include "DeveloperSettings/GameUIGameUserSettings.h"
 
 TArray<UListDataObject_Base*> UListDataObject_Base::GetAllChildListData() const

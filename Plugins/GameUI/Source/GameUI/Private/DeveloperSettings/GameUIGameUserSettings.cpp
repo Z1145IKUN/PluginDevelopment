@@ -3,6 +3,8 @@
 
 #include "DeveloperSettings/GameUIGameUserSettings.h"
 
+#include "FunctionLibrary/GameUIFunctionLibrary.h"
+
 UGameUIGameUserSettings::UGameUIGameUserSettings()
 {
 	OverallVolume = 1.f;
@@ -79,4 +81,16 @@ bool UGameUIGameUserSettings::GetUseHDRAudio() const
 void UGameUIGameUserSettings::SetUseHDRAudio(bool InUseHDRAudio)
 {
 	UseHDRAudio = InUseHDRAudio;
+}
+
+FString UGameUIGameUserSettings::GetWindowMode() const
+{
+	return UGameUIFunctionLibrary::EnumToString(GetFullscreenMode());
+}
+
+void UGameUIGameUserSettings::SetWindowMode(const FString& InWindowMode)
+{
+	WindowMode = InWindowMode;
+
+	SetFullscreenMode(UGameUIFunctionLibrary::StringToEnum<EWindowMode::Type>(WindowMode));
 }

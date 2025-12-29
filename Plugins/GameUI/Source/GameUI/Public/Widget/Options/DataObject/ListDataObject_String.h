@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "ListDataObject_Value.h"
+#include "FunctionLibrary/GameUIFunctionLibrary.h"
 #include "ListDataObject_String.generated.h"
 
 /**
@@ -75,24 +76,20 @@ public:
 	template <typename EnumType>
 	void AddEnumOption(EnumType InEnumOption, const FText& InDisplayText)
 	{
-		const UEnum* StaticEnumOption = StaticEnum<EnumType>();
-		const FString ConvertedEnumString = StaticEnumOption->GetNameStringByValue(InEnumOption);
-
+		const FString ConvertedEnumString = UGameUIFunctionLibrary::EnumToString(InEnumOption);
 		AddDynamicOptions(ConvertedEnumString, InDisplayText);
 	}
 
 	template <typename EnumType>
 	EnumType GetCurrentValueAsEnum() const
 	{
-		const UEnum* StaticEnumOption = StaticEnum<EnumType>();
-		return static_cast<EnumType>(StaticEnumOption->GetValueByNameString(CurrentStringValue));
+		return UGameUIFunctionLibrary::StringToEnum<EnumType>(CurrentStringValue);
 	}
 
 	template <typename EnumType>
 	void SetDefaultValueFromEnumOption(EnumType InEnumOption)
 	{
-		const UEnum* StaticEnumOption = StaticEnum<EnumType>();
-		const FString ConvertedEnumString = StaticEnumOption->GetNameStringByValue(InEnumOption);
+		const FString ConvertedEnumString = UGameUIFunctionLibrary::EnumToString(InEnumOption);
 
 		SetDefaultValueFromString(ConvertedEnumString);
 	}

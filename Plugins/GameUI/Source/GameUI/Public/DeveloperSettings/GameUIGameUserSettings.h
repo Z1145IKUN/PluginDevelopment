@@ -54,6 +54,10 @@ public:
 	//***** Audio Collection Tab *****//
 
 	//***** Video Collection Tab *****//
+	UFUNCTION()
+	FString GetWindowMode() const;
+	UFUNCTION()
+	void SetWindowMode(const FString& InWindowMode);
 	//***** Video Collection Tab *****//
 
 private:
@@ -80,5 +84,7 @@ private:
 	//***** Audio Collection Tab *****//
 
 	//***** Video Collection Tab *****//
+	UPROPERTY(config)
+	FString WindowMode;
 	//***** Video Collection Tab *****//
 };

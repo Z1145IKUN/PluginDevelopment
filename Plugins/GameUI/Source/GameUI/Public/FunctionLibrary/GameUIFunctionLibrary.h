@@ -24,4 +24,18 @@ public:
 	UFUNCTION(BlueprintPure, Category = "GameUI|FunctionLibrary")
 	static TSoftObjectPtr<UTexture2D> GetSoftImageByTag(
 		UPARAM(meta=(Categories = "GameUI.Image")) FGameplayTag InImageTag);
+
+	template <typename EnumType>
+	static EnumType StringToEnum(const FString& InString)
+	{
+		const UEnum* StaticEnumValue = StaticEnum<EnumType>();
+		return static_cast<EnumType>(StaticEnumValue->GetValueByNameString(InString));
+	}
+
+	template <typename EnumType>
+	static FString EnumToString(EnumType InEnumValue)
+	{
+		const UEnum* StaticEnumValue = StaticEnum<EnumType>();
+		return StaticEnumValue->GetNameStringByValue(InEnumValue);
+	}
 };

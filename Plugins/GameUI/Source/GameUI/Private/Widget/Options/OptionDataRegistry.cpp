@@ -251,8 +251,8 @@ void UOptionDataRegistry::InitVideoCollectionTab()
 			                          FText::FromString(TEXT("Borderless Window")));
 			WindowMode->AddEnumOption(EWindowMode::Type::Windowed, FText::FromString(TEXT("Windowed")));
 			WindowMode->SetDefaultValueFromEnumOption(EWindowMode::Type::WindowedFullscreen);
-			WindowMode->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(GetFullscreenMode));
-			WindowMode->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(SetFullscreenMode));
+			WindowMode->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(GetWindowMode));
+			WindowMode->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(SetWindowMode));
 			WindowMode->SetShouldApplySettingsImmediately(true);
 
 			DisplayCategoryCollection->AddChildListData(WindowMode);
