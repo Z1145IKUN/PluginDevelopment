@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
 #include "GameUITypes/GameUIEnums.h"
+#include "GameUITypes/GameUIStructs.h"
 #include "ListDataObject_Base.generated.h"
 
 #define LIST_DATA_ACCESSOR(DataType,PropertyName) \
@@ -56,6 +57,11 @@ public:
 	virtual bool CanResetBackToDefaultValue() const;
 	virtual bool TryResetBackToDefaultValue();
 
+	//Get call by from OptionsDataRegistry for adding in edit condition for the constructed list data object
+	void AddEditCondition(const FOptionsDataEditConditionDescriptor& InEditCondition);
+
+	bool IsDataCurrentlyEditable();
+
 protected:
 	/**
 	 * is empty in the base class
@@ -68,6 +74,12 @@ protected:
 		UListDataObject_Base* ModifiedListData,
 		EOptionsListDataModifyReason ModifyReason = EOptionsListDataModifyReason::DirectlyModify);
 
+
+	//the child class should override this to allow the value to be set the force string value;
+	virtual bool CanSetToForceStringValue(const FString& InForceStringValue) const;
+	//the child class should override this to specify how to set the current value to the force value
+	virtual void OnSetToForceStringValue(const FString& InForceStringValue);
+
 private:
 	FName DataID;
 	FText DataDisplayName;
@@ -79,4 +91,7 @@ private:
 	TObjectPtr<UListDataObject_Base> ParentData;
 
 	bool bShouldApplyChangesImmediately = false;
+
+	UPROPERTY(Transient)
+	TArray<FOptionsDataEditConditionDescriptor> EditConditionDescriptorArray;
 };

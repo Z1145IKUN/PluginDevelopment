@@ -39,6 +39,50 @@ bool UListDataObject_Base::TryResetBackToDefaultValue()
 	return false;
 }
 
+void UListDataObject_Base::AddEditCondition(const FOptionsDataEditConditionDescriptor& InEditCondition)
+{
+	EditConditionDescriptorArray.Add(InEditCondition);
+}
+
+bool UListDataObject_Base::IsDataCurrentlyEditable()
+{
+	bool bIsEditable = true;
+
+	if (EditConditionDescriptorArray.IsEmpty())
+	{
+		return bIsEditable;
+	}
+
+	FString CachedDisabledRichReason;
+
+	for (const FOptionsDataEditConditionDescriptor& EditCondition : EditConditionDescriptorArray)
+	{
+		if (!EditCondition.IsValid() || EditCondition.IsEditConditionMet())
+		{
+			continue;
+		}
+
+		bIsEditable = false;
+
+		CachedDisabledRichReason.Append(EditCondition.GetDisabledRichReason());
+
+		SetDisableRichText(FText::FromString(CachedDisabledRichReason));
+
+		if (EditCondition.HasForceStringValue())
+		{
+			const FString ForcedStringValue = EditCondition.GetDisabledForcedStringValue();
+
+			//if current value this data object has can be set to the force value 
+			if (CanSetToForceStringValue(ForcedStringValue))
+			{
+				OnSetToForceStringValue(ForcedStringValue);
+			}
+		}
+	}
+
+	return bIsEditable;
+}
+
 void UListDataObject_Base::OnDataListObjectInitialized()
 {
 }
@@ -52,4 +96,13 @@ void UListDataObject_Base::NotifyListDataModified(UListDataObject_Base* Modified
 	{
 		UGameUIGameUserSettings::Get()->ApplySettings(true);
 	}
+}
+
+bool UListDataObject_Base::CanSetToForceStringValue(const FString& InForceStringValue) const
+{
+	return false;
+}
+
+void UListDataObject_Base::OnSetToForceStringValue(const FString& InForceStringValue)
+{
 }
