@@ -16,4 +16,15 @@ class GAMEUI_API UListDataObject_StringResolution : public UListDataObject_Strin
 
 public:
 	void InitResolutionValues();
+
+protected:
+	//~ Begin UListDataObject_Base interface
+	virtual void OnDataListObjectInitialized() override;
+	//~ End UListDataObject_Base interface
+
+private:
+	FString ResolutionValueToString(const FIntPoint& InResolutionValue) const;
+	FText ResolutionValueToText(const FIntPoint& InResolutionValue) const;
+
+	FString MaxAllowResolution;
 };
