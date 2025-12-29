@@ -246,10 +246,11 @@ void UOptionDataRegistry::InitVideoCollectionTab()
 			WindowMode->SetDataID(FName("WindowMode"));
 			WindowMode->SetDataDisplayName(FText::FromString(TEXT("Window Mode")));
 			WindowMode->SetDescriptionRichText(FText::FromString(TEXT("Adjust the window mode")));
-			WindowMode->AddEnumOption(EWindowMode::Fullscreen, FText::FromString(TEXT("Fullscreen")));
-			WindowMode->AddEnumOption(EWindowMode::WindowedFullscreen, FText::FromString(TEXT("Borderless Window")));
-			WindowMode->AddEnumOption(EWindowMode::Windowed, FText::FromString(TEXT("Windowed")));
-			WindowMode->SetDefaultValueFromEnumOption(EWindowMode::WindowedFullscreen);
+			WindowMode->AddEnumOption(EWindowMode::Type::Fullscreen, FText::FromString(TEXT("Fullscreen")));
+			WindowMode->AddEnumOption(EWindowMode::Type::WindowedFullscreen,
+			                          FText::FromString(TEXT("Borderless Window")));
+			WindowMode->AddEnumOption(EWindowMode::Type::Windowed, FText::FromString(TEXT("Windowed")));
+			WindowMode->SetDefaultValueFromEnumOption(EWindowMode::Type::WindowedFullscreen);
 			WindowMode->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(GetFullscreenMode));
 			WindowMode->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(SetFullscreenMode));
 			WindowMode->SetShouldApplySettingsImmediately(true);
