@@ -2,3 +2,7 @@
 
 
 #include "Widget/Options/DataObject/ListDataObject_StringResolution.h"
+
+void UListDataObject_StringResolution::InitResolutionValues()
+{
+}

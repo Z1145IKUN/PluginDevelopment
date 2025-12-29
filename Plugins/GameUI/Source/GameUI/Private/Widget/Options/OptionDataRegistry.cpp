@@ -10,6 +10,7 @@
 #include "Widget/Options/DataObject/ListDataObject_String.h"
 #include "Widget/Options/DataObject/ListDataObject_Collection.h"
 #include "Widget/Options/DataObject/ListDataObject_Scalar.h"
+#include "Widget/Options/DataObject/ListDataObject_StringResolution.h"
 
 #define MAKE_DATA_OPTION_CONTROL(GetterOrSetterFuncName) \
 	MakeShared<FOptionsDataInteractionHelper> \
@@ -254,6 +255,20 @@ void UOptionDataRegistry::InitVideoCollectionTab()
 			WindowMode->SetShouldApplySettingsImmediately(true);
 
 			DisplayCategoryCollection->AddChildListData(WindowMode);
+		}
+
+		//Screen Resolution
+		{
+			UListDataObject_StringResolution* ScreenResolution = NewObject<UListDataObject_StringResolution>();
+			ScreenResolution->SetDataID(FName("ScreenResolution"));
+			ScreenResolution->SetDataDisplayName(FText::FromString(TEXT("Screen Resolution")));
+			ScreenResolution->SetDescriptionRichText(FText::FromString(TEXT("Adjust the screen resolution")));
+			ScreenResolution->InitResolutionValues();
+			ScreenResolution->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(GetScreenResolution));
+			ScreenResolution->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(SetScreenResolution));
+			ScreenResolution->SetShouldApplySettingsImmediately(true);
+
+			DisplayCategoryCollection->AddChildListData(ScreenResolution);
 		}
 
 		VideoTabCollection->AddChildListData(DisplayCategoryCollection);

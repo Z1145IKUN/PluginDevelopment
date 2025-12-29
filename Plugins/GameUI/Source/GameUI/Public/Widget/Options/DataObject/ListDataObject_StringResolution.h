@@ -13,4 +13,7 @@ UCLASS()
 class GAMEUI_API UListDataObject_StringResolution : public UListDataObject_String
 {
 	GENERATED_BODY()
+
+public:
+	void InitResolutionValues();
 };
