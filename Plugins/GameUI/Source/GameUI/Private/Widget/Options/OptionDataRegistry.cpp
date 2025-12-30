@@ -283,6 +283,8 @@ void UOptionDataRegistry::InitVideoCollectionTab()
 		GraphicsCategoryCollection->SetDataID(FName("GraphicsCategoryCollection"));
 		GraphicsCategoryCollection->SetDataDisplayName(FText::FromString("Graphics"));
 
+		UListDataObject_StringInteger* OverallQuality = NewObject<UListDataObject_StringInteger>();
+
 		//Display Gamma
 		{
 			UListDataObject_Scalar* DisplayGamma = NewObject<UListDataObject_Scalar>();
@@ -302,7 +304,6 @@ void UOptionDataRegistry::InitVideoCollectionTab()
 
 		//Overall Quality
 		{
-			UListDataObject_StringInteger* OverallQuality = NewObject<UListDataObject_StringInteger>();
 			OverallQuality->SetDataID(FName("OverallQuality"));
 			OverallQuality->SetDataDisplayName(FText::FromString(TEXT("Overall Quality")));
 			OverallQuality->SetDescriptionRichText(FText::FromString(TEXT("Adjust the overall quality")));
@@ -316,6 +317,25 @@ void UOptionDataRegistry::InitVideoCollectionTab()
 			OverallQuality->SetShouldApplySettingsImmediately(true);
 
 			GraphicsCategoryCollection->AddChildListData(OverallQuality);
+		}
+
+		//Resolution Scale 动态分辨率缩放
+		{
+			UListDataObject_Scalar* ResolutionScale = NewObject<UListDataObject_Scalar>();
+			ResolutionScale->SetDataID(FName("ResolutionScale"));
+			ResolutionScale->SetDataDisplayName(FText::FromString(TEXT("3D Resolution")));
+			ResolutionScale->SetDescriptionRichText(FText::FromString(TEXT("Adjust the resolution scale")));
+			ResolutionScale->SetDisplayValueRange(TRange<float>(0.f, 1.f));
+			ResolutionScale->SetOutputValueRange(TRange<float>(0.f, 1.f));
+			ResolutionScale->SetDisplayNumericType(ECommonNumericType::Percentage);
+			ResolutionScale->SetNumberFormattingOptions(UListDataObject_Scalar::NoDecimal());
+			ResolutionScale->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(GetResolutionScaleNormalized));
+			ResolutionScale->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(SetResolutionScaleNormalized));
+			ResolutionScale->SetShouldApplySettingsImmediately(true);
+
+			ResolutionScale->AddEditDependencyData(OverallQuality);
+
+			GraphicsCategoryCollection->AddChildListData(ResolutionScale);
 		}
 
 		VideoTabCollection->AddChildListData(GraphicsCategoryCollection);
