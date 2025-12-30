@@ -20,7 +20,6 @@ public:
 	/**
 	 * Init all Option screen tab 
 	 * Call immediately after the option Screen is created.
-	 * @param InOwningLocalPlayer 
 	 */
 	void InitOptionDataRegistry(ULocalPlayer* InOwningLocalPlayer);
 

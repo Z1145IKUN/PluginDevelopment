@@ -17,6 +17,8 @@ class GAMEUI_API UListDataObject_StringResolution : public UListDataObject_Strin
 public:
 	void InitResolutionValues();
 
+	FString GetMaxAllowResolution();
+
 protected:
 	//~ Begin UListDataObject_Base interface
 	virtual void OnDataListObjectInitialized() override;

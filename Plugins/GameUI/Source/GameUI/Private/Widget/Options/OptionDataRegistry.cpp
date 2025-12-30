@@ -230,7 +230,6 @@ void UOptionDataRegistry::InitAudioCollectionTab()
 void UOptionDataRegistry::InitVideoCollectionTab()
 {
 	UListDataObject_Collection* VideoTabCollection = NewObject<UListDataObject_Collection>();
-
 	VideoTabCollection->SetDataID(FName("VideoTabCollection"));
 	VideoTabCollection->SetDataDisplayName(FText::FromString("Video"));
 
@@ -240,9 +239,11 @@ void UOptionDataRegistry::InitVideoCollectionTab()
 		DisplayCategoryCollection->SetDataID(FName("DisplayCategoryCollection"));
 		DisplayCategoryCollection->SetDataDisplayName(FText::FromString(TEXT("Display")));
 
+		UListDataObject_StringEnum* WindowMode = NewObject<UListDataObject_StringEnum>();
+		UListDataObject_StringResolution* ScreenResolution = NewObject<UListDataObject_StringResolution>();
+
 		//Window mode
 		{
-			UListDataObject_StringEnum* WindowMode = NewObject<UListDataObject_StringEnum>();
 			WindowMode->SetDataID(FName("WindowMode"));
 			WindowMode->SetDataDisplayName(FText::FromString(TEXT("Window Mode")));
 			WindowMode->SetDescriptionRichText(FText::FromString(TEXT("Adjust the window mode")));
@@ -260,7 +261,6 @@ void UOptionDataRegistry::InitVideoCollectionTab()
 
 		//Screen Resolution
 		{
-			UListDataObject_StringResolution* ScreenResolution = NewObject<UListDataObject_StringResolution>();
 			ScreenResolution->SetDataID(FName("ScreenResolution"));
 			ScreenResolution->SetDataDisplayName(FText::FromString(TEXT("Screen Resolution")));
 			ScreenResolution->SetDescriptionRichText(FText::FromString(TEXT("Adjust the screen resolution")));
@@ -268,6 +268,21 @@ void UOptionDataRegistry::InitVideoCollectionTab()
 			ScreenResolution->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(GetScreenResolution));
 			ScreenResolution->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(SetScreenResolution));
 			ScreenResolution->SetShouldApplySettingsImmediately(true);
+
+			FOptionsDataEditConditionDescriptor WindowModeEditCondition;
+			WindowModeEditCondition.SetEditConditionFunc(
+				[WindowMode]()-> bool
+				{
+					const bool bIsBorderlessWindow = WindowMode->GetCurrentValueAsEnum<EWindowMode::Type>() ==
+						EWindowMode::Type::WindowedFullscreen;
+
+					return !bIsBorderlessWindow;
+				}
+			);
+			WindowModeEditCondition.SetDisabledRichReason(TEXT(
+				"\n\n<Disabled>Screen Resolution is not adjust when the window mode is set to borderless window</>"));
+			WindowModeEditCondition.SetDisabledForcedStringValue(ScreenResolution->GetMaxAllowResolution());
+			ScreenResolution->AddEditCondition(WindowModeEditCondition);
 
 			DisplayCategoryCollection->AddChildListData(ScreenResolution);
 		}

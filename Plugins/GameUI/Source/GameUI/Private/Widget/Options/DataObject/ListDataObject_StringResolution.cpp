@@ -28,6 +28,11 @@ void UListDataObject_StringResolution::InitResolutionValues()
 	SetDefaultValueFromString(MaxAllowResolution);
 }
 
+FString UListDataObject_StringResolution::GetMaxAllowResolution()
+{
+	return MaxAllowResolution;
+}
+
 void UListDataObject_StringResolution::OnDataListObjectInitialized()
 {
 	Super::OnDataListObjectInitialized();
