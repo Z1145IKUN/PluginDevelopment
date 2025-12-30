@@ -83,7 +83,11 @@ protected:
 	//the child class should override this to specify how to set the current value to the force value
 	virtual void OnSetToForceStringValue(const FString& InForceStringValue);
 
-	//
+	/**
+	 * this function will be called when the value of the dependency data has changed
+	 * the child class can override this function to handle the custom logic needed,
+	 * super call is expected
+	 */
 	virtual void OnEditDependencyDataModified(
 		UListDataObject_Base* ModifiedDependencyData,
 		EOptionsListDataModifyReason ModifyReason);

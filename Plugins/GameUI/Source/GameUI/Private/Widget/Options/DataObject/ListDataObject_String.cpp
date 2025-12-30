@@ -2,7 +2,6 @@
 
 
 #include "Widget/Options/DataObject/ListDataObject_String.h"
-
 #include "Widget/Options/OptionsDataInteractionHelper.h"
 
 void UListDataObject_String::OnDataListObjectInitialized()
@@ -224,4 +223,38 @@ void UListDataObject_StringBool::TryInitBoolValues()
 	{
 		AddDynamicOptions(FalseString, FText::FromString(TEXT("OFF")));
 	}
+}
+
+//**************** UListDataObject_StringInteger **********************//
+void UListDataObject_StringInteger::AddIntegerOption(int32 InIntegerValue, const FText& InDisplayText)
+{
+	AddDynamicOptions(LexToString(InIntegerValue), InDisplayText);
+}
+
+void UListDataObject_StringInteger::OnDataListObjectInitialized()
+{
+	Super::OnDataListObjectInitialized();
+
+	if (!SetDisplayTextFromCurrentStringValue(CurrentStringValue))
+	{
+		CurrentDisplayText = FText::FromString(TEXT("Custom"));
+	}
+}
+
+void UListDataObject_StringInteger::OnEditDependencyDataModified(UListDataObject_Base* ModifiedDependencyData,
+                                                                 EOptionsListDataModifyReason ModifyReason)
+{
+	if (DataDynamicGetter)
+	{
+		CurrentStringValue = DataDynamicGetter->GetValueAsString();
+
+		if (!SetDisplayTextFromCurrentStringValue(CurrentStringValue))
+		{
+			CurrentDisplayText = FText::FromString(TEXT("Custom"));
+		}
+
+		NotifyListDataModified(this, EOptionsListDataModifyReason::DependencyModify);
+	}
+
+	Super::OnEditDependencyDataModified(ModifiedDependencyData, ModifyReason);
 }

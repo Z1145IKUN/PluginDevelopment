@@ -95,3 +95,20 @@ public:
 		SetDefaultValueFromString(ConvertedEnumString);
 	}
 };
+
+UCLASS()
+class GAMEUI_API UListDataObject_StringInteger : public UListDataObject_String
+{
+	GENERATED_BODY()
+
+public:
+	void AddIntegerOption(int32 InIntegerValue, const FText& InDisplayText);
+
+protected:
+	//~ Begin UListDataObject_Base interface
+	virtual void OnDataListObjectInitialized() override;
+	virtual void OnEditDependencyDataModified(
+		UListDataObject_Base* ModifiedDependencyData,
+		EOptionsListDataModifyReason ModifyReason) override;
+	//~ End UListDataObject_Base interface
+};
