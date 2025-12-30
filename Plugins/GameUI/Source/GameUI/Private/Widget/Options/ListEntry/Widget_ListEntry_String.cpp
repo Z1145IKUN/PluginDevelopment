@@ -42,6 +42,15 @@ void UWidget_ListEntry_String::OnListDataObjectModified(UListDataObject_Base* Mo
 	}
 }
 
+void UWidget_ListEntry_String::OnToggleEditableState(bool bIsEditable)
+{
+	Super::OnToggleEditableState(bIsEditable);
+
+	CommonButton_Previous->SetIsEnabled(bIsEditable);
+	CommonRotator_Options->SetIsEnabled(bIsEditable);
+	CommonButton_Next->SetIsEnabled(bIsEditable);
+}
+
 void UWidget_ListEntry_String::OnPreviousButtonClicked()
 {
 	if (StringListDataObject)

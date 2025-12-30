@@ -40,6 +40,14 @@ void UWidget_ListEntry_Scalar::OnListDataObjectModified(UListDataObject_Base* Mo
 	}
 }
 
+void UWidget_ListEntry_Scalar::OnToggleEditableState(bool bIsEditable)
+{
+	Super::OnToggleEditableState(bIsEditable);
+
+	CommonNumericTextBlock_SettingValue->SetIsEnabled(bIsEditable);
+	AnalogSlider_SettingSlider->SetIsEnabled(bIsEditable);
+}
+
 void UWidget_ListEntry_Scalar::OnSliderValueChanged(float InNewValue)
 {
 	if (ScalarDataObject)

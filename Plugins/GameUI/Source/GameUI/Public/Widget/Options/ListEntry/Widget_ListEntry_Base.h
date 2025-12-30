@@ -32,18 +32,18 @@ protected:
 
 	/**
 	 * the child class should override it to handle the initialization needed
-	 * @param InListDataObject 
 	 */
 	virtual void OnListDataObjectSet(UListDataObject_Base* InListDataObject);
 
 	/**
 	 * the child class should override this function to update UI values after the data object has been modified
 	 * the super call is not needed
-	 * @param ModifiedData 
-	 * @param ModifyReason 
 	 */
 	virtual void OnListDataObjectModified(UListDataObject_Base* ModifiedData,
 	                                      EOptionsListDataModifyReason ModifyReason);
+
+	//the child class should override this to change editable state of the widget it owns
+	virtual void OnToggleEditableState(bool bIsEditable);
 
 	void SelectedThisEntryWidget();
 

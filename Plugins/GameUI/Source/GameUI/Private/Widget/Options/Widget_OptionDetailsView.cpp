@@ -15,7 +15,7 @@ void UWidget_OptionDetailsView::NativeOnInitialized()
 	ClearOptionDetailsView();
 }
 
-void UWidget_OptionDetailsView::UpdateOptionDetailsView(const UListDataObject_Base* InListDataObject) const
+void UWidget_OptionDetailsView::UpdateOptionDetailsView(UListDataObject_Base* InListDataObject) const
 {
 	if (!InListDataObject)
 	{
@@ -35,7 +35,11 @@ void UWidget_OptionDetailsView::UpdateOptionDetailsView(const UListDataObject_Ba
 	}
 	CommonRichTextBlock_Description->SetText(InListDataObject->GetDescriptionRichText());
 	CommonRichTextBlock_DynamicDetails->SetText(FText::GetEmpty());
-	CommonRichTextBlock_DisabledReason->SetText(InListDataObject->GetDisableRichText());
+
+	const FText DisabledReason = InListDataObject->IsDataCurrentlyEditable()
+		                             ? FText::GetEmpty()
+		                             : InListDataObject->GetDisableRichText();
+	CommonRichTextBlock_DisabledReason->SetText(DisabledReason);
 }
 
 void UWidget_OptionDetailsView::ClearOptionDetailsView() const

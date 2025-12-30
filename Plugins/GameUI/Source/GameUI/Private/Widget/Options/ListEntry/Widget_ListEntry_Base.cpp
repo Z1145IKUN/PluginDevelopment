@@ -38,11 +38,21 @@ void UWidget_ListEntry_Base::OnListDataObjectSet(UListDataObject_Base* InListDat
 	{
 		InListDataObject->OnListDataModified.AddUObject(this, &ThisClass::OnListDataObjectModified);
 	}
+
+	OnToggleEditableState(InListDataObject->IsDataCurrentlyEditable());
 }
 
 void UWidget_ListEntry_Base::OnListDataObjectModified(UListDataObject_Base* ModifiedData,
                                                       EOptionsListDataModifyReason ModifyReason)
 {
+}
+
+void UWidget_ListEntry_Base::OnToggleEditableState(bool bIsEditable)
+{
+	if (CommonTextBlock_SettingDisplayName)
+	{
+		CommonTextBlock_SettingDisplayName->SetIsEnabled(bIsEditable);
+	}
 }
 
 void UWidget_ListEntry_Base::SelectedThisEntryWidget()
