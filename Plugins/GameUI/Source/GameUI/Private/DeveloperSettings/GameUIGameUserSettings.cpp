@@ -94,3 +94,20 @@ void UGameUIGameUserSettings::SetWindowMode(const FString& InWindowMode)
 
 	SetFullscreenMode(UGameUIFunctionLibrary::StringToEnum<EWindowMode::Type>(WindowMode));
 }
+
+float UGameUIGameUserSettings::GetCurrentDisplayGamma() const
+{
+	if (GEngine)
+	{
+		return GEngine->GetDisplayGamma();
+	}
+	return 0.f;
+}
+
+void UGameUIGameUserSettings::SetCurrentDisplayGamma(const float InDisplayGamma)
+{
+	if (GEngine)
+	{
+		GEngine->DisplayGamma = InDisplayGamma;
+	}
+}

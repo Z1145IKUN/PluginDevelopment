@@ -58,6 +58,11 @@ public:
 	FString GetWindowMode() const;
 	UFUNCTION()
 	void SetWindowMode(const FString& InWindowMode);
+
+	UFUNCTION()
+	float GetCurrentDisplayGamma() const;
+	UFUNCTION()
+	void SetCurrentDisplayGamma(const float InDisplayGamma);
 	//***** Video Collection Tab *****//
 
 private:

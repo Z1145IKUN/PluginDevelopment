@@ -3,9 +3,7 @@
 
 #include "Widget/Options/OptionDataRegistry.h"
 
-// #include "GameUIGameplayTags.h"
 #include "DeveloperSettings/GameUIGameUserSettings.h"
-// #include "FunctionLibrary/GameUIFunctionLibrary.h"
 #include "Widget/Options/OptionsDataInteractionHelper.h"
 #include "Widget/Options/DataObject/ListDataObject_String.h"
 #include "Widget/Options/DataObject/ListDataObject_Collection.h"
@@ -278,6 +276,33 @@ void UOptionDataRegistry::InitVideoCollectionTab()
 		}
 
 		VideoTabCollection->AddChildListData(DisplayCategoryCollection);
+	}
+
+	//Graphics Category Collection
+	{
+		UListDataObject_Collection* GraphicsCategoryCollection = NewObject<UListDataObject_Collection>();
+		GraphicsCategoryCollection->SetDataID(FName("GraphicsCategoryCollection"));
+		GraphicsCategoryCollection->SetDataDisplayName(FText::FromString("Graphics"));
+
+		UListDataObject_Scalar* DisplayGamma = NewObject<UListDataObject_Scalar>();
+
+		//Display Gamma
+		{
+			DisplayGamma->SetDataID(FName("DisplayGamma"));
+			DisplayGamma->SetDataDisplayName(FText::FromString(TEXT("Brightness")));
+			DisplayGamma->SetDescriptionRichText(FText::FromString(TEXT("Adjust the screen brightness")));
+			DisplayGamma->SetDisplayValueRange(TRange<float>(0.f, 1.f));
+			DisplayGamma->SetOutputValueRange(TRange<float>(1.7f, 2.7f));
+			DisplayGamma->SetDisplayNumericType(ECommonNumericType::Percentage);
+			DisplayGamma->SetNumberFormattingOptions(UListDataObject_Scalar::NoDecimal());
+			DisplayGamma->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(GetCurrentDisplayGamma));
+			DisplayGamma->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(SetCurrentDisplayGamma));
+			DisplayGamma->SetDefaultValueFromString(LexToString(2.2f));
+
+			GraphicsCategoryCollection->AddChildListData(DisplayGamma);
+		}
+
+		VideoTabCollection->AddChildListData(GraphicsCategoryCollection);
 	}
 
 	RegisteredOptionsTabCollections.Add(VideoTabCollection);
