@@ -272,6 +272,7 @@ void UOptionDataRegistry::InitVideoCollectionTab()
 				"\n\n<Disabled>Screen Resolution is not adjust when the window mode is set to borderless window</>"));
 			WindowModeEditCondition.SetDisabledForcedStringValue(ScreenResolution->GetMaxAllowResolution());
 			ScreenResolution->AddEditCondition(WindowModeEditCondition);
+			ScreenResolution->AddEditDependencyData(WindowMode);
 
 			DisplayCategoryCollection->AddChildListData(ScreenResolution);
 		}

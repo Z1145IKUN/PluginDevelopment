@@ -25,6 +25,7 @@ public:
 	                                     EOptionsListDataModifyReason)
 
 	FOnListDataModifiedDelegate OnListDataModified;
+	FOnListDataModifiedDelegate OnDependencyDataModified;
 
 	LIST_DATA_ACCESSOR(FName, DataID)
 	LIST_DATA_ACCESSOR(FText, DataDisplayName)
@@ -60,6 +61,9 @@ public:
 
 	bool IsDataCurrentlyEditable();
 
+	//Get call by from OptionsDataRegistry to add in dependency data 
+	void AddEditDependencyData(UListDataObject_Base* InDependencyData);
+
 protected:
 	/**
 	 * is empty in the base class
@@ -75,8 +79,14 @@ protected:
 
 	//the child class should override this to allow the value to be set the force string value;
 	virtual bool CanSetToForceStringValue(const FString& InForceStringValue) const;
+
 	//the child class should override this to specify how to set the current value to the force value
 	virtual void OnSetToForceStringValue(const FString& InForceStringValue);
+
+	//
+	virtual void OnEditDependencyDataModified(
+		UListDataObject_Base* ModifiedDependencyData,
+		EOptionsListDataModifyReason ModifyReason);
 
 private:
 	FName DataID;

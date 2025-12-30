@@ -45,7 +45,11 @@ protected:
 	//the child class should override this to change editable state of the widget it owns
 	virtual void OnToggleEditableState(bool bIsEditable);
 
-	void SelectedThisEntryWidget();
+	//the child class should override this to
+	virtual void OnDependencyDataModified(UListDataObject_Base* DependencyModifiedData,
+	                                      EOptionsListDataModifyReason ModifyReason);
+
+	void SelectedThisEntryWidget() const;
 
 	//~ Begin UUserWidget Interface
 	virtual FReply NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent) override;
@@ -59,4 +63,7 @@ private:
 	UPROPERTY(BlueprintReadOnly, meta=(BindWidgetOptional, AllowPrivateAccess = "true"))
 	TObjectPtr<UCommonTextBlock> CommonTextBlock_SettingDisplayName;
 	//***** Bound Widget *****//
+
+	UPROPERTY(Transient)
+	TObjectPtr<UListDataObject_Base> ListDataObject;
 };

@@ -83,6 +83,14 @@ bool UListDataObject_Base::IsDataCurrentlyEditable()
 	return bIsEditable;
 }
 
+void UListDataObject_Base::AddEditDependencyData(UListDataObject_Base* InDependencyData)
+{
+	if (!InDependencyData->OnListDataModified.IsBoundToObject(this))
+	{
+		InDependencyData->OnListDataModified.AddUObject(this, &ThisClass::OnEditDependencyDataModified);
+	}
+}
+
 void UListDataObject_Base::OnDataListObjectInitialized()
 {
 }
@@ -105,4 +113,11 @@ bool UListDataObject_Base::CanSetToForceStringValue(const FString& InForceString
 
 void UListDataObject_Base::OnSetToForceStringValue(const FString& InForceStringValue)
 {
+}
+
+void UListDataObject_Base::OnEditDependencyDataModified(
+	UListDataObject_Base* ModifiedDependencyData,
+	EOptionsListDataModifyReason ModifyReason)
+{
+	OnDependencyDataModified.Broadcast(ModifiedDependencyData, ModifyReason);
 }

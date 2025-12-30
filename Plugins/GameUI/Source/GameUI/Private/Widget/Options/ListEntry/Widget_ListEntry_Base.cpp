@@ -28,6 +28,7 @@ void UWidget_ListEntry_Base::NativeOnEntryReleased()
 
 void UWidget_ListEntry_Base::OnListDataObjectSet(UListDataObject_Base* InListDataObject)
 {
+	ListDataObject = InListDataObject;
 	if (CommonTextBlock_SettingDisplayName)
 	{
 		CommonTextBlock_SettingDisplayName->SetText(InListDataObject->GetDataDisplayName());
@@ -36,6 +37,11 @@ void UWidget_ListEntry_Base::OnListDataObjectSet(UListDataObject_Base* InListDat
 	if (!InListDataObject->OnListDataModified.IsBoundToObject(this))
 	{
 		InListDataObject->OnListDataModified.AddUObject(this, &ThisClass::OnListDataObjectModified);
+	}
+
+	if (!InListDataObject->OnDependencyDataModified.IsBoundToObject(this))
+	{
+		InListDataObject->OnDependencyDataModified.AddUObject(this, &ThisClass::OnDependencyDataModified);
 	}
 
 	OnToggleEditableState(InListDataObject->IsDataCurrentlyEditable());
@@ -54,7 +60,16 @@ void UWidget_ListEntry_Base::OnToggleEditableState(bool bIsEditable)
 	}
 }
 
-void UWidget_ListEntry_Base::SelectedThisEntryWidget()
+void UWidget_ListEntry_Base::OnDependencyDataModified(UListDataObject_Base* DependencyModifiedData,
+                                                      EOptionsListDataModifyReason ModifyReason)
+{
+	if (ListDataObject)
+	{
+		OnToggleEditableState(ListDataObject->IsDataCurrentlyEditable());
+	}
+}
+
+void UWidget_ListEntry_Base::SelectedThisEntryWidget() const
 {
 	CastChecked<UGameUIListView>(GetOwningListView())->SetSelectedItem(GetListItem());
 }
