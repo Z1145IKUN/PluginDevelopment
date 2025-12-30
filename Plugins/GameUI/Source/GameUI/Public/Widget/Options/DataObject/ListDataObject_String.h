@@ -29,9 +29,10 @@ public:
 protected:
 	//~ Begin UListDataObject_Base interface
 	virtual void OnDataListObjectInitialized() override;
-
 	virtual bool CanResetBackToDefaultValue() const override;
 	virtual bool TryResetBackToDefaultValue() override;
+	virtual bool CanSetToForceStringValue(const FString& InForceStringValue) const override;
+	virtual void OnSetToForceStringValue(const FString& InForceStringValue) override;
 	//~ End UListDataObject_Base interface
 
 	bool SetDisplayTextFromCurrentStringValue(const FString& InCurrentStringValue);

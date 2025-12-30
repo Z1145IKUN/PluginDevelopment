@@ -36,13 +36,11 @@ public:
 	/**
 	 * the parent is empty ,the child class should override it ,
 	 * the function should return all the child data that tab has
-	 * @return 
 	 */
 	virtual TArray<UListDataObject_Base*> GetAllChildListData() const;
 
 	/**
-	 * the parent is empty ,the child class should override it ,
-	 * @return 
+	 * the parent is empty ,the child class should override it , 
 	 */
 	virtual bool HasChildListData() const;
 

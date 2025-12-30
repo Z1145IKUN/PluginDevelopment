@@ -2,7 +2,6 @@
 
 
 #include "Widget/Options/ListEntry/Widget_ListEntry_Base.h"
-
 #include "CommonInputSubsystem.h"
 #include "CommonTextBlock.h"
 #include "Widget/Component/GameUIListView.h"
