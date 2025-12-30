@@ -2,7 +2,6 @@
 
 
 #include "Widget/Options/OptionDataRegistry.h"
-
 #include "DeveloperSettings/GameUIGameUserSettings.h"
 #include "Widget/Options/OptionsDataInteractionHelper.h"
 #include "Widget/Options/DataObject/ListDataObject_String.h"
@@ -284,10 +283,9 @@ void UOptionDataRegistry::InitVideoCollectionTab()
 		GraphicsCategoryCollection->SetDataID(FName("GraphicsCategoryCollection"));
 		GraphicsCategoryCollection->SetDataDisplayName(FText::FromString("Graphics"));
 
-		UListDataObject_Scalar* DisplayGamma = NewObject<UListDataObject_Scalar>();
-
 		//Display Gamma
 		{
+			UListDataObject_Scalar* DisplayGamma = NewObject<UListDataObject_Scalar>();
 			DisplayGamma->SetDataID(FName("DisplayGamma"));
 			DisplayGamma->SetDataDisplayName(FText::FromString(TEXT("Brightness")));
 			DisplayGamma->SetDescriptionRichText(FText::FromString(TEXT("Adjust the screen brightness")));
@@ -300,6 +298,24 @@ void UOptionDataRegistry::InitVideoCollectionTab()
 			DisplayGamma->SetDefaultValueFromString(LexToString(2.2f));
 
 			GraphicsCategoryCollection->AddChildListData(DisplayGamma);
+		}
+
+		//Overall Quality
+		{
+			UListDataObject_StringInteger* OverallQuality = NewObject<UListDataObject_StringInteger>();
+			OverallQuality->SetDataID(FName("OverallQuality"));
+			OverallQuality->SetDataDisplayName(FText::FromString(TEXT("Overall Quality")));
+			OverallQuality->SetDescriptionRichText(FText::FromString(TEXT("Adjust the overall quality")));
+			OverallQuality->AddIntegerOption(0, FText::FromString(TEXT("Low")));
+			OverallQuality->AddIntegerOption(1, FText::FromString(TEXT("Medium")));
+			OverallQuality->AddIntegerOption(2, FText::FromString(TEXT("High")));
+			OverallQuality->AddIntegerOption(3, FText::FromString(TEXT("Epic")));
+			OverallQuality->AddIntegerOption(4, FText::FromString(TEXT("Cinematic")));
+			OverallQuality->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(GetOverallScalabilityLevel));
+			OverallQuality->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(SetOverallScalabilityLevel));
+			OverallQuality->SetShouldApplySettingsImmediately(true);
+
+			GraphicsCategoryCollection->AddChildListData(OverallQuality);
 		}
 
 		VideoTabCollection->AddChildListData(GraphicsCategoryCollection);
