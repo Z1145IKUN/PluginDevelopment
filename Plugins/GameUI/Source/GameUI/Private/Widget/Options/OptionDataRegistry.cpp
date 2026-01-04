@@ -382,6 +382,28 @@ void UOptionDataRegistry::InitVideoCollectionTab()
 			GraphicsCategoryCollection->AddChildListData(ShadowQuality);
 		}
 
+		//AntiAliasing Quality 抗锯齿质量
+		{
+			UListDataObject_StringInteger* AntiAliasingQuality = NewObject<UListDataObject_StringInteger>();
+			AntiAliasingQuality->SetDataID(FName("AntiAliasingQuality"));
+			AntiAliasingQuality->SetDataDisplayName(FText::FromString(TEXT("Anti Aliasing")));
+			AntiAliasingQuality->SetDescriptionRichText(
+				FText::FromString(TEXT("Adjust the global AntiAliasing quality")));
+			AntiAliasingQuality->AddIntegerOption(0, FText::FromString(TEXT("Low")));
+			AntiAliasingQuality->AddIntegerOption(1, FText::FromString(TEXT("Medium")));
+			AntiAliasingQuality->AddIntegerOption(2, FText::FromString(TEXT("High")));
+			AntiAliasingQuality->AddIntegerOption(3, FText::FromString(TEXT("Epic")));
+			AntiAliasingQuality->AddIntegerOption(4, FText::FromString(TEXT("Cinematic")));
+			AntiAliasingQuality->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(GetAntiAliasingQuality));
+			AntiAliasingQuality->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(SetAntiAliasingQuality));
+			AntiAliasingQuality->SetShouldApplySettingsImmediately(true);
+
+			AntiAliasingQuality->AddEditDependencyData(OverallQuality);
+			OverallQuality->AddEditDependencyData(AntiAliasingQuality);
+
+			GraphicsCategoryCollection->AddChildListData(AntiAliasingQuality);
+		}
+
 		VideoTabCollection->AddChildListData(GraphicsCategoryCollection);
 	}
 
