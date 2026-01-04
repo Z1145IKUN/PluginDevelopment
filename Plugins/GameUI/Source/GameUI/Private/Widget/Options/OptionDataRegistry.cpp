@@ -404,6 +404,28 @@ void UOptionDataRegistry::InitVideoCollectionTab()
 			GraphicsCategoryCollection->AddChildListData(AntiAliasingQuality);
 		}
 
+		//View Distance Quality
+		{
+			UListDataObject_StringInteger* ViewDistanceQuality = NewObject<UListDataObject_StringInteger>();
+			ViewDistanceQuality->SetDataID(FName("ViewDistanceQuality"));
+			ViewDistanceQuality->SetDataDisplayName(FText::FromString(TEXT("View Distance")));
+			ViewDistanceQuality->SetDescriptionRichText(
+				FText::FromString(TEXT("Adjust the global AntiAliasing quality")));
+			ViewDistanceQuality->AddIntegerOption(0, FText::FromString(TEXT("Near")));
+			ViewDistanceQuality->AddIntegerOption(1, FText::FromString(TEXT("Medium")));
+			ViewDistanceQuality->AddIntegerOption(2, FText::FromString(TEXT("Far")));
+			ViewDistanceQuality->AddIntegerOption(3, FText::FromString(TEXT("Very Far")));
+			ViewDistanceQuality->AddIntegerOption(4, FText::FromString(TEXT("Cinematic")));
+			ViewDistanceQuality->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(GetViewDistanceQuality));
+			ViewDistanceQuality->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(SetViewDistanceQuality));
+			ViewDistanceQuality->SetShouldApplySettingsImmediately(true);
+
+			ViewDistanceQuality->AddEditDependencyData(OverallQuality);
+			OverallQuality->AddEditDependencyData(ViewDistanceQuality);
+
+			GraphicsCategoryCollection->AddChildListData(ViewDistanceQuality);
+		}
+
 		VideoTabCollection->AddChildListData(GraphicsCategoryCollection);
 	}
 
