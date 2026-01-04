@@ -35,7 +35,7 @@ public:
 	LIST_DATA_ACCESSOR(UListDataObject_Base*, ParentData)
 
 	/**
-	 * the parent is empty ,the child class should override it ,
+	 * the parent is empty ,the child class ListDataObject_Collection should override it ,
 	 * the function should return all the child data that tab has
 	 */
 	virtual TArray<UListDataObject_Base*> GetAllChildListData() const;
@@ -77,10 +77,15 @@ protected:
 		EOptionsListDataModifyReason ModifyReason = EOptionsListDataModifyReason::DirectlyModify);
 
 
-	//the child class should override this to allow the value to be set the force string value;
+	/**
+	 * the child class should override this to allow the value to be set the force string value;
+	 */
 	virtual bool CanSetToForceStringValue(const FString& InForceStringValue) const;
 
-	//the child class should override this to specify how to set the current value to the force value
+	/**
+	 * the child class should override this to specify how to set the current value to the force value
+	 * the super call is not needed
+	 */
 	virtual void OnSetToForceStringValue(const FString& InForceStringValue);
 
 	/**

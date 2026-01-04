@@ -27,6 +27,13 @@ public:
 protected:
 	//~ Begin IUserObjectListEntry Interface
 	virtual void NativeOnListItemObjectSet(UObject* ListItemObject) override;
+
+	/**
+	 * When this entry is retrieved by the list system,
+	 * necessary cleaning and status reset operations should be carried out 
+	 * to ensure that the entry does not display an incorrect status 
+	 * when it is reused next time.
+	 */
 	virtual void NativeOnEntryReleased() override;
 	//~ Begin IUserObjectListEntry Interface
 

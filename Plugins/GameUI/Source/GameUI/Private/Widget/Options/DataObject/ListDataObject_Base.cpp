@@ -68,6 +68,7 @@ bool UListDataObject_Base::IsDataCurrentlyEditable()
 
 		SetDisableRichText(FText::FromString(CachedDisabledRichReason));
 
+		//If it is found that the data is in an uneditable state, then change the data to ForceStringValue
 		if (EditCondition.HasForceStringValue())
 		{
 			const FString ForcedStringValue = EditCondition.GetDisabledForcedStringValue();
