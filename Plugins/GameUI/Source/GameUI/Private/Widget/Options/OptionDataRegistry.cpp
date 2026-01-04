@@ -426,6 +426,94 @@ void UOptionDataRegistry::InitVideoCollectionTab()
 			GraphicsCategoryCollection->AddChildListData(ViewDistanceQuality);
 		}
 
+		//Texture Quality
+		{
+			UListDataObject_StringInteger* TextureQuality = NewObject<UListDataObject_StringInteger>();
+			TextureQuality->SetDataID(FName("TextureQuality"));
+			TextureQuality->SetDataDisplayName(FText::FromString(TEXT("Texture Quality")));
+			TextureQuality->SetDescriptionRichText(
+				FText::FromString(TEXT("Adjust the global AntiAliasing quality")));
+			TextureQuality->AddIntegerOption(0, FText::FromString(TEXT("Low")));
+			TextureQuality->AddIntegerOption(1, FText::FromString(TEXT("Medium")));
+			TextureQuality->AddIntegerOption(2, FText::FromString(TEXT("High")));
+			TextureQuality->AddIntegerOption(3, FText::FromString(TEXT("Epic")));
+			TextureQuality->AddIntegerOption(4, FText::FromString(TEXT("Cinematic")));
+			TextureQuality->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(GetTextureQuality));
+			TextureQuality->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(SetTextureQuality));
+			TextureQuality->SetShouldApplySettingsImmediately(true);
+
+			TextureQuality->AddEditDependencyData(OverallQuality);
+			OverallQuality->AddEditDependencyData(TextureQuality);
+
+			GraphicsCategoryCollection->AddChildListData(TextureQuality);
+		}
+
+		//Visual Effect Quality
+		{
+			UListDataObject_StringInteger* VisualEffectQuality = NewObject<UListDataObject_StringInteger>();
+			VisualEffectQuality->SetDataID(FName("VisualEffectQuality"));
+			VisualEffectQuality->SetDataDisplayName(FText::FromString(TEXT("Visual Effect Quality")));
+			VisualEffectQuality->SetDescriptionRichText(
+				FText::FromString(TEXT("Adjust the global AntiAliasing quality")));
+			VisualEffectQuality->AddIntegerOption(0, FText::FromString(TEXT("Low")));
+			VisualEffectQuality->AddIntegerOption(1, FText::FromString(TEXT("Medium")));
+			VisualEffectQuality->AddIntegerOption(2, FText::FromString(TEXT("High")));
+			VisualEffectQuality->AddIntegerOption(3, FText::FromString(TEXT("Epic")));
+			VisualEffectQuality->AddIntegerOption(4, FText::FromString(TEXT("Cinematic")));
+			VisualEffectQuality->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(GetVisualEffectQuality));
+			VisualEffectQuality->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(SetVisualEffectQuality));
+			VisualEffectQuality->SetShouldApplySettingsImmediately(true);
+
+			VisualEffectQuality->AddEditDependencyData(OverallQuality);
+			OverallQuality->AddEditDependencyData(VisualEffectQuality);
+
+			GraphicsCategoryCollection->AddChildListData(VisualEffectQuality);
+		}
+
+		//Reflection Quality
+		{
+			UListDataObject_StringInteger* ReflectionQuality = NewObject<UListDataObject_StringInteger>();
+			ReflectionQuality->SetDataID(FName("ReflectionQuality"));
+			ReflectionQuality->SetDataDisplayName(FText::FromString(TEXT("Reflection Quality")));
+			ReflectionQuality->SetDescriptionRichText(
+				FText::FromString(TEXT("Adjust the global AntiAliasing quality")));
+			ReflectionQuality->AddIntegerOption(0, FText::FromString(TEXT("Low")));
+			ReflectionQuality->AddIntegerOption(1, FText::FromString(TEXT("Medium")));
+			ReflectionQuality->AddIntegerOption(2, FText::FromString(TEXT("High")));
+			ReflectionQuality->AddIntegerOption(3, FText::FromString(TEXT("Epic")));
+			ReflectionQuality->AddIntegerOption(4, FText::FromString(TEXT("Cinematic")));
+			ReflectionQuality->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(GetReflectionQuality));
+			ReflectionQuality->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(SetReflectionQuality));
+			ReflectionQuality->SetShouldApplySettingsImmediately(true);
+
+			ReflectionQuality->AddEditDependencyData(OverallQuality);
+			OverallQuality->AddEditDependencyData(ReflectionQuality);
+
+			GraphicsCategoryCollection->AddChildListData(ReflectionQuality);
+		}
+
+		//Post Processing Quality
+		{
+			UListDataObject_StringInteger* PostProcessingQuality = NewObject<UListDataObject_StringInteger>();
+			PostProcessingQuality->SetDataID(FName("PostProcessingQuality"));
+			PostProcessingQuality->SetDataDisplayName(FText::FromString(TEXT("Post Processing Quality")));
+			PostProcessingQuality->SetDescriptionRichText(
+				FText::FromString(TEXT("Adjust the global AntiAliasing quality")));
+			PostProcessingQuality->AddIntegerOption(0, FText::FromString(TEXT("Low")));
+			PostProcessingQuality->AddIntegerOption(1, FText::FromString(TEXT("Medium")));
+			PostProcessingQuality->AddIntegerOption(2, FText::FromString(TEXT("High")));
+			PostProcessingQuality->AddIntegerOption(3, FText::FromString(TEXT("Epic")));
+			PostProcessingQuality->AddIntegerOption(4, FText::FromString(TEXT("Cinematic")));
+			PostProcessingQuality->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(GetPostProcessingQuality));
+			PostProcessingQuality->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(SetPostProcessingQuality));
+			PostProcessingQuality->SetShouldApplySettingsImmediately(true);
+
+			PostProcessingQuality->AddEditDependencyData(OverallQuality);
+			OverallQuality->AddEditDependencyData(PostProcessingQuality);
+
+			GraphicsCategoryCollection->AddChildListData(PostProcessingQuality);
+		}
+
 		VideoTabCollection->AddChildListData(GraphicsCategoryCollection);
 	}
 
