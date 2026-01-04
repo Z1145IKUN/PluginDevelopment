@@ -219,13 +219,14 @@ void UOptionDataRegistry::InitVideoCollectionTab()
 	VideoTabCollection->SetDataID(FName("VideoTabCollection"));
 	VideoTabCollection->SetDataDisplayName(FText::FromString("Video"));
 
+	UListDataObject_StringEnum* WindowMode = NewObject<UListDataObject_StringEnum>();
+
 	// Display Category Collection 
 	{
 		UListDataObject_Collection* DisplayCategoryCollection = NewObject<UListDataObject_Collection>();
 		DisplayCategoryCollection->SetDataID(FName("DisplayCategoryCollection"));
 		DisplayCategoryCollection->SetDataDisplayName(FText::FromString(TEXT("Display")));
 
-		UListDataObject_StringEnum* WindowMode = NewObject<UListDataObject_StringEnum>();
 		UListDataObject_StringResolution* ScreenResolution = NewObject<UListDataObject_StringResolution>();
 
 		//Window mode
@@ -293,6 +294,7 @@ void UOptionDataRegistry::InitVideoCollectionTab()
 			DisplayGamma->SetDescriptionRichText(FText::FromString(TEXT("Adjust the screen brightness")));
 			DisplayGamma->SetDisplayValueRange(TRange<float>(0.f, 1.f));
 			DisplayGamma->SetOutputValueRange(TRange<float>(1.7f, 2.7f));
+			DisplayGamma->SetSliderStepSize(0.01f);
 			DisplayGamma->SetDisplayNumericType(ECommonNumericType::Percentage);
 			DisplayGamma->SetNumberFormattingOptions(UListDataObject_Scalar::NoDecimal());
 			DisplayGamma->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(GetCurrentDisplayGamma));
@@ -327,6 +329,7 @@ void UOptionDataRegistry::InitVideoCollectionTab()
 			ResolutionScale->SetDescriptionRichText(FText::FromString(TEXT("Adjust the resolution scale")));
 			ResolutionScale->SetDisplayValueRange(TRange<float>(0.f, 1.f));
 			ResolutionScale->SetOutputValueRange(TRange<float>(0.f, 1.f));
+			ResolutionScale->SetSliderStepSize(0.01f);
 			ResolutionScale->SetDisplayNumericType(ECommonNumericType::Percentage);
 			ResolutionScale->SetNumberFormattingOptions(UListDataObject_Scalar::NoDecimal());
 			ResolutionScale->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(GetResolutionScaleNormalized));
@@ -515,6 +518,60 @@ void UOptionDataRegistry::InitVideoCollectionTab()
 		}
 
 		VideoTabCollection->AddChildListData(GraphicsCategoryCollection);
+	}
+
+	//Advance Graphics Category Collection
+	{
+		UListDataObject_Collection* AdvanceGraphicsCategoryCollection = NewObject<UListDataObject_Collection>();
+		AdvanceGraphicsCategoryCollection->SetDataID(FName("AdvanceGraphicsCategoryCollection"));
+		AdvanceGraphicsCategoryCollection->SetDataDisplayName(FText::FromString(TEXT("Advance Graphics")));
+
+		//vertical Sync	垂直同步
+		{
+			UListDataObject_StringBool* VerticalSync = NewObject<UListDataObject_StringBool>();
+			VerticalSync->SetDataID(FName("VerticalSync"));
+			VerticalSync->SetDataDisplayName(FText::FromString(TEXT("V-Sync")));
+			VerticalSync->SetDescriptionRichText(FText::FromString(TEXT("Adjust Vertical Sync")));
+			VerticalSync->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(IsVSyncEnabled));
+			VerticalSync->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(SetVSyncEnabled));
+			VerticalSync->SetFalseAsDefaultString();
+			VerticalSync->SetShouldApplySettingsImmediately(true);
+
+			FOptionsDataEditConditionDescriptor FullScreenOnlyCondition;
+			FullScreenOnlyCondition.SetEditConditionFunc(
+				[WindowMode]()-> bool
+				{
+					return WindowMode->GetCurrentValueAsEnum<EWindowMode::Type>() == EWindowMode::Type::Fullscreen;
+				}
+			);
+			FullScreenOnlyCondition.SetDisabledRichReason(
+				TEXT("\n\n<Disabled>This feature only Works if the window mode is set to full screen</>"));
+			FullScreenOnlyCondition.SetDisabledForcedStringValue(TEXT("false"));
+			VerticalSync->AddEditCondition(FullScreenOnlyCondition);
+
+			AdvanceGraphicsCategoryCollection->AddChildListData(VerticalSync);
+		}
+
+		//Frame Rate Limit
+		{
+			UListDataObject_String* FrameRateLimit = NewObject<UListDataObject_String>();
+			FrameRateLimit->SetDataID(FName("FrameRateLimit"));
+			FrameRateLimit->SetDataDisplayName(FText::FromString(TEXT("Frame Rate Limit")));
+			FrameRateLimit->SetDescriptionRichText(FText::FromString(TEXT("Adjust Frame Rate Limit")));
+			FrameRateLimit->AddDynamicOptions(LexToString(30.f), FText::FromString(TEXT("30 FPS")));
+			FrameRateLimit->AddDynamicOptions(LexToString(60.f), FText::FromString(TEXT("60 FPS")));
+			FrameRateLimit->AddDynamicOptions(LexToString(90.f), FText::FromString(TEXT("90 FPS")));
+			FrameRateLimit->AddDynamicOptions(LexToString(120.f), FText::FromString(TEXT("120 FPS")));
+			FrameRateLimit->AddDynamicOptions(LexToString(0.f), FText::FromString(TEXT("No Limit")));
+			FrameRateLimit->SetDefaultValueFromString(LexToString(60.f));
+			FrameRateLimit->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(GetFrameRateLimit));
+			FrameRateLimit->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(SetFrameRateLimit));
+			FrameRateLimit->SetShouldApplySettingsImmediately(true);
+
+			AdvanceGraphicsCategoryCollection->AddChildListData(FrameRateLimit);
+		}
+
+		VideoTabCollection->AddChildListData(AdvanceGraphicsCategoryCollection);
 	}
 
 	RegisteredOptionsTabCollections.Add(VideoTabCollection);
