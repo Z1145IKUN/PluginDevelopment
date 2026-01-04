@@ -360,6 +360,28 @@ void UOptionDataRegistry::InitVideoCollectionTab()
 			GraphicsCategoryCollection->AddChildListData(GlobalIlluminationQuality);
 		}
 
+		//Shadow Quality
+		{
+			UListDataObject_StringInteger* ShadowQuality = NewObject<UListDataObject_StringInteger>();
+			ShadowQuality->SetDataID(FName("ShadowQuality"));
+			ShadowQuality->SetDataDisplayName(FText::FromString(TEXT("Shadow Quality")));
+			ShadowQuality->SetDescriptionRichText(
+				FText::FromString(TEXT("Adjust the global Shadow quality")));
+			ShadowQuality->AddIntegerOption(0, FText::FromString(TEXT("Low")));
+			ShadowQuality->AddIntegerOption(1, FText::FromString(TEXT("Medium")));
+			ShadowQuality->AddIntegerOption(2, FText::FromString(TEXT("High")));
+			ShadowQuality->AddIntegerOption(3, FText::FromString(TEXT("Epic")));
+			ShadowQuality->AddIntegerOption(4, FText::FromString(TEXT("Cinematic")));
+			ShadowQuality->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(GetShadowQuality));
+			ShadowQuality->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(SetShadowQuality));
+			ShadowQuality->SetShouldApplySettingsImmediately(true);
+
+			ShadowQuality->AddEditDependencyData(OverallQuality);
+			OverallQuality->AddEditDependencyData(ShadowQuality);
+
+			GraphicsCategoryCollection->AddChildListData(ShadowQuality);
+		}
+
 		VideoTabCollection->AddChildListData(GraphicsCategoryCollection);
 	}
 
