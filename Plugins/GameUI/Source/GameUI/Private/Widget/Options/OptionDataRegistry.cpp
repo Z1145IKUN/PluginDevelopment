@@ -2,7 +2,10 @@
 
 
 #include "Widget/Options/OptionDataRegistry.h"
+
+#include "EnhancedInputSubsystems.h"
 #include "DeveloperSettings/GameUIGameUserSettings.h"
+#include "UserSettings/EnhancedInputUserSettings.h"
 #include "Widget/Options/OptionsDataInteractionHelper.h"
 #include "Widget/Options/DataObject/ListDataObject_String.h"
 #include "Widget/Options/DataObject/ListDataObject_Collection.h"
@@ -18,7 +21,7 @@ void UOptionDataRegistry::InitOptionDataRegistry(ULocalPlayer* InOwningLocalPlay
 	InitGamePlayCollectionTab();
 	InitAudioCollectionTab();
 	InitVideoCollectionTab();
-	InitControlCollectionTab();
+	InitControlCollectionTab(InOwningLocalPlayer);
 }
 
 const TArray<UListDataObject_Collection*>& UOptionDataRegistry::GetRegisteredOptionTabCollections() const
@@ -577,12 +580,57 @@ void UOptionDataRegistry::InitVideoCollectionTab()
 	RegisteredOptionsTabCollections.Add(VideoTabCollection);
 }
 
-void UOptionDataRegistry::InitControlCollectionTab()
+void UOptionDataRegistry::InitControlCollectionTab(ULocalPlayer* InOwningLocalPlayer)
 {
 	UListDataObject_Collection* ControlTabCollection = NewObject<UListDataObject_Collection>();
 
 	ControlTabCollection->SetDataID(FName("ControlTabCollection"));
 	ControlTabCollection->SetDataDisplayName(FText::FromString("Control"));
+
+	UEnhancedInputLocalPlayerSubsystem* EISubsystem = InOwningLocalPlayer->
+		GetSubsystem<UEnhancedInputLocalPlayerSubsystem>();
+	check(EISubsystem);
+	UEnhancedInputUserSettings* EIUSerSettings = EISubsystem->GetUserSettings();
+	check(EIUSerSettings);
+
+	//Keyboard Mouse Category
+	{
+		UListDataObject_Collection* KeyboardMouseCollectionCategory = NewObject<UListDataObject_Collection>();
+		KeyboardMouseCollectionCategory->SetDataID(FName("KeyboardMouseCollectionCategory"));
+		KeyboardMouseCollectionCategory->SetDataDisplayName(FText::FromString(TEXT("Keyboard & Mouse")));
+
+		//Keyboard Mouse Inputs
+		{
+			FPlayerMappableKeyQueryOptions KeyboardMouseOnly;
+			KeyboardMouseOnly.KeyToMatch = EKeys::S;
+			KeyboardMouseOnly.bMatchBasicKeyTypes = true;
+
+			// FPlayerMappableKeyQueryOptions GamepadOnly;
+			// GamepadOnly.KeyToMatch = EKeys::Gamepad_FaceButton_Bottom;
+			// GamepadOnly.bMatchBasicKeyTypes = true;
+
+			//Traverse all available key configuration files
+			for (const TPair<FString, TObjectPtr<UEnhancedPlayerMappableKeyProfile>>& ProfilePair :
+			     EIUSerSettings->GetAllAvailableKeyProfiles())
+			{
+				UEnhancedPlayerMappableKeyProfile* MappableKeyProfile = ProfilePair.Value;
+
+				check(MappableKeyProfile);
+
+				for (const TPair<FName, FKeyMappingRow>& MappingRowPair : MappableKeyProfile->GetPlayerMappingRows())
+				{
+					for (const FPlayerKeyMapping& KeyMapping : MappingRowPair.Value.Mappings)
+					{
+						if (MappableKeyProfile->DoesMappingPassQueryOptions(KeyMapping, KeyboardMouseOnly))
+						{
+						}
+					}
+				}
+			}
+		}
+
+		ControlTabCollection->AddChildListData(KeyboardMouseCollectionCategory);
+	}
 
 	RegisteredOptionsTabCollections.Add(ControlTabCollection);
 }

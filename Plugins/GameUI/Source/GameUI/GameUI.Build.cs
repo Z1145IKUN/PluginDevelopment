@@ -47,6 +47,7 @@ public class GameUI : ModuleRules
 				"SlateCore",
 				"InputCore",
 				"CommonInput",
+				"EnhancedInput",
 				// ... add private dependencies that you statically link with here ...	
 			}
 		);
