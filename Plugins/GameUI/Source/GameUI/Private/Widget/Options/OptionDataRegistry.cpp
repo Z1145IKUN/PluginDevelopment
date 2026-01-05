@@ -9,6 +9,7 @@
 #include "Widget/Options/OptionsDataInteractionHelper.h"
 #include "Widget/Options/DataObject/ListDataObject_String.h"
 #include "Widget/Options/DataObject/ListDataObject_Collection.h"
+#include "Widget/Options/DataObject/ListDataObject_KeyRemap.h"
 #include "Widget/Options/DataObject/ListDataObject_Scalar.h"
 #include "Widget/Options/DataObject/ListDataObject_StringResolution.h"
 
@@ -623,6 +624,16 @@ void UOptionDataRegistry::InitControlCollectionTab(ULocalPlayer* InOwningLocalPl
 					{
 						if (MappableKeyProfile->DoesMappingPassQueryOptions(KeyMapping, KeyboardMouseOnly))
 						{
+							UListDataObject_KeyRemap* KeyRemapDataObject = NewObject<UListDataObject_KeyRemap>();
+							KeyRemapDataObject->SetDataID(KeyMapping.GetMappingName());
+							KeyRemapDataObject->SetDataDisplayName(KeyMapping.GetDisplayName());
+							KeyRemapDataObject->InitKeyRemapData(
+								EIUSerSettings,
+								MappableKeyProfile,
+								ECommonInputType::MouseAndKeyboard,
+								KeyMapping);
+
+							KeyboardMouseCollectionCategory->AddChildListData(KeyRemapDataObject);
 						}
 					}
 				}
