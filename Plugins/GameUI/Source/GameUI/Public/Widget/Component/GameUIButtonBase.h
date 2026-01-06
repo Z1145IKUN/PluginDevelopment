@@ -7,6 +7,7 @@
 #include "GameUIButtonBase.generated.h"
 
 class UCommonTextBlock;
+class UCommonLazyImage;
 /**
  * 
  */
@@ -32,10 +33,16 @@ public:
 	UFUNCTION(BlueprintCallable)
 	FText GetButtonDisplayText() const;
 
+	UFUNCTION(BlueprintCallable)
+	void SetButtonImage(const FSlateBrush& InBrush);
+
 private:
 	//***** Bind widget *****//
-	UPROPERTY(meta=(BindWidgetOptional))
+	UPROPERTY(BlueprintReadOnly, meta=(BindWidgetOptional, AllowPrivateAccess="true"))
 	TObjectPtr<UCommonTextBlock> CommonTextBlock_ButtonText;
+
+	UPROPERTY(BlueprintReadOnly, meta=(BindWidgetOptional, AllowPrivateAccess="true"))
+	TObjectPtr<UCommonLazyImage> CommonLazyImage_ButtonImage;
 	//***** Bind widget *****//
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="GameUI|Button", meta=(AllowPrivateAccess="true"))

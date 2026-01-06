@@ -3,6 +3,7 @@
 
 #include "Widget/Component/GameUIButtonBase.h"
 
+#include "CommonLazyImage.h"
 #include "CommonTextBlock.h"
 #include "Subsystem/GameUISubsystem.h"
 
@@ -56,4 +57,12 @@ FText UGameUIButtonBase::GetButtonDisplayText() const
 	}
 
 	return FText();
+}
+
+void UGameUIButtonBase::SetButtonImage(const FSlateBrush& InBrush)
+{
+	if (CommonLazyImage_ButtonImage)
+	{
+		CommonLazyImage_ButtonImage->SetBrush(InBrush);
+	}
 }
