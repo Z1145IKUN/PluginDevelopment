@@ -35,7 +35,9 @@ protected:
 	 * when it is reused next time.
 	 */
 	virtual void NativeOnEntryReleased() override;
-	//~ Begin IUserObjectListEntry Interface
+
+	virtual void NativeOnItemSelectionChanged(bool bIsSelected) override;
+	//~ End IUserObjectListEntry Interface
 
 	/**
 	 * the child class should override it to handle the initialization needed
@@ -62,8 +64,13 @@ protected:
 	virtual FReply NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent) override;
 	//~ Begin UUserWidget Interface
 
+	//the child widget blueprint should override this function for the gamepad interaction to function
 	UFUNCTION(BlueprintImplementableEvent, meta=( DisplayName="Get Widget To Focus For Gamepad" ))
 	UWidget* BP_GetWidgetToFocusForGamepad() const;
+
+	//the child widget blueprint should override it to handle highlight state when the widget is hovered or selected
+	UFUNCTION(BlueprintImplementableEvent, meta=(DisplayName="On Toggle Entry Widget Highlight State"))
+	void BP_OnToggleEntryWidgetHighlightState(bool bShouldHighlight) const;
 
 private:
 	//***** Bound Widget *****//
