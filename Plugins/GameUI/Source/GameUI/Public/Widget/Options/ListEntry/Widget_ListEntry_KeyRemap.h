@@ -18,6 +18,10 @@ class GAMEUI_API UWidget_ListEntry_KeyRemap : public UWidget_ListEntry_Base
 	GENERATED_BODY()
 
 protected:
+	//~ Begin UUserWidget interface
+	virtual void NativeOnInitialized() override;
+	//~ End UUserWidget interface
+
 	//~ Begin UWidget_ListEntry_Base interface
 	virtual void OnListDataObjectSet(UListDataObject_Base* InListDataObject) override;
 	virtual void OnListDataObjectModified(UListDataObject_Base* ModifiedData,
@@ -25,6 +29,9 @@ protected:
 	//~ End UWidget_ListEntry_Base interface
 
 private:
+	void OnRemapKeyButtonClicked();
+	void OnResetKeyBindingButtonClicked();
+
 	//***** Bound Widget *****//
 	UPROPERTY(BlueprintReadOnly, meta=(BindWidget, AllowPrivateAccess = "true"))
 	TObjectPtr<UGameUIButtonBase> CommonButton_RemapKey;
