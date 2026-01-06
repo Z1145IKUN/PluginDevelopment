@@ -26,7 +26,11 @@ public:
 		const FPlayerKeyMapping& InPlayerKeyMapping
 	);
 
+	FSlateBrush GetIconFromCurrentKey() const;
+
 private:
+	FPlayerKeyMapping* GetOwningKeyMapping() const;
+
 	UPROPERTY(Transient)
 	TObjectPtr<UEnhancedInputUserSettings> OwningInputUserSettings;
 
