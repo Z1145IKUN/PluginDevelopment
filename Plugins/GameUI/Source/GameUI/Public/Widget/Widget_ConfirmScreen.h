@@ -55,6 +55,11 @@ public:
 		UConfirmScreenInfoObject* InScreenInfoObject,
 		TFunction<void(EConfirmScreenButtonType)> ClickedButtonCallBack);
 
+protected:
+	//~ Begin UCommonActivatableWidget interface
+	virtual UWidget* NativeGetDesiredFocusTarget() const override;
+	//~ End UCommonActivatableWidget interface
+
 private:
 	UPROPERTY(meta=(BindWidget))
 	TObjectPtr<UCommonTextBlock> CommonTextBlock_Title;

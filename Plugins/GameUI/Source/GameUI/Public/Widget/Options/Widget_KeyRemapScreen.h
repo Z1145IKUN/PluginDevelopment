@@ -60,7 +60,7 @@ private:
 class FKeyRemapScreenInputPreprocessor : public IInputProcessor
 {
 public:
-	FKeyRemapScreenInputPreprocessor(ECommonInputType InInputTypeToListenTo);
+	FKeyRemapScreenInputPreprocessor(ECommonInputType InInputTypeToListenTo, ULocalPlayer* InOwningLocalPlayer);
 
 	DECLARE_DELEGATE_OneParam(FOnInputPreprocessorKeyPressedDelegate, const FKey& /*PressedKey*/);
 	FOnInputPreprocessorKeyPressedDelegate OnInputPreprocessorKeyPressed;
@@ -79,4 +79,6 @@ protected:
 
 private:
 	ECommonInputType InputTypeToListenTo;
+
+	TWeakObjectPtr<ULocalPlayer> CachedWeakLocalPlayer;
 };
