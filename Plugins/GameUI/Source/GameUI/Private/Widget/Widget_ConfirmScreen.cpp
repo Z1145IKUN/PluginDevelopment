@@ -4,7 +4,6 @@
 #include "Widget/Widget_ConfirmScreen.h"
 
 #include "CommonTextBlock.h"
-#include "ICommonInputModule.h"
 #include "Components/DynamicEntryBox.h"
 #include "Widget/Component/GameUIButtonBase.h"
 
@@ -77,7 +76,7 @@ void UWidget_ConfirmScreen::InitConfirmScreen(UConfirmScreenInfoObject* InScreen
 	if (DynamicEntryBox_Buttons->GetNumEntries() != 0)
 	{
 		DynamicEntryBox_Buttons->Reset<UGameUIButtonBase>(
-			[](UGameUIButtonBase& ExistingButton)
+			[](const UGameUIButtonBase& ExistingButton)
 			{
 				ExistingButton.OnClicked().Clear();
 			}
@@ -88,24 +87,8 @@ void UWidget_ConfirmScreen::InitConfirmScreen(UConfirmScreenInfoObject* InScreen
 
 	for (const FConfirmScreenButtonInfo& ButtonInfo : InScreenInfoObject->AvailableScreenButtons)
 	{
-		FDataTableRowHandle InputActionRowHandle;
-		switch (ButtonInfo.ConfirmScreenButtonType)
-		{
-		case EConfirmScreenButtonType::Confirmed:
-			break;
-		case EConfirmScreenButtonType::Canceled:
-			InputActionRowHandle = ICommonInputModule::GetSettings().GetDefaultBackAction();
-			break;
-		case EConfirmScreenButtonType::Closed:
-			InputActionRowHandle = ICommonInputModule::GetSettings().GetDefaultBackAction();
-			break;
-		default:
-			break;
-		}
-
 		UGameUIButtonBase* AddedButton = DynamicEntryBox_Buttons->CreateEntry<UGameUIButtonBase>();
 		AddedButton->SetButtonText(ButtonInfo.ButtonTextToDisplay);
-		AddedButton->SetTriggeringInputAction(InputActionRowHandle); 
 		AddedButton->OnClicked().AddLambda(
 			[ClickedButtonCallBack,ButtonInfo,this]()
 			{

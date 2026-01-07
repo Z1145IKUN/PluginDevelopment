@@ -38,6 +38,8 @@ void UWidget_ListEntry_KeyRemap::OnListDataObjectModified(UListDataObject_Base* 
 
 void UWidget_ListEntry_KeyRemap::OnRemapKeyButtonClicked()
 {
+	SelectedThisEntryWidget();
+
 	UGameUISubsystem::Get(this)->PushSoftWidgetToStack(
 		GameUIGameplayTags::GameUI_WidgetStack_Modal,
 		UGameUIFunctionLibrary::GetSoftWidgetClassByTag(GameUIGameplayTags::GameUI_Widget_KeyRemapScreen),
@@ -62,6 +64,44 @@ void UWidget_ListEntry_KeyRemap::OnRemapKeyButtonClicked()
 
 void UWidget_ListEntry_KeyRemap::OnResetKeyBindingButtonClicked()
 {
+	SelectedThisEntryWidget();
+
+	check(KeyRemapListDataObject);
+	/**
+	 *	check if the current key is already the default key 
+	 *	if yes,display ok screen that says this is already the default key to player
+	 *	if no,reset the key binding back to default
+	 */
+	if (!KeyRemapListDataObject->CanResetBackToDefaultValue())
+	{
+		UGameUISubsystem::Get(this)->PushConfirmScreenToModalStackAsync(
+			EConfirmScreenType::OK,
+			FText::FromString(TEXT("Reset Key Remap")),
+			FText::FromString(TEXT("The key binding for ")
+				+ KeyRemapListDataObject->GetDataDisplayName().ToString()
+				+ TEXT(" is already set to default")),
+			[](EConfirmScreenButtonType ClickedButton)
+			{
+			}
+		);
+	}
+	else
+	{
+		UGameUISubsystem::Get(this)->PushConfirmScreenToModalStackAsync(
+			EConfirmScreenType::YesNo,
+			FText::FromString(TEXT("Reset Key Remap")),
+			FText::FromString(TEXT("Do you want to reset the key binding for ")
+				+ KeyRemapListDataObject->GetDataDisplayName().ToString()
+				+ TEXT(" ?")),
+			[this](EConfirmScreenButtonType ClickedButton)
+			{
+				if (ClickedButton == EConfirmScreenButtonType::Confirmed)
+				{
+					KeyRemapListDataObject->TryResetBackToDefaultValue();
+				}
+			}
+		);
+	}
 }
 
 void UWidget_ListEntry_KeyRemap::OnKeyRemapPressed(const FKey& PressedKey)

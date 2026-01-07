@@ -32,6 +32,12 @@ public:
 
 	void BindNewInputKey(const FKey& InNewKey);
 
+	// ~ Begin UListDataObject_Base interface
+	virtual bool HasDefaultValue() const override;
+	virtual bool CanResetBackToDefaultValue() const override;
+	virtual bool TryResetBackToDefaultValue() override;
+	// ~ End UListDataObject_Base interface
+
 private:
 	FPlayerKeyMapping* GetOwningKeyMapping() const;
 
