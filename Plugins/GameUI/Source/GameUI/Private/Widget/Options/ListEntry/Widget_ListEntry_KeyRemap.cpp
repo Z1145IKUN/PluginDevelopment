@@ -7,6 +7,7 @@
 #include "FunctionLibrary/GameUIFunctionLibrary.h"
 #include "Subsystem/GameUISubsystem.h"
 #include "Widget/Component/GameUIButtonBase.h"
+#include "Widget/Options/Widget_KeyRemapScreen.h"
 #include "Widget/Options/DataObject/ListDataObject_KeyRemap.h"
 
 void UWidget_ListEntry_KeyRemap::NativeOnInitialized()
@@ -40,12 +41,45 @@ void UWidget_ListEntry_KeyRemap::OnRemapKeyButtonClicked()
 	UGameUISubsystem::Get(this)->PushSoftWidgetToStack(
 		GameUIGameplayTags::GameUI_WidgetStack_Modal,
 		UGameUIFunctionLibrary::GetSoftWidgetClassByTag(GameUIGameplayTags::GameUI_Widget_KeyRemapScreen),
-		[](EAsyncPushWidgetState PushWidgetState, UWidget_ActivatableBase* PushWidget)
+		[this](EAsyncPushWidgetState PushWidgetState, UWidget_ActivatableBase* PushWidget)
 		{
+			if (PushWidgetState == EAsyncPushWidgetState::OnCreatedBeforePush)
+			{
+				UWidget_KeyRemapScreen* CreatedKeyRemapScreen = CastChecked<UWidget_KeyRemapScreen>(PushWidget);
+
+				CreatedKeyRemapScreen->OnKeyRemapScreenKeyPressed.BindUObject(this, &ThisClass::OnKeyRemapPressed);
+				CreatedKeyRemapScreen->OnKeyRemapScreenKeySelectedCanceled.BindUObject(
+					this, &ThisClass::OnKeyRemapCanceled);
+
+				if (KeyRemapListDataObject)
+				{
+					CreatedKeyRemapScreen->SetDesiredInputTypeToFilter(KeyRemapListDataObject->GetDesiredInputType());
+				}
+			}
 		}
 	);
 }
 
 void UWidget_ListEntry_KeyRemap::OnResetKeyBindingButtonClicked()
 {
+}
+
+void UWidget_ListEntry_KeyRemap::OnKeyRemapPressed(const FKey& PressedKey)
+{
+	if (KeyRemapListDataObject)
+	{
+		KeyRemapListDataObject->BindNewInputKey(PressedKey);
+	}
+}
+
+void UWidget_ListEntry_KeyRemap::OnKeyRemapCanceled(const FString& CanceledReason)
+{
+	UGameUISubsystem::Get(this)->PushConfirmScreenToModalStackAsync(
+		EConfirmScreenType::OK,
+		FText::FromString(TEXT("Key Remap")),
+		FText::FromString(CanceledReason),
+		[](EConfirmScreenButtonType ClickedButton)
+		{
+		}
+	);
 }

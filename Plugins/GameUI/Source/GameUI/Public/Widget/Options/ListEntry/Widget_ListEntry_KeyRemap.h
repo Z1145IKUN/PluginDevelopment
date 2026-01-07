@@ -32,6 +32,9 @@ private:
 	void OnRemapKeyButtonClicked();
 	void OnResetKeyBindingButtonClicked();
 
+	void OnKeyRemapPressed(const FKey& PressedKey);
+	void OnKeyRemapCanceled(const FString& CanceledReason);
+
 	//***** Bound Widget *****//
 	UPROPERTY(BlueprintReadOnly, meta=(BindWidget, AllowPrivateAccess = "true"))
 	TObjectPtr<UGameUIButtonBase> CommonButton_RemapKey;

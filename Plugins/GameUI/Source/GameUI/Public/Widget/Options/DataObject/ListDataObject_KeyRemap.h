@@ -28,6 +28,10 @@ public:
 
 	FSlateBrush GetIconFromCurrentKey() const;
 
+	ECommonInputType GetDesiredInputType() const;
+
+	void BindNewInputKey(const FKey& InNewKey);
+
 private:
 	FPlayerKeyMapping* GetOwningKeyMapping() const;
 
