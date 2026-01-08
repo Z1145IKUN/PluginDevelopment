@@ -48,6 +48,7 @@ public class GameUI : ModuleRules
 				"InputCore",
 				"CommonInput",
 				"EnhancedInput",
+				"PreLoadScreen"
 				// ... add private dependencies that you statically link with here ...	
 			}
 		);
