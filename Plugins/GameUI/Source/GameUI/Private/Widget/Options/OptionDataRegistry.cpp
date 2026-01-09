@@ -581,7 +581,7 @@ void UOptionDataRegistry::InitVideoCollectionTab()
 	RegisteredOptionsTabCollections.Add(VideoTabCollection);
 }
 
-void UOptionDataRegistry::InitControlCollectionTab(ULocalPlayer* InOwningLocalPlayer)
+void UOptionDataRegistry::InitControlCollectionTab(const ULocalPlayer* InOwningLocalPlayer)
 {
 	UListDataObject_Collection* ControlTabCollection = NewObject<UListDataObject_Collection>();
 
@@ -653,6 +653,7 @@ void UOptionDataRegistry::InitControlCollectionTab(ULocalPlayer* InOwningLocalPl
 				GamepadOnly.bMatchBasicKeyTypes = true;
 
 				//Traverse all available key configuration files
+				//配置方案
 				for (const TPair<FString, TObjectPtr<UEnhancedPlayerMappableKeyProfile>>& ProfilePair :
 				     EIUSerSettings->GetAllAvailableKeyProfiles())
 				{
@@ -660,9 +661,11 @@ void UOptionDataRegistry::InitControlCollectionTab(ULocalPlayer* InOwningLocalPl
 
 					check(MappableKeyProfile);
 
+					//映射行
 					for (const TPair<FName, FKeyMappingRow>& MappingRowPair : MappableKeyProfile->
 					     GetPlayerMappingRows())
 					{
+						//具体映射
 						for (const FPlayerKeyMapping& KeyMapping : MappingRowPair.Value.Mappings)
 						{
 							if (MappableKeyProfile->DoesMappingPassQueryOptions(KeyMapping, GamepadOnly))

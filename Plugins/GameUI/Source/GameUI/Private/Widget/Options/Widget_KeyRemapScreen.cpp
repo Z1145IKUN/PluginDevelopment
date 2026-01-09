@@ -144,6 +144,7 @@ void FKeyRemapScreenInputPreprocessor::ProcessPressedKey(const FKey& InPressedKe
 			return;
 		}
 		break;
+
 	case ECommonInputType::Gamepad:
 		if (CurrentInputType == ECommonInputType::Gamepad && InPressedKey == EKeys::LeftMouseButton)
 		{

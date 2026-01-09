@@ -51,11 +51,10 @@ void UListDataObject_KeyRemap::BindNewInputKey(const FKey& InNewKey)
 	KeyArgs.Slot = OwningMappableKeySlot;
 	KeyArgs.NewKey = InNewKey;
 
-	FGameplayTagContainer Container;
+	FGameplayTagContainer Issues;
+	OwningInputUserSettings->MapPlayerKey(KeyArgs, Issues);
 
-	OwningInputUserSettings->MapPlayerKey(KeyArgs, Container);
 	OwningInputUserSettings->SaveSettings();
-
 	NotifyListDataModified(this);
 }
 
