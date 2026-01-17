@@ -17,6 +17,8 @@
 	MakeShared<FOptionsDataInteractionHelper> \
 	(GET_FUNCTION_NAME_STRING_CHECKED(UGameUIGameUserSettings, GetterOrSetterFuncName))
 
+#define LOCTEXT_NAMESPACE "Options"
+
 void UOptionDataRegistry::InitOptionDataRegistry(ULocalPlayer* InOwningLocalPlayer)
 {
 	InitGamePlayCollectionTab();
@@ -65,33 +67,33 @@ void UOptionDataRegistry::InitGamePlayCollectionTab()
 	UListDataObject_Collection* GameplayTabCollection = NewObject<UListDataObject_Collection>();
 
 	GameplayTabCollection->SetDataID(FName("GameplayTabCollection"));
-	GameplayTabCollection->SetDataDisplayName(FText::FromString("Gameplay"));
+	GameplayTabCollection->SetDataDisplayName(LOCTEXT("GameplayTab", "Gameplay"));
 
-	//GameDifficult
+
+	//Common Category
 	{
-		UListDataObject_String* GameDifficulty = NewObject<UListDataObject_String>();
-		GameDifficulty->SetDataID(FName("GameDifficult"));
-		GameDifficulty->SetDataDisplayName(FText::FromString("Difficult"));
-		GameDifficulty->AddDynamicOptions(TEXT("Easy"), FText::FromString(TEXT("Easy")));
-		GameDifficulty->AddDynamicOptions(TEXT("Normal"), FText::FromString(TEXT("Normal")));
-		GameDifficulty->AddDynamicOptions(TEXT("Hard"), FText::FromString(TEXT("Hard")));
-		GameDifficulty->AddDynamicOptions(TEXT("Nightmare"), FText::FromString(TEXT("Nightmare")));
-		GameDifficulty->SetDefaultValueFromString(TEXT("Normal"));
-		GameDifficulty->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(GetCurrentDifficulty));
-		GameDifficulty->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(SetCurrentDifficulty));
-		GameDifficulty->SetShouldApplySettingsImmediately(true);
-		GameDifficulty->SetDescriptionRichText(
-			FText::FromString(
-				TEXT(
-					"The game allows you to adjust the difficulty at any time. \n\n"
-					"<Bold>Easy</> \n\n"
-					"<Bold>Normal</>\n\n"
-					"<Bold>Hard</>\n\n"
-					"<Bold>Nightmare</>"
-				)
-			)
-		);
-		GameplayTabCollection->AddChildListData(GameDifficulty);
+		UListDataObject_Collection* CommonCategoryCollection = NewObject<UListDataObject_Collection>();
+		CommonCategoryCollection->SetDataID(FName("CommonCategoryCollection"));
+		CommonCategoryCollection->SetDataDisplayName(LOCTEXT("CommonCategoryCollection", "Common"));
+
+		//GameDifficult
+		{
+			UListDataObject_String* GameDifficulty = NewObject<UListDataObject_String>();
+			GameDifficulty->SetDataID(FName("GameDifficult"));
+			GameDifficulty->SetDataDisplayName(LOCTEXT("Difficulty", "Difficulty"));
+			GameDifficulty->AddDynamicOptions(TEXT("Easy"),LOCTEXT("GameDifficult_Easy", "Easy"));
+			GameDifficulty->AddDynamicOptions(TEXT("Normal"), LOCTEXT("GameDifficult_Normal", "Normal"));
+			GameDifficulty->AddDynamicOptions(TEXT("Hard"), LOCTEXT("GameDifficulty_Hard", "Hard"));
+			GameDifficulty->AddDynamicOptions(TEXT("Nightmare"), LOCTEXT("GameDifficult_Nightmare", "Nightmare"));
+			GameDifficulty->SetDefaultValueFromString(TEXT("Normal"));
+			GameDifficulty->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(GetCurrentDifficulty));
+			GameDifficulty->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(SetCurrentDifficulty));
+			GameDifficulty->SetShouldApplySettingsImmediately(true);
+
+			CommonCategoryCollection->AddChildListData(GameDifficulty);
+		}
+
+		GameplayTabCollection->AddChildListData(CommonCategoryCollection);
 	}
 
 	RegisteredOptionsTabCollections.Add(GameplayTabCollection);
@@ -102,20 +104,19 @@ void UOptionDataRegistry::InitAudioCollectionTab()
 	UListDataObject_Collection* AudioTabCollection = NewObject<UListDataObject_Collection>();
 
 	AudioTabCollection->SetDataID(FName("AudioTabCollection"));
-	AudioTabCollection->SetDataDisplayName(FText::FromString("Audio"));
+	AudioTabCollection->SetDataDisplayName(LOCTEXT("AudioTab", "Audio"));
 
 	//Volume Category
 	{
 		UListDataObject_Collection* VolumeCategoryCollection = NewObject<UListDataObject_Collection>();
 		VolumeCategoryCollection->SetDataID(FName("VolumeCategoryCollection"));
-		VolumeCategoryCollection->SetDataDisplayName(FText::FromString("Volume"));
+		VolumeCategoryCollection->SetDataDisplayName(LOCTEXT("VolumeCategoryCollection", "Volume"));
 
 		//overall volume
 		{
 			UListDataObject_Scalar* OverallVolume = NewObject<UListDataObject_Scalar>();
 			OverallVolume->SetDataID(FName("OverallVolume"));
-			OverallVolume->SetDataDisplayName(FText::FromString(TEXT("Overall Volume")));
-			OverallVolume->SetDescriptionRichText(FText::FromString(TEXT("This is description for overall volume")));
+			OverallVolume->SetDataDisplayName(LOCTEXT("OverallVolume", "Overall Volume"));
 			OverallVolume->SetDisplayValueRange(TRange<float>(0.0f, 1.0f));
 			OverallVolume->SetOutputValueRange(TRange<float>(0.0f, 2.0f));
 			OverallVolume->SetSliderStepSize(0.01f);
@@ -133,8 +134,7 @@ void UOptionDataRegistry::InitAudioCollectionTab()
 		{
 			UListDataObject_Scalar* MusicVolume = NewObject<UListDataObject_Scalar>();
 			MusicVolume->SetDataID(FName("MusicVolume"));
-			MusicVolume->SetDataDisplayName(FText::FromString(TEXT("Music Volume")));
-			MusicVolume->SetDescriptionRichText(FText::FromString(TEXT("This is description for Music volume")));
+			MusicVolume->SetDataDisplayName(LOCTEXT("MusicVolume", "Music Volume"));
 			MusicVolume->SetDisplayValueRange(TRange<float>(0.0f, 1.0f));
 			MusicVolume->SetOutputValueRange(TRange<float>(0.0f, 2.0f));
 			MusicVolume->SetSliderStepSize(0.01f);
@@ -152,9 +152,7 @@ void UOptionDataRegistry::InitAudioCollectionTab()
 		{
 			UListDataObject_Scalar* SoundFXVolume = NewObject<UListDataObject_Scalar>();
 			SoundFXVolume->SetDataID(FName("SoundFXVolume"));
-			SoundFXVolume->SetDataDisplayName(FText::FromString(TEXT("Sound Effects Volume")));
-			SoundFXVolume->SetDescriptionRichText(
-				FText::FromString(TEXT("This is description for Sound Effects volume")));
+			SoundFXVolume->SetDataDisplayName(LOCTEXT("SoundFXVolume", "Sound Effects Volume"));
 			SoundFXVolume->SetDisplayValueRange(TRange<float>(0.0f, 1.0f));
 			SoundFXVolume->SetOutputValueRange(TRange<float>(0.0f, 2.0f));
 			SoundFXVolume->SetSliderStepSize(0.01f);
@@ -175,17 +173,15 @@ void UOptionDataRegistry::InitAudioCollectionTab()
 	{
 		UListDataObject_Collection* SoundCategory = NewObject<UListDataObject_Collection>();
 		SoundCategory->SetDataID(FName("SoundCategory"));
-		SoundCategory->SetDataDisplayName(FText::FromString(TEXT("Sound")));
+		SoundCategory->SetDataDisplayName(LOCTEXT("SoundCategory", "Sound"));
 
 		//Allow Background Audio
 		{
 			UListDataObject_StringBool* AllowBackgroundAudio = NewObject<UListDataObject_StringBool>();
 			AllowBackgroundAudio->SetDataID(FName("AllowBackgroundAudio"));
-			AllowBackgroundAudio->SetDataDisplayName(FText::FromString(TEXT("Allow Background Audio")));
-			AllowBackgroundAudio->
-				SetDescriptionRichText(FText::FromString(TEXT("Turn on or off the background Audio")));
-			AllowBackgroundAudio->OverrideTrueDisplayText(FText::FromString(TEXT("Enable")));
-			AllowBackgroundAudio->OverrideFalseDisplayText(FText::FromString(TEXT("Disable")));
+			AllowBackgroundAudio->SetDataDisplayName(LOCTEXT("AllowBackgroundAudio", "Allow Background Audio"));
+			AllowBackgroundAudio->OverrideTrueDisplayText(LOCTEXT("Enable", "Enable"));
+			AllowBackgroundAudio->OverrideFalseDisplayText(LOCTEXT("Disable", "Disable"));
 			AllowBackgroundAudio->SetTrueAsDefaultString();
 			AllowBackgroundAudio->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(GetAllowBackgroundAudio));
 			AllowBackgroundAudio->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(SetAllowBackgroundAudio));
@@ -198,11 +194,9 @@ void UOptionDataRegistry::InitAudioCollectionTab()
 		{
 			UListDataObject_StringBool* UseHDRAudio = NewObject<UListDataObject_StringBool>();
 			UseHDRAudio->SetDataID(FName("UseHDRAudio"));
-			UseHDRAudio->SetDataDisplayName(FText::FromString(TEXT("Use HDR Audio")));
-			UseHDRAudio->
-				SetDescriptionRichText(FText::FromString(TEXT("Turn on or off the HDR Audio")));
-			UseHDRAudio->OverrideTrueDisplayText(FText::FromString(TEXT("Enable")));
-			UseHDRAudio->OverrideFalseDisplayText(FText::FromString(TEXT("Disable")));
+			UseHDRAudio->SetDataDisplayName(LOCTEXT("UseHDRAudio", "Use HDR Audio"));
+			UseHDRAudio->OverrideTrueDisplayText(LOCTEXT("Enable", "Enable"));
+			UseHDRAudio->OverrideFalseDisplayText(LOCTEXT("Disable", "Disable"));
 			UseHDRAudio->SetTrueAsDefaultString();
 			UseHDRAudio->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(GetUseHDRAudio));
 			UseHDRAudio->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(SetUseHDRAudio));
@@ -221,7 +215,7 @@ void UOptionDataRegistry::InitVideoCollectionTab()
 {
 	UListDataObject_Collection* VideoTabCollection = NewObject<UListDataObject_Collection>();
 	VideoTabCollection->SetDataID(FName("VideoTabCollection"));
-	VideoTabCollection->SetDataDisplayName(FText::FromString("Video"));
+	VideoTabCollection->SetDataDisplayName(LOCTEXT("VideoTab", "Video"));
 
 	UListDataObject_StringEnum* WindowMode = NewObject<UListDataObject_StringEnum>();
 
@@ -229,19 +223,18 @@ void UOptionDataRegistry::InitVideoCollectionTab()
 	{
 		UListDataObject_Collection* DisplayCategoryCollection = NewObject<UListDataObject_Collection>();
 		DisplayCategoryCollection->SetDataID(FName("DisplayCategoryCollection"));
-		DisplayCategoryCollection->SetDataDisplayName(FText::FromString(TEXT("Display")));
+		DisplayCategoryCollection->SetDataDisplayName(LOCTEXT("DisplayCategoryCollection", "Display"));
 
 		UListDataObject_StringResolution* ScreenResolution = NewObject<UListDataObject_StringResolution>();
 
 		//Window mode
 		{
 			WindowMode->SetDataID(FName("WindowMode"));
-			WindowMode->SetDataDisplayName(FText::FromString(TEXT("Window Mode")));
-			WindowMode->SetDescriptionRichText(FText::FromString(TEXT("Adjust the window mode")));
-			WindowMode->AddEnumOption(EWindowMode::Type::Fullscreen, FText::FromString(TEXT("Fullscreen")));
+			WindowMode->SetDataDisplayName(LOCTEXT("WindowMode", "Window Mode"));
+			WindowMode->AddEnumOption(EWindowMode::Type::Fullscreen, LOCTEXT("Fullscreen", "Fullscreen"));
 			WindowMode->AddEnumOption(EWindowMode::Type::WindowedFullscreen,
-			                          FText::FromString(TEXT("Borderless Window")));
-			WindowMode->AddEnumOption(EWindowMode::Type::Windowed, FText::FromString(TEXT("Windowed")));
+			                          LOCTEXT("WindowedFullscreen", "Borderless Window"));
+			WindowMode->AddEnumOption(EWindowMode::Type::Windowed, LOCTEXT("Windowed", "Windowed"));
 			WindowMode->SetDefaultValueFromEnumOption(EWindowMode::Type::WindowedFullscreen);
 			WindowMode->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(GetWindowMode));
 			WindowMode->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(SetWindowMode));
@@ -253,8 +246,7 @@ void UOptionDataRegistry::InitVideoCollectionTab()
 		//Screen Resolution
 		{
 			ScreenResolution->SetDataID(FName("ScreenResolution"));
-			ScreenResolution->SetDataDisplayName(FText::FromString(TEXT("Screen Resolution")));
-			ScreenResolution->SetDescriptionRichText(FText::FromString(TEXT("Adjust the screen resolution")));
+			ScreenResolution->SetDataDisplayName(LOCTEXT("ScreenResolution", "Screen Resolution"));
 			ScreenResolution->InitResolutionValues();
 			ScreenResolution->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(GetScreenResolution));
 			ScreenResolution->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(SetScreenResolution));
@@ -270,6 +262,7 @@ void UOptionDataRegistry::InitVideoCollectionTab()
 					return !bIsBorderlessWindow;
 				}
 			);
+			//TODO: use String Table
 			WindowModeEditCondition.SetDisabledRichReason(TEXT(
 				"\n\n<Disabled>Screen Resolution is not adjust when the window mode is set to borderless window</>"));
 			WindowModeEditCondition.SetDisabledForcedStringValue(ScreenResolution->GetMaxAllowResolution());
@@ -286,7 +279,7 @@ void UOptionDataRegistry::InitVideoCollectionTab()
 	{
 		UListDataObject_Collection* GraphicsCategoryCollection = NewObject<UListDataObject_Collection>();
 		GraphicsCategoryCollection->SetDataID(FName("GraphicsCategoryCollection"));
-		GraphicsCategoryCollection->SetDataDisplayName(FText::FromString("Graphics"));
+		GraphicsCategoryCollection->SetDataDisplayName(LOCTEXT("GraphicsCategoryCollection", "Graphics"));
 
 		UListDataObject_StringInteger* OverallQuality = NewObject<UListDataObject_StringInteger>();
 
@@ -294,8 +287,7 @@ void UOptionDataRegistry::InitVideoCollectionTab()
 		{
 			UListDataObject_Scalar* DisplayGamma = NewObject<UListDataObject_Scalar>();
 			DisplayGamma->SetDataID(FName("DisplayGamma"));
-			DisplayGamma->SetDataDisplayName(FText::FromString(TEXT("Brightness")));
-			DisplayGamma->SetDescriptionRichText(FText::FromString(TEXT("Adjust the screen brightness")));
+			DisplayGamma->SetDataDisplayName(LOCTEXT("DisplayGamma", "Brightness"));
 			DisplayGamma->SetDisplayValueRange(TRange<float>(0.f, 1.f));
 			DisplayGamma->SetOutputValueRange(TRange<float>(1.7f, 2.7f));
 			DisplayGamma->SetSliderStepSize(0.01f);
@@ -311,13 +303,12 @@ void UOptionDataRegistry::InitVideoCollectionTab()
 		//Overall Quality
 		{
 			OverallQuality->SetDataID(FName("OverallQuality"));
-			OverallQuality->SetDataDisplayName(FText::FromString(TEXT("Overall Quality")));
-			OverallQuality->SetDescriptionRichText(FText::FromString(TEXT("Adjust the overall quality")));
-			OverallQuality->AddIntegerOption(0, FText::FromString(TEXT("Low")));
-			OverallQuality->AddIntegerOption(1, FText::FromString(TEXT("Medium")));
-			OverallQuality->AddIntegerOption(2, FText::FromString(TEXT("High")));
-			OverallQuality->AddIntegerOption(3, FText::FromString(TEXT("Epic")));
-			OverallQuality->AddIntegerOption(4, FText::FromString(TEXT("Cinematic")));
+			OverallQuality->SetDataDisplayName(LOCTEXT("OverallQuality", "Overall Quality"));
+			OverallQuality->AddIntegerOption(0, LOCTEXT("Low", "Low"));
+			OverallQuality->AddIntegerOption(1, LOCTEXT("Medium", "Medium"));
+			OverallQuality->AddIntegerOption(2, LOCTEXT("High", "High"));
+			OverallQuality->AddIntegerOption(3, LOCTEXT("Epic", "Epic"));
+			OverallQuality->AddIntegerOption(4, LOCTEXT("Cinematic", "Cinematic"));
 			OverallQuality->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(GetOverallScalabilityLevel));
 			OverallQuality->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(SetOverallScalabilityLevel));
 			OverallQuality->SetShouldApplySettingsImmediately(true);
@@ -329,8 +320,7 @@ void UOptionDataRegistry::InitVideoCollectionTab()
 		{
 			UListDataObject_Scalar* ResolutionScale = NewObject<UListDataObject_Scalar>();
 			ResolutionScale->SetDataID(FName("ResolutionScale"));
-			ResolutionScale->SetDataDisplayName(FText::FromString(TEXT("3D Resolution")));
-			ResolutionScale->SetDescriptionRichText(FText::FromString(TEXT("Adjust the resolution scale")));
+			ResolutionScale->SetDataDisplayName(LOCTEXT("ResolutionScale", "3D Resolution"));
 			ResolutionScale->SetDisplayValueRange(TRange<float>(0.f, 1.f));
 			ResolutionScale->SetOutputValueRange(TRange<float>(0.f, 1.f));
 			ResolutionScale->SetSliderStepSize(0.01f);
@@ -349,14 +339,13 @@ void UOptionDataRegistry::InitVideoCollectionTab()
 		{
 			UListDataObject_StringInteger* GlobalIlluminationQuality = NewObject<UListDataObject_StringInteger>();
 			GlobalIlluminationQuality->SetDataID(FName("GlobalIlluminationQuality"));
-			GlobalIlluminationQuality->SetDataDisplayName(FText::FromString(TEXT("Global Illumination Quality")));
-			GlobalIlluminationQuality->SetDescriptionRichText(
-				FText::FromString(TEXT("Adjust the global illumination quality")));
-			GlobalIlluminationQuality->AddIntegerOption(0, FText::FromString(TEXT("Low")));
-			GlobalIlluminationQuality->AddIntegerOption(1, FText::FromString(TEXT("Medium")));
-			GlobalIlluminationQuality->AddIntegerOption(2, FText::FromString(TEXT("High")));
-			GlobalIlluminationQuality->AddIntegerOption(3, FText::FromString(TEXT("Epic")));
-			GlobalIlluminationQuality->AddIntegerOption(4, FText::FromString(TEXT("Cinematic")));
+			GlobalIlluminationQuality->SetDataDisplayName(
+				LOCTEXT("GlobalIlluminationQuality", "Global Illumination Quality"));
+			GlobalIlluminationQuality->AddIntegerOption(0, LOCTEXT("Low", "Low"));
+			GlobalIlluminationQuality->AddIntegerOption(1, LOCTEXT("Medium", "Medium"));
+			GlobalIlluminationQuality->AddIntegerOption(2, LOCTEXT("High", "High"));
+			GlobalIlluminationQuality->AddIntegerOption(3, LOCTEXT("Epic", "Epic"));
+			GlobalIlluminationQuality->AddIntegerOption(4, LOCTEXT("Cinematic", "Cinematic"));
 			GlobalIlluminationQuality->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(GetGlobalIlluminationQuality));
 			GlobalIlluminationQuality->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(SetGlobalIlluminationQuality));
 			GlobalIlluminationQuality->SetShouldApplySettingsImmediately(true);
@@ -371,14 +360,12 @@ void UOptionDataRegistry::InitVideoCollectionTab()
 		{
 			UListDataObject_StringInteger* ShadowQuality = NewObject<UListDataObject_StringInteger>();
 			ShadowQuality->SetDataID(FName("ShadowQuality"));
-			ShadowQuality->SetDataDisplayName(FText::FromString(TEXT("Shadow Quality")));
-			ShadowQuality->SetDescriptionRichText(
-				FText::FromString(TEXT("Adjust the global Shadow quality")));
-			ShadowQuality->AddIntegerOption(0, FText::FromString(TEXT("Low")));
-			ShadowQuality->AddIntegerOption(1, FText::FromString(TEXT("Medium")));
-			ShadowQuality->AddIntegerOption(2, FText::FromString(TEXT("High")));
-			ShadowQuality->AddIntegerOption(3, FText::FromString(TEXT("Epic")));
-			ShadowQuality->AddIntegerOption(4, FText::FromString(TEXT("Cinematic")));
+			ShadowQuality->SetDataDisplayName(LOCTEXT("ShadowQuality", "Shadow Quality"));
+			ShadowQuality->AddIntegerOption(0, LOCTEXT("Low", "Low"));
+			ShadowQuality->AddIntegerOption(1, LOCTEXT("Medium", "Medium"));
+			ShadowQuality->AddIntegerOption(2, LOCTEXT("High", "High"));
+			ShadowQuality->AddIntegerOption(3, LOCTEXT("Epic", "Epic"));
+			ShadowQuality->AddIntegerOption(4, LOCTEXT("Cinematic", "Cinematic"));
 			ShadowQuality->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(GetShadowQuality));
 			ShadowQuality->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(SetShadowQuality));
 			ShadowQuality->SetShouldApplySettingsImmediately(true);
@@ -393,14 +380,12 @@ void UOptionDataRegistry::InitVideoCollectionTab()
 		{
 			UListDataObject_StringInteger* AntiAliasingQuality = NewObject<UListDataObject_StringInteger>();
 			AntiAliasingQuality->SetDataID(FName("AntiAliasingQuality"));
-			AntiAliasingQuality->SetDataDisplayName(FText::FromString(TEXT("Anti Aliasing")));
-			AntiAliasingQuality->SetDescriptionRichText(
-				FText::FromString(TEXT("Adjust the global AntiAliasing quality")));
-			AntiAliasingQuality->AddIntegerOption(0, FText::FromString(TEXT("Low")));
-			AntiAliasingQuality->AddIntegerOption(1, FText::FromString(TEXT("Medium")));
-			AntiAliasingQuality->AddIntegerOption(2, FText::FromString(TEXT("High")));
-			AntiAliasingQuality->AddIntegerOption(3, FText::FromString(TEXT("Epic")));
-			AntiAliasingQuality->AddIntegerOption(4, FText::FromString(TEXT("Cinematic")));
+			AntiAliasingQuality->SetDataDisplayName(LOCTEXT("AntiAliasingQuality", "Anti Aliasing Quality"));
+			AntiAliasingQuality->AddIntegerOption(0, LOCTEXT("Low", "Low"));
+			AntiAliasingQuality->AddIntegerOption(1, LOCTEXT("Medium", "Medium"));
+			AntiAliasingQuality->AddIntegerOption(2, LOCTEXT("High", "High"));
+			AntiAliasingQuality->AddIntegerOption(3, LOCTEXT("Epic", "Epic"));
+			AntiAliasingQuality->AddIntegerOption(4, LOCTEXT("Cinematic", "Cinematic"));
 			AntiAliasingQuality->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(GetAntiAliasingQuality));
 			AntiAliasingQuality->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(SetAntiAliasingQuality));
 			AntiAliasingQuality->SetShouldApplySettingsImmediately(true);
@@ -415,14 +400,12 @@ void UOptionDataRegistry::InitVideoCollectionTab()
 		{
 			UListDataObject_StringInteger* ViewDistanceQuality = NewObject<UListDataObject_StringInteger>();
 			ViewDistanceQuality->SetDataID(FName("ViewDistanceQuality"));
-			ViewDistanceQuality->SetDataDisplayName(FText::FromString(TEXT("View Distance")));
-			ViewDistanceQuality->SetDescriptionRichText(
-				FText::FromString(TEXT("Adjust the global AntiAliasing quality")));
-			ViewDistanceQuality->AddIntegerOption(0, FText::FromString(TEXT("Near")));
-			ViewDistanceQuality->AddIntegerOption(1, FText::FromString(TEXT("Medium")));
-			ViewDistanceQuality->AddIntegerOption(2, FText::FromString(TEXT("Far")));
-			ViewDistanceQuality->AddIntegerOption(3, FText::FromString(TEXT("Very Far")));
-			ViewDistanceQuality->AddIntegerOption(4, FText::FromString(TEXT("Cinematic")));
+			ViewDistanceQuality->SetDataDisplayName(LOCTEXT("ViewDistanceQuality", "View Distance Quality"));
+			ViewDistanceQuality->AddIntegerOption(0, LOCTEXT("Near", "Near"));
+			ViewDistanceQuality->AddIntegerOption(1, LOCTEXT("Medium", "Medium"));
+			ViewDistanceQuality->AddIntegerOption(2, LOCTEXT("Far", "Far"));
+			ViewDistanceQuality->AddIntegerOption(3, LOCTEXT("VeryFar", "Very Far"));
+			ViewDistanceQuality->AddIntegerOption(4, LOCTEXT("Cinematic", "Cinematic"));
 			ViewDistanceQuality->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(GetViewDistanceQuality));
 			ViewDistanceQuality->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(SetViewDistanceQuality));
 			ViewDistanceQuality->SetShouldApplySettingsImmediately(true);
@@ -437,14 +420,12 @@ void UOptionDataRegistry::InitVideoCollectionTab()
 		{
 			UListDataObject_StringInteger* TextureQuality = NewObject<UListDataObject_StringInteger>();
 			TextureQuality->SetDataID(FName("TextureQuality"));
-			TextureQuality->SetDataDisplayName(FText::FromString(TEXT("Texture Quality")));
-			TextureQuality->SetDescriptionRichText(
-				FText::FromString(TEXT("Adjust the global AntiAliasing quality")));
-			TextureQuality->AddIntegerOption(0, FText::FromString(TEXT("Low")));
-			TextureQuality->AddIntegerOption(1, FText::FromString(TEXT("Medium")));
-			TextureQuality->AddIntegerOption(2, FText::FromString(TEXT("High")));
-			TextureQuality->AddIntegerOption(3, FText::FromString(TEXT("Epic")));
-			TextureQuality->AddIntegerOption(4, FText::FromString(TEXT("Cinematic")));
+			TextureQuality->SetDataDisplayName(LOCTEXT("TextureQuality", "Texture Quality"));
+			TextureQuality->AddIntegerOption(0, LOCTEXT("Low", "Low"));
+			TextureQuality->AddIntegerOption(1, LOCTEXT("Medium", "Medium"));
+			TextureQuality->AddIntegerOption(2, LOCTEXT("High", "High"));
+			TextureQuality->AddIntegerOption(3, LOCTEXT("Epic", "Epic"));
+			TextureQuality->AddIntegerOption(4, LOCTEXT("Cinematic", "Cinematic"));
 			TextureQuality->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(GetTextureQuality));
 			TextureQuality->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(SetTextureQuality));
 			TextureQuality->SetShouldApplySettingsImmediately(true);
@@ -459,14 +440,12 @@ void UOptionDataRegistry::InitVideoCollectionTab()
 		{
 			UListDataObject_StringInteger* VisualEffectQuality = NewObject<UListDataObject_StringInteger>();
 			VisualEffectQuality->SetDataID(FName("VisualEffectQuality"));
-			VisualEffectQuality->SetDataDisplayName(FText::FromString(TEXT("Visual Effect Quality")));
-			VisualEffectQuality->SetDescriptionRichText(
-				FText::FromString(TEXT("Adjust the global AntiAliasing quality")));
-			VisualEffectQuality->AddIntegerOption(0, FText::FromString(TEXT("Low")));
-			VisualEffectQuality->AddIntegerOption(1, FText::FromString(TEXT("Medium")));
-			VisualEffectQuality->AddIntegerOption(2, FText::FromString(TEXT("High")));
-			VisualEffectQuality->AddIntegerOption(3, FText::FromString(TEXT("Epic")));
-			VisualEffectQuality->AddIntegerOption(4, FText::FromString(TEXT("Cinematic")));
+			VisualEffectQuality->SetDataDisplayName(LOCTEXT("VisualEffectQuality", "Visual Effect Quality"));
+			VisualEffectQuality->AddIntegerOption(0, LOCTEXT("Low", "Low"));
+			VisualEffectQuality->AddIntegerOption(1, LOCTEXT("Medium", "Medium"));
+			VisualEffectQuality->AddIntegerOption(2, LOCTEXT("High", "High"));
+			VisualEffectQuality->AddIntegerOption(3, LOCTEXT("Epic", "Epic"));
+			VisualEffectQuality->AddIntegerOption(4, LOCTEXT("Cinematic", "Cinematic"));
 			VisualEffectQuality->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(GetVisualEffectQuality));
 			VisualEffectQuality->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(SetVisualEffectQuality));
 			VisualEffectQuality->SetShouldApplySettingsImmediately(true);
@@ -481,14 +460,12 @@ void UOptionDataRegistry::InitVideoCollectionTab()
 		{
 			UListDataObject_StringInteger* ReflectionQuality = NewObject<UListDataObject_StringInteger>();
 			ReflectionQuality->SetDataID(FName("ReflectionQuality"));
-			ReflectionQuality->SetDataDisplayName(FText::FromString(TEXT("Reflection Quality")));
-			ReflectionQuality->SetDescriptionRichText(
-				FText::FromString(TEXT("Adjust the global AntiAliasing quality")));
-			ReflectionQuality->AddIntegerOption(0, FText::FromString(TEXT("Low")));
-			ReflectionQuality->AddIntegerOption(1, FText::FromString(TEXT("Medium")));
-			ReflectionQuality->AddIntegerOption(2, FText::FromString(TEXT("High")));
-			ReflectionQuality->AddIntegerOption(3, FText::FromString(TEXT("Epic")));
-			ReflectionQuality->AddIntegerOption(4, FText::FromString(TEXT("Cinematic")));
+			ReflectionQuality->SetDataDisplayName(LOCTEXT("ReflectionQuality", "Reflection Quality"));
+			ReflectionQuality->AddIntegerOption(0, LOCTEXT("Low", "Low"));
+			ReflectionQuality->AddIntegerOption(1, LOCTEXT("Medium", "Medium"));
+			ReflectionQuality->AddIntegerOption(2, LOCTEXT("High", "High"));
+			ReflectionQuality->AddIntegerOption(3, LOCTEXT("Epic", "Epic"));
+			ReflectionQuality->AddIntegerOption(4, LOCTEXT("Cinematic", "Cinematic"));
 			ReflectionQuality->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(GetReflectionQuality));
 			ReflectionQuality->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(SetReflectionQuality));
 			ReflectionQuality->SetShouldApplySettingsImmediately(true);
@@ -503,14 +480,12 @@ void UOptionDataRegistry::InitVideoCollectionTab()
 		{
 			UListDataObject_StringInteger* PostProcessingQuality = NewObject<UListDataObject_StringInteger>();
 			PostProcessingQuality->SetDataID(FName("PostProcessingQuality"));
-			PostProcessingQuality->SetDataDisplayName(FText::FromString(TEXT("Post Processing Quality")));
-			PostProcessingQuality->SetDescriptionRichText(
-				FText::FromString(TEXT("Adjust the global AntiAliasing quality")));
-			PostProcessingQuality->AddIntegerOption(0, FText::FromString(TEXT("Low")));
-			PostProcessingQuality->AddIntegerOption(1, FText::FromString(TEXT("Medium")));
-			PostProcessingQuality->AddIntegerOption(2, FText::FromString(TEXT("High")));
-			PostProcessingQuality->AddIntegerOption(3, FText::FromString(TEXT("Epic")));
-			PostProcessingQuality->AddIntegerOption(4, FText::FromString(TEXT("Cinematic")));
+			PostProcessingQuality->SetDataDisplayName(LOCTEXT("PostProcessingQuality", "Post Processing Quality"));
+			PostProcessingQuality->AddIntegerOption(0, LOCTEXT("Low", "Low"));
+			PostProcessingQuality->AddIntegerOption(1, LOCTEXT("Medium", "Medium"));
+			PostProcessingQuality->AddIntegerOption(2, LOCTEXT("High", "High"));
+			PostProcessingQuality->AddIntegerOption(3, LOCTEXT("Epic", "Epic"));
+			PostProcessingQuality->AddIntegerOption(4, LOCTEXT("Cinematic", "Cinematic"));
 			PostProcessingQuality->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(GetPostProcessingQuality));
 			PostProcessingQuality->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(SetPostProcessingQuality));
 			PostProcessingQuality->SetShouldApplySettingsImmediately(true);
@@ -528,14 +503,14 @@ void UOptionDataRegistry::InitVideoCollectionTab()
 	{
 		UListDataObject_Collection* AdvanceGraphicsCategoryCollection = NewObject<UListDataObject_Collection>();
 		AdvanceGraphicsCategoryCollection->SetDataID(FName("AdvanceGraphicsCategoryCollection"));
-		AdvanceGraphicsCategoryCollection->SetDataDisplayName(FText::FromString(TEXT("Advance Graphics")));
+		AdvanceGraphicsCategoryCollection->SetDataDisplayName(
+			LOCTEXT("AdvanceGraphicsCategoryCollection", "Advance Graphics"));
 
 		//vertical Sync	垂直同步
 		{
 			UListDataObject_StringBool* VerticalSync = NewObject<UListDataObject_StringBool>();
 			VerticalSync->SetDataID(FName("VerticalSync"));
-			VerticalSync->SetDataDisplayName(FText::FromString(TEXT("V-Sync")));
-			VerticalSync->SetDescriptionRichText(FText::FromString(TEXT("Adjust Vertical Sync")));
+			VerticalSync->SetDataDisplayName(LOCTEXT("VerticalSync", "V-Sync"));
 			VerticalSync->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(IsVSyncEnabled));
 			VerticalSync->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(SetVSyncEnabled));
 			VerticalSync->SetFalseAsDefaultString();
@@ -548,6 +523,7 @@ void UOptionDataRegistry::InitVideoCollectionTab()
 					return WindowMode->GetCurrentValueAsEnum<EWindowMode::Type>() == EWindowMode::Type::Fullscreen;
 				}
 			);
+			//TODO: use String Table
 			FullScreenOnlyCondition.SetDisabledRichReason(
 				TEXT("\n\n<Disabled>This feature only Works if the window mode is set to full screen</>"));
 			FullScreenOnlyCondition.SetDisabledForcedStringValue(TEXT("false"));
@@ -560,8 +536,7 @@ void UOptionDataRegistry::InitVideoCollectionTab()
 		{
 			UListDataObject_String* FrameRateLimit = NewObject<UListDataObject_String>();
 			FrameRateLimit->SetDataID(FName("FrameRateLimit"));
-			FrameRateLimit->SetDataDisplayName(FText::FromString(TEXT("Frame Rate Limit")));
-			FrameRateLimit->SetDescriptionRichText(FText::FromString(TEXT("Adjust Frame Rate Limit")));
+			FrameRateLimit->SetDataDisplayName(LOCTEXT("FrameRateLimit", "Frame Rate Limit"));
 			FrameRateLimit->AddDynamicOptions(LexToString(30.f), FText::FromString(TEXT("30 FPS")));
 			FrameRateLimit->AddDynamicOptions(LexToString(60.f), FText::FromString(TEXT("60 FPS")));
 			FrameRateLimit->AddDynamicOptions(LexToString(90.f), FText::FromString(TEXT("90 FPS")));
@@ -586,7 +561,7 @@ void UOptionDataRegistry::InitControlCollectionTab(const ULocalPlayer* InOwningL
 	UListDataObject_Collection* ControlTabCollection = NewObject<UListDataObject_Collection>();
 
 	ControlTabCollection->SetDataID(FName("ControlTabCollection"));
-	ControlTabCollection->SetDataDisplayName(FText::FromString("Control"));
+	ControlTabCollection->SetDataDisplayName(LOCTEXT("ControlTab", "Control"));
 
 	UEnhancedInputLocalPlayerSubsystem* EISubsystem = InOwningLocalPlayer->
 		GetSubsystem<UEnhancedInputLocalPlayerSubsystem>();
@@ -598,7 +573,7 @@ void UOptionDataRegistry::InitControlCollectionTab(const ULocalPlayer* InOwningL
 	{
 		UListDataObject_Collection* KeyboardMouseCollectionCategory = NewObject<UListDataObject_Collection>();
 		KeyboardMouseCollectionCategory->SetDataID(FName("KeyboardMouseCollectionCategory"));
-		KeyboardMouseCollectionCategory->SetDataDisplayName(FText::FromString(TEXT("Keyboard & Mouse")));
+		KeyboardMouseCollectionCategory->SetDataDisplayName(LOCTEXT("MouseAndKeyboard", "Mouse & Keyboard"));
 
 		//Keyboard Mouse Inputs
 		{
@@ -643,7 +618,7 @@ void UOptionDataRegistry::InitControlCollectionTab(const ULocalPlayer* InOwningL
 	{
 		UListDataObject_Collection* GamepadCollectionCategory = NewObject<UListDataObject_Collection>();
 		GamepadCollectionCategory->SetDataID(FName("GamepadCollectionCategory"));
-		GamepadCollectionCategory->SetDataDisplayName(FText::FromString("Gamepad"));
+		GamepadCollectionCategory->SetDataDisplayName(LOCTEXT("Gamepad", "Gamepad"));
 
 		//Gamepad inputs
 		{
@@ -713,3 +688,4 @@ void UOptionDataRegistry::FindChildListDataRecursively(const UListDataObject_Bas
 		}
 	}
 }
+#undef LOCTEXT_NAMESPACE

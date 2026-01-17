@@ -7,6 +7,8 @@
 #include "Components/DynamicEntryBox.h"
 #include "Widget/Component/GameUIButtonBase.h"
 
+#define LOCTEXT_NAMESPACE "ConfrimScreen"
+
 UConfirmScreenInfoObject* UConfirmScreenInfoObject::CreateOkScreen(const FText& InScreenTitle,
                                                                    const FText& InScreenMessage)
 {
@@ -15,7 +17,7 @@ UConfirmScreenInfoObject* UConfirmScreenInfoObject::CreateOkScreen(const FText& 
 	ConfirmScreenInfoObject->ConfirmScreenMessage = InScreenMessage;
 
 	FConfirmScreenButtonInfo OKButtonInfo;
-	OKButtonInfo.ButtonTextToDisplay = FText::FromString(TEXT("OK"));
+	OKButtonInfo.ButtonTextToDisplay = FText::FromString(LOCTEXT("OKButtonText", "OK").ToString());
 	OKButtonInfo.ConfirmScreenButtonType = EConfirmScreenButtonType::Closed;
 
 	ConfirmScreenInfoObject->AvailableScreenButtons.Add(OKButtonInfo);
@@ -31,11 +33,11 @@ UConfirmScreenInfoObject* UConfirmScreenInfoObject::CreateYesNoScreen(const FTex
 	ConfirmScreenInfoObject->ConfirmScreenMessage = InScreenMessage;
 
 	FConfirmScreenButtonInfo YesButtonInfo;
-	YesButtonInfo.ButtonTextToDisplay = FText::FromString(TEXT("Yes"));
+	YesButtonInfo.ButtonTextToDisplay = FText::FromString(LOCTEXT("YesButtonText", "Yes").ToString());
 	YesButtonInfo.ConfirmScreenButtonType = EConfirmScreenButtonType::Confirmed;
 
 	FConfirmScreenButtonInfo NoButtonInfo;
-	NoButtonInfo.ButtonTextToDisplay = FText::FromString(TEXT("No"));
+	NoButtonInfo.ButtonTextToDisplay = FText::FromString(LOCTEXT("NoButtonText", "No").ToString());
 	NoButtonInfo.ConfirmScreenButtonType = EConfirmScreenButtonType::Canceled;
 
 	ConfirmScreenInfoObject->AvailableScreenButtons.Add(YesButtonInfo);
@@ -51,15 +53,15 @@ UConfirmScreenInfoObject* UConfirmScreenInfoObject::CreateOkCancelScreen(const F
 	ConfirmScreenInfoObject->ConfirmScreenTitle = InScreenTitle;
 	ConfirmScreenInfoObject->ConfirmScreenMessage = InScreenMessage;
 
-	FConfirmScreenButtonInfo OkButtonInfo;
-	OkButtonInfo.ButtonTextToDisplay = FText::FromString(TEXT("Ok"));
-	OkButtonInfo.ConfirmScreenButtonType = EConfirmScreenButtonType::Confirmed;
+	FConfirmScreenButtonInfo ConfirmButtonInfo;
+	ConfirmButtonInfo.ButtonTextToDisplay = FText::FromString(LOCTEXT("ConfirmButtonText", "Confirm").ToString());
+	ConfirmButtonInfo.ConfirmScreenButtonType = EConfirmScreenButtonType::Confirmed;
 
 	FConfirmScreenButtonInfo CancelButtonInfo;
-	CancelButtonInfo.ButtonTextToDisplay = FText::FromString(TEXT("Cancel"));
+	CancelButtonInfo.ButtonTextToDisplay = FText::FromString(LOCTEXT("CancelButtonText", "Cancel").ToString());
 	CancelButtonInfo.ConfirmScreenButtonType = EConfirmScreenButtonType::Canceled;
 
-	ConfirmScreenInfoObject->AvailableScreenButtons.Add(OkButtonInfo);
+	ConfirmScreenInfoObject->AvailableScreenButtons.Add(ConfirmButtonInfo);
 	ConfirmScreenInfoObject->AvailableScreenButtons.Add(CancelButtonInfo);
 
 	return ConfirmScreenInfoObject;
@@ -107,3 +109,4 @@ UWidget* UWidget_ConfirmScreen::NativeGetDesiredFocusTarget() const
 	}
 	return Super::NativeGetDesiredFocusTarget();
 }
+#undef LOCTEXT_NAMESPACE

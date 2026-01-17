@@ -4,6 +4,8 @@
 #include "Widget/Options/DataObject/ListDataObject_String.h"
 #include "Widget/Options/OptionsDataInteractionHelper.h"
 
+#define LOCTEXT_NAMESPACE "Options"
+
 void UListDataObject_String::OnDataListObjectInitialized()
 {
 	if (!AvailableOptionsStringArray.IsEmpty())
@@ -216,12 +218,12 @@ void UListDataObject_StringBool::TryInitBoolValues()
 {
 	if (!AvailableOptionsStringArray.Contains(TrueString))
 	{
-		AddDynamicOptions(TrueString, FText::FromString(TEXT("ON")));
+		AddDynamicOptions(TrueString, LOCTEXT("ON", "ON"));
 	}
 
 	if (!AvailableOptionsStringArray.Contains(FalseString))
 	{
-		AddDynamicOptions(FalseString, FText::FromString(TEXT("OFF")));
+		AddDynamicOptions(FalseString, LOCTEXT("OFF", "OFF"));
 	}
 }
 
@@ -263,3 +265,4 @@ void UListDataObject_StringInteger::OnEditDependencyDataModified(UListDataObject
 
 	Super::OnEditDependencyDataModified(ModifiedDependencyData, ModifyReason);
 }
+#undef LOCTEXT_NAMESPACE
