@@ -33,6 +33,16 @@ void UGameUIGameUserSettings::SetCurrentDifficulty(const FString& InNewDifficult
 	CurrentGameDifficulty = InNewDifficulty;
 }
 
+FString UGameUIGameUserSettings::GetCurrentLanguage() const
+{
+	return CurrentLanguage;
+}
+
+void UGameUIGameUserSettings::SetCurrentLanguage(const FString& InNewLanguage)
+{
+	FInternationalization::Get().SetCurrentLanguage(InNewLanguage);
+}
+
 float UGameUIGameUserSettings::GetOverallVolume() const
 {
 	return OverallVolume;
