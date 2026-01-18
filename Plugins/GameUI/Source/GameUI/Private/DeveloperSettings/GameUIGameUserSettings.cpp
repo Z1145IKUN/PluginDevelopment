@@ -41,6 +41,7 @@ FString UGameUIGameUserSettings::GetCurrentLanguage() const
 void UGameUIGameUserSettings::SetCurrentLanguage(const FString& InNewLanguage)
 {
 	FInternationalization::Get().SetCurrentLanguage(InNewLanguage);
+	CurrentLanguage = InNewLanguage;
 }
 
 float UGameUIGameUserSettings::GetOverallVolume() const

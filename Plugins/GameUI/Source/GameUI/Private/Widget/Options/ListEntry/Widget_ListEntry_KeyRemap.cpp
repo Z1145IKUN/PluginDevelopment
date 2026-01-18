@@ -10,6 +10,8 @@
 #include "Widget/Options/Widget_KeyRemapScreen.h"
 #include "Widget/Options/DataObject/ListDataObject_KeyRemap.h"
 
+#define LOCTEXT_NAMESPACE "KeyRemapListEntry"
+
 void UWidget_ListEntry_KeyRemap::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
@@ -76,10 +78,11 @@ void UWidget_ListEntry_KeyRemap::OnResetKeyBindingButtonClicked()
 	{
 		UGameUISubsystem::Get(this)->PushConfirmScreenToModalStackAsync(
 			EConfirmScreenType::OK,
-			FText::FromString(TEXT("Reset Key Remap")),
-			FText::FromString(TEXT("The key binding for ")
-				+ KeyRemapListDataObject->GetDataDisplayName().ToString()
-				+ TEXT(" is already set to default")),
+			LOCTEXT("ResetKeyRemap_Title", "Reset Key Remap"),
+			FText::Format(
+				LOCTEXT("KeyAlreadyDefault", "The key binding for '{0}' is already set to default"),
+				FText::FromString(KeyRemapListDataObject->GetDataDisplayName().ToString())
+			),
 			[](EConfirmScreenButtonType ClickedButton)
 			{
 			}
@@ -89,10 +92,11 @@ void UWidget_ListEntry_KeyRemap::OnResetKeyBindingButtonClicked()
 	{
 		UGameUISubsystem::Get(this)->PushConfirmScreenToModalStackAsync(
 			EConfirmScreenType::YesNo,
-			FText::FromString(TEXT("Reset Key Remap")),
-			FText::FromString(TEXT("Do you want to reset the key binding for ")
-				+ KeyRemapListDataObject->GetDataDisplayName().ToString()
-				+ TEXT(" ?")),
+			LOCTEXT("ResetKeyRemap_Title", "Reset Key Remap"),
+			FText::Format(
+				LOCTEXT("ResetKeyRemap_Message", "Do you want to reset the key binding for '{0}'?"),
+				FText::FromString(KeyRemapListDataObject->GetDataDisplayName().ToString())
+			),
 			[this](EConfirmScreenButtonType ClickedButton)
 			{
 				if (ClickedButton == EConfirmScreenButtonType::Confirmed)
@@ -112,14 +116,15 @@ void UWidget_ListEntry_KeyRemap::OnKeyRemapPressed(const FKey& PressedKey)
 	}
 }
 
-void UWidget_ListEntry_KeyRemap::OnKeyRemapCanceled(const FString& CanceledReason)
+void UWidget_ListEntry_KeyRemap::OnKeyRemapCanceled(const FText& CanceledReason)
 {
 	UGameUISubsystem::Get(this)->PushConfirmScreenToModalStackAsync(
 		EConfirmScreenType::OK,
-		FText::FromString(TEXT("Key Remap")),
-		FText::FromString(CanceledReason),
+		LOCTEXT("ResetKeyRemap_Title", "Reset Key Remap"),
+		CanceledReason,
 		[](EConfirmScreenButtonType ClickedButton)
 		{
 		}
 	);
 }
+#undef LOCTEXT_NAMESPACE

@@ -22,7 +22,7 @@ public:
 	DECLARE_DELEGATE_OneParam(FOnKeyRemapScreenKeyPressedDelegate, const FKey& /*PressedKey*/);
 	FOnKeyRemapScreenKeyPressedDelegate OnKeyRemapScreenKeyPressed;
 
-	DECLARE_DELEGATE_OneParam(FOnKeyRemapScreenKeySelectedCanceledDelegate, const FString& /*CanceledReason*/);
+	DECLARE_DELEGATE_OneParam(FOnKeyRemapScreenKeySelectedCanceledDelegate, const FText& /*CanceledReason*/);
 	FOnKeyRemapScreenKeySelectedCanceledDelegate OnKeyRemapScreenKeySelectedCanceled;
 
 	void SetDesiredInputTypeToFilter(ECommonInputType InDesiredInputType);
@@ -35,7 +35,7 @@ protected:
 
 private:
 	void OnValidKeyPressedDetected(const FKey& PressedKey);
-	void OnKeySelectedCanceled(const FString& CanceledReason);
+	void OnKeySelectedCanceled(const FText& CanceledReason);
 
 	/**
 	 * Delay a tick to make sure the input key is captured properly before calling the PreDeactivateCallback
@@ -65,7 +65,7 @@ public:
 	DECLARE_DELEGATE_OneParam(FOnInputPreprocessorKeyPressedDelegate, const FKey& /*PressedKey*/);
 	FOnInputPreprocessorKeyPressedDelegate OnInputPreprocessorKeyPressed;
 
-	DECLARE_DELEGATE_OneParam(FOnInputPreprocessorKeyPressedCanceledDelegate, const FString& /*CanceledReason*/);
+	DECLARE_DELEGATE_OneParam(FOnInputPreprocessorKeyPressedCanceledDelegate, const FText& /*CanceledReason*/);
 	FOnInputPreprocessorKeyPressedCanceledDelegate OnInputPreprocessorKeyPressedCanceled;
 
 protected:
