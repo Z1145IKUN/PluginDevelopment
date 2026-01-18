@@ -99,7 +99,7 @@ void UOptionDataRegistry::InitGamePlayCollectionTab()
 			LanguageOption->SetDataID(FName("LanguageOption"));
 			LanguageOption->SetDataDisplayName(LOCTEXT("Language", "Language"));
 			LanguageOption->AddDynamicOptions(TEXT("en"), LOCTEXT("Language_English", "English"));
-			LanguageOption->AddDynamicOptions(TEXT("zh"), LOCTEXT("Language_Chinese", "Chinese"));
+			LanguageOption->AddDynamicOptions(TEXT("zh-Hans-CN"), LOCTEXT("Language_Chinese", "Chinese"));
 			LanguageOption->SetDefaultValueFromString(TEXT("en"));
 			LanguageOption->SetDataDynamicGetter(MAKE_DATA_OPTION_CONTROL(GetCurrentLanguage));
 			LanguageOption->SetDataDynamicSetter(MAKE_DATA_OPTION_CONTROL(SetCurrentLanguage));
