@@ -122,3 +122,13 @@ void UGameUIGameUserSettings::SetCurrentDisplayGamma(const float InDisplayGamma)
 		GEngine->DisplayGamma = InDisplayGamma;
 	}
 }
+
+void UGameUIGameUserSettings::LoadSettings(bool bForceReload)
+{
+	Super::LoadSettings(bForceReload);
+
+	if (!CurrentLanguage.IsEmpty())
+	{
+		FInternationalization::Get().SetCurrentLanguage(CurrentLanguage);
+	}
+}

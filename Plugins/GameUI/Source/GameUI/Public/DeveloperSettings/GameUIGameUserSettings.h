@@ -100,4 +100,6 @@ private:
 	UPROPERTY(config)
 	FString WindowMode;
 	//***** Video Collection Tab *****//
+
+	virtual void LoadSettings(bool bForceReload = false) override;
 };
