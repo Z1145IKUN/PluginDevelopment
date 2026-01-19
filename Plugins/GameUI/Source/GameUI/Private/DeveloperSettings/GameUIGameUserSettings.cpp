@@ -33,6 +33,17 @@ void UGameUIGameUserSettings::SetCurrentDifficulty(const FString& InNewDifficult
 	CurrentGameDifficulty = InNewDifficulty;
 }
 
+FString UGameUIGameUserSettings::GetCurrentLanguage() const
+{
+	return CurrentLanguage;
+}
+
+void UGameUIGameUserSettings::SetCurrentLanguage(const FString& InNewLanguage)
+{
+	FInternationalization::Get().SetCurrentLanguage(InNewLanguage);
+	CurrentLanguage = InNewLanguage;
+}
+
 float UGameUIGameUserSettings::GetOverallVolume() const
 {
 	return OverallVolume;
@@ -109,5 +120,15 @@ void UGameUIGameUserSettings::SetCurrentDisplayGamma(const float InDisplayGamma)
 	if (GEngine)
 	{
 		GEngine->DisplayGamma = InDisplayGamma;
+	}
+}
+
+void UGameUIGameUserSettings::LoadSettings(bool bForceReload)
+{
+	Super::LoadSettings(bForceReload);
+
+	if (!CurrentLanguage.IsEmpty())
+	{
+		FInternationalization::Get().SetCurrentLanguage(CurrentLanguage);
 	}
 }

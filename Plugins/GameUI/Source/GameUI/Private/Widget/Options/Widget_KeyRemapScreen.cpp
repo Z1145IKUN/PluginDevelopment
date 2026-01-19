@@ -8,6 +8,8 @@
 #include "CommonUITypes.h"
 #include "ICommonInputModule.h"
 
+#define LOCTEXT_NAMESPACE "KeyRemap"
+
 void UWidget_KeyRemapScreen::SetDesiredInputTypeToFilter(ECommonInputType InDesiredInputType)
 {
 	DesiredInputType = InDesiredInputType;
@@ -23,24 +25,25 @@ void UWidget_KeyRemapScreen::NativeOnActivated()
 
 	FSlateApplication::Get().RegisterInputPreProcessor(InputPreprocessor, -1);
 
-	FString InputDeviceName;
+	FText InputDeviceName;
 	switch (DesiredInputType)
 	{
 	case ECommonInputType::MouseAndKeyboard:
-		InputDeviceName = TEXT("Mouse & Keyboard");
+		InputDeviceName = LOCTEXT("MouseKeyboard", "Mouse & Keyboard");
 		break;
 	case ECommonInputType::Gamepad:
-		InputDeviceName = TEXT("Gamepad");
+		InputDeviceName = LOCTEXT("Gamepad", "Gamepad");
 		break;
 	default:
 		break;
 	}
 
-	const FString DisplayRichMessage = FString::Printf(
-		TEXT("<KeyRemapDefault>Press Any</> <KeyRemapHighlight>%s</> <KeyRemapDefault>Key.</>"), *InputDeviceName
+	FText DisplayRichMessage = FText::Format(
+		LOCTEXT("PressAnyKey", "Press Any <KeyRemapHighlight>'{0}'</><KeyRemapDefault> Key.</>"),
+		InputDeviceName
 	);
 
-	CommonRichTextBlock_RemapMassage->SetText(FText::FromString(DisplayRichMessage));
+	CommonRichTextBlock_RemapMassage->SetText(DisplayRichMessage);
 }
 
 void UWidget_KeyRemapScreen::NativeOnDeactivated()
@@ -65,7 +68,7 @@ void UWidget_KeyRemapScreen::OnValidKeyPressedDetected(const FKey& PressedKey)
 	);
 }
 
-void UWidget_KeyRemapScreen::OnKeySelectedCanceled(const FString& CanceledReason)
+void UWidget_KeyRemapScreen::OnKeySelectedCanceled(const FText& CanceledReason)
 {
 	RequestDeactivationWidget(
 		[this,CanceledReason]()
@@ -126,7 +129,7 @@ void FKeyRemapScreenInputPreprocessor::ProcessPressedKey(const FKey& InPressedKe
 {
 	if (InPressedKey == EKeys::Escape)
 	{
-		OnInputPreprocessorKeyPressedCanceled.ExecuteIfBound(TEXT("Key Remap has been canceled"));
+		OnInputPreprocessorKeyPressedCanceled.ExecuteIfBound(LOCTEXT("KeyRemapCancel", "Key Remap has been canceled"));
 		return;
 	}
 
@@ -140,7 +143,8 @@ void FKeyRemapScreenInputPreprocessor::ProcessPressedKey(const FKey& InPressedKe
 		if (InPressedKey.IsGamepadKey() || CurrentInputType == ECommonInputType::Gamepad)
 		{
 			OnInputPreprocessorKeyPressedCanceled.ExecuteIfBound(
-				TEXT("Detected gamepad key presses for keyboard inputs,Key Remap has been canceled"));
+				LOCTEXT("KeyRemapErrorKeyboard",
+				        "Detected gamepad key presses for keyboard inputs,Key Remap has been canceled"));
 			return;
 		}
 		break;
@@ -160,7 +164,8 @@ void FKeyRemapScreenInputPreprocessor::ProcessPressedKey(const FKey& InPressedKe
 		if (!InPressedKey.IsGamepadKey())
 		{
 			OnInputPreprocessorKeyPressedCanceled.ExecuteIfBound(
-				TEXT("Detected non gamepad key presses for keyboard inputs,Key Remap has been canceled"));
+				LOCTEXT("KeyRemapErrorGamepad",
+				        "Detected non gamepad key presses for keyboard inputs,Key Remap has been canceled"));
 			return;
 		}
 		break;
@@ -170,3 +175,4 @@ void FKeyRemapScreenInputPreprocessor::ProcessPressedKey(const FKey& InPressedKe
 
 	OnInputPreprocessorKeyPressed.ExecuteIfBound(InPressedKey);
 }
+#undef LOCTEXT_NAMESPACE

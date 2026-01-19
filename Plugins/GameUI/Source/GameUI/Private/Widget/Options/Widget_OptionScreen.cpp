@@ -15,6 +15,8 @@
 #include "Widget/Options/DataObject/ListDataObject_Collection.h"
 #include "Widget/Options/ListEntry/Widget_ListEntry_Base.h"
 
+#define LOCTEXT_NAMESPACE "OptionScreen"
+
 void UWidget_OptionScreen::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
@@ -104,9 +106,11 @@ void UWidget_OptionScreen::OnResetActionTriggered()
 
 	UGameUISubsystem::Get(this)->PushConfirmScreenToModalStackAsync(
 		EConfirmScreenType::YesNo,
-		FText::FromString(TEXT("Reset")),
-		FText::FromString(
-			TEXT("Do you want to reset all the settings under the ") + SelectedTabButtonName + TEXT(" Tab")),
+		LOCTEXT("Reset", "Reset"),
+		FText::Format(
+			LOCTEXT("ResetAllUnderTab_Message", "Do you want to reset all the settings under the '{0}' Tab?"),
+			FText::FromString(SelectedTabButtonName)
+		),
 		[this](EConfirmScreenButtonType ClickedButonType)
 		{
 			if (ClickedButonType != EConfirmScreenButtonType::Confirmed)
@@ -269,3 +273,4 @@ void UWidget_OptionScreen::OnListViewListDataModified(UListDataObject_Base* Modi
 		RemoveActionBinding(ResetAction_Handle);
 	}
 }
+#undef LOCTEXT_NAMESPACE

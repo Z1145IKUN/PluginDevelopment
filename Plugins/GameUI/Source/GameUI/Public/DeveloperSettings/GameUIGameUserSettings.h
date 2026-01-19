@@ -24,6 +24,11 @@ public:
 	FString GetCurrentDifficulty() const;
 	UFUNCTION()
 	void SetCurrentDifficulty(const FString& InNewDifficulty);
+
+	UFUNCTION()
+	FString GetCurrentLanguage() const;
+	UFUNCTION()
+	void SetCurrentLanguage(const FString& InNewLanguage);
 	//***** Gameplay Collection Tab *****//
 
 	//***** Audio Collection Tab *****//
@@ -69,6 +74,9 @@ private:
 	//***** Gameplay Collection Tab *****//
 	UPROPERTY(Config)
 	FString CurrentGameDifficulty;
+
+	UPROPERTY(Config)
+	FString CurrentLanguage;
 	//***** Gameplay Collection Tab *****//
 
 	//***** Audio Collection Tab *****//
@@ -92,4 +100,6 @@ private:
 	UPROPERTY(config)
 	FString WindowMode;
 	//***** Video Collection Tab *****//
+
+	virtual void LoadSettings(bool bForceReload = false) override;
 };
